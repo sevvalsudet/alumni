@@ -1,0 +1,16 @@
+{
+  "name": "alumni",
+  "version": "1.0.0",
+  "description": "A scalable, modern web application designed to bridge the gap between institutions, students, and graduates. The platform enables alumni to maintain lifelong connections, track professional growth, share career opportunities, and foster community mentorship.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
