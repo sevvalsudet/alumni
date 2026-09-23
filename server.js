@@ -2,30 +2,27 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// ==========================================
-// 🎓 TAHTADAKİ 6 ROTA (ROUTES)
-// ==========================================
 
-// ① GET /ok -> Sunucunun çalıştığını test eden rota ("ok" döner)
-// (Not: 5. maddede '/' ana sayfa yapıldığı için bu testi '/ok' olarak da yapabilirsiniz)
+// ① GET /ok 
+
 app.get('/ok', (req, res) => {
     res.send('ok');
 });
 
-// ② GET /hello -> Ekrana "Hello, World!" yazdırır
+// ② GET /hello
 app.get('/hello', (req, res) => {
     res.send('Hello, World!');
 });
 
-// ③ GET /hello/{name} -> Dinamik isim parametresi alır
-// Örnek test: http://localhost:3000/hello/emre veya http://localhost:3000/hello/sevval
+// ③ GET /hello/{name}
+
 app.get('/hello/:name', (req, res) => {
     const name = req.params.name;
     res.send(`Hello, ${name}!`);
 });
 
-// ④ GET /sum/{number1}/{number2} -> URL'den gelen iki sayıyı toplar
-// Örnek test: http://localhost:3000/sum/5/10 -> Ekranda 15 yazar
+// ④ GET /sum/{number1}/{number2} 
+// example: http://localhost:3000/sum/5/10 -> Ekranda 15 yazar
 app.get('/sum/:number1/:number2', (req, res) => {
     const num1 = Number(req.params.number1);
     const num2 = Number(req.params.number2);
@@ -33,7 +30,7 @@ app.get('/sum/:number1/:number2', (req, res) => {
     res.send(`Sonuç: ${result}`);
 });
 
-// ⑤ GET / -> Geçici bir Ana Sayfa (temporary one main page)
+// ⑤ GET / ->  (temporary one main page)
 app.get('/', (req, res) => {
     res.send(`
         <!DOCTYPE html>
