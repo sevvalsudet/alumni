@@ -52,10 +52,13 @@ app.get('/', (req, res) => {
             <h1>🎓 Alumni Tracking System</h1>
             <p>Hoş Geldiniz! Bu projenin geçici ana sayfasıdır (Temporary Main Page).</p>
             <div class="nav-links">
-                <a href="/about">Hakkımızda (About)</a> | 
+                <a href="/about">Hakkımızda</a> | 
                 <a href="/hello">Hello</a> | 
                 <a href="/hello/sevval">Kişisel Selamlama</a> | 
-                <a href="/sum/10/25">Toplama Testi (10 + 25)</a>
+                <a href="/sum/10/25">Toplama (10+25)</a> | 
+                <a href="/api/health" target="_blank">Health (JSON)</a> | 
+                <a href="/users">Kullanıcılar (HTML)</a> | 
+                <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a>
             </div>
         </body>
         </html>
@@ -86,7 +89,64 @@ app.get('/about', (req, res) => {
     `);
 });
 
+// ⑦ GET /api/health -> JSON formatında sunucu sağlık durumunu döner
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: "ok",
+        message: "Alumni API is healthy and running",
+        timestamp: new Date().toISOString()
+    });
+});
+
+// ==========================================
+// 💡 HOCANIN BAHSETTİĞİ MANTIK: URL/users vs URL/api/...
+// ==========================================
+
+// Örnek mezun/öğrenci verisi (Mock Data)
+const mockUsers = [
+    { id: 1, name: "Şevval Sude", role: "Student", department: "Computer Engineering" },
+    { id: 2, name: "Emre Yılmaz", role: "Alumni", company: "Google" },
+    { id: 3, name: "Dilara Mumcu", role: "Alumni", company: "Microsoft" }
+];
+
+// URL/api/users -> Saf JSON veri döner (Mobil uygulama veya Frontend API için)
+app.get('/api/users', (req, res) => {
+    res.json(mockUsers);
+});
+
+// URL/users -> Görsel HTML sayfası döner (Tarayıcıda kullanıcıların listelendiği sayfa)
+app.get('/users', (req, res) => {
+    const userListHtml = mockUsers
+        .map(u => `<li><strong>${u.name}</strong> - ${u.role} (${u.department || u.company})</li>`)
+        .join('');
+
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="tr">
+        <head>
+            <meta charset="UTF-8">
+            <title>Users - Alumni System</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 40px; background-color: #f4f6f9; }
+                h1 { color: #2c3e50; }
+                ul { line-height: 2; font-size: 16px; }
+                a { color: #3498db; text-decoration: none; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>👥 Kullanıcı Listesi (Web Sayfası)</h1>
+            <p>Bu sayfa <code>/users</code> rotasından HTML olarak dönmektedir.</p>
+            <ul>${userListHtml}</ul>
+            <p><small>Aynı veriyi JSON olarak almak için: <a href="/api/users" target="_blank">/api/users</a></small></p>
+            <br>
+            <a href="/">← Ana Sayfaya Dön</a>
+        </body>
+        </html>
+    `);
+});
+
 // Sunucuyu 3000 portunda dinlemeye başlat
 app.listen(PORT, () => {
     console.log(`🚀 Sunucu çalışıyor: http://localhost:${PORT}`);
 });
+
