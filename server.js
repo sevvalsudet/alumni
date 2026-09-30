@@ -105,8 +105,8 @@ app.get('/api/health', (req, res) => {
 // Örnek mezun/öğrenci verisi (Mock Data)
 const mockUsers = [
     { id: 1, name: "Şevval Sude", role: "Student", department: "Computer Engineering" },
-    { id: 2, name: "Emre Yılmaz", role: "Alumni", company: "Google" },
-    { id: 3, name: "Dilara Mumcu", role: "Alumni", company: "Microsoft" }
+    { id: 2, name: "Sude", role: "Alumni", company: "Google" },
+    { id: 3, name: "Şevval", role: "Alumni", company: "Microsoft" }
 ];
 
 // URL/api/users -> Saf JSON veri döner (Mobil uygulama veya Frontend API için)
