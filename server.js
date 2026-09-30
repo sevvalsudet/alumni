@@ -1,6 +1,8 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
 const app = express();
 const PORT = 3000;
+
 
 // Gelen JSON istek gövdelerini (body) okuyabilmek için middleware
 app.use(express.json());
@@ -61,7 +63,8 @@ app.get('/', (req, res) => {
                 <a href="/sum/10/25">Toplama (10+25)</a> | 
                 <a href="/api/health" target="_blank">Health (JSON)</a> | 
                 <a href="/users">Kullanıcılar (HTML)</a> | 
-                <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a>
+                <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a> | 
+                <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
             </div>
         </body>
         </html>
@@ -275,8 +278,184 @@ app.get('/users', (req, res) => {
     `);
 });
 
+// ==========================================
+// 📖 SWAGGER / OPENAPI DOKÜMANTASYONU (GET /api/swagger)
+// ==========================================
+const swaggerDocument = {
+    openapi: "3.0.0",
+    info: {
+        title: "🎓 Alumni Tracking System API",
+        version: "1.0.0",
+        description: "Alumni Tracking projesi için interaktif RESTful API dokümantasyonu."
+    },
+    servers: [
+        {
+            url: "http://localhost:3000",
+            description: "Yerel Geliştirme Sunucusu (Local Server)"
+        }
+    ],
+    paths: {
+        "/api/health": {
+            get: {
+                summary: "Sunucu Sağlık Kontrolü (Health Check)",
+                description: "Sunucunun ayakta olup olmadığını JSON olarak döner.",
+                responses: {
+                    "200": {
+                        description: "Sunucu sağlıklı çalışıyor"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            get: {
+                summary: "Tüm Kullanıcıları Listele (List All Users)",
+                description: "Sistemde kayıtlı tüm mezun ve öğrencileri döner.",
+                responses: {
+                    "200": {
+                        description: "Kullanıcı listesi başarıyla getirildi"
+                    }
+                }
+            },
+            post: {
+                summary: "Yeni Kullanıcı Ekle (Create User)",
+                description: "Sisteme yeni bir mezun veya öğrenci ekler.",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                required: ["name", "role"],
+                                properties: {
+                                    name: { type: "string", example: "Büşra Çelik" },
+                                    role: { type: "string", example: "Alumni" },
+                                    department: { type: "string", example: "Software Engineering" },
+                                    company: { type: "string", example: "Amazon" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "201": {
+                        description: "Kullanıcı başarıyla oluşturuldu"
+                    },
+                    "400": {
+                        description: "Eksik parametre hatası"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            get: {
+                summary: "Belirli Kullanıcıyı Getir (Get User by ID)",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: { type: "integer" },
+                        example: 1
+                    }
+                ],
+                responses: {
+                    "200": { description: "Kullanıcı bulundu" },
+                    "404": { description: "Kullanıcı bulunamadı" }
+                }
+            },
+            put: {
+                summary: "Kullanıcıyı Tamamen Güncelle (Full Update - PUT)",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: { type: "integer" },
+                        example: 1
+                    }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: { type: "string", example: "Şevval Sude Top" },
+                                    role: { type: "string", example: "Senior Engineer" },
+                                    department: { type: "string", example: "Computer Engineering" },
+                                    company: { type: "string", example: "Google" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "200": { description: "Kullanıcı güncellendi" },
+                    "404": { description: "Kullanıcı bulunamadı" }
+                }
+            },
+            patch: {
+                summary: "Kullanıcıyı Kısmen Güncelle (Partial Update - PATCH)",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: { type: "integer" },
+                        example: 2
+                    }
+                ],
+                requestBody: {
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    company: { type: "string", example: "Apple" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "200": { description: "Kullanıcı kısmen güncellendi" },
+                    "404": { description: "Kullanıcı bulunamadı" }
+                }
+            },
+            delete: {
+                summary: "Kullanıcıyı Sil (Delete User)",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: { type: "integer" },
+                        example: 2
+                    }
+                ],
+                responses: {
+                    "200": { description: "Kullanıcı başarıyla silindi" },
+                    "404": { description: "Kullanıcı bulunamadı" }
+                }
+            }
+        }
+    }
+};
+
+// Swagger Arayüzü: /api/swagger ve /api/docs üzerinden erişilebilir
+app.use('/api/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Swagger JSON verisi: /api/swagger.json
+app.get('/api/swagger.json', (req, res) => {
+    res.json(swaggerDocument);
+});
+
 // Sunucuyu 3000 portunda dinlemeye başlat
 app.listen(PORT, () => {
     console.log(`🚀 Sunucu çalışıyor: http://localhost:${PORT}`);
+    console.log(`📖 Swagger Dokümantasyonu: http://localhost:${PORT}/api/swagger`);
 });
+
 
