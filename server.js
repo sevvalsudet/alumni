@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+// Gelen JSON istek gövdelerini (body) okuyabilmek için middleware
+app.use(express.json());
+
 // ==========================================
 // 🎓 TAHTADAKİ 6 ROTA (ROUTES)
 // ==========================================
@@ -102,17 +105,51 @@ app.get('/api/health', (req, res) => {
 // 💡 HOCANIN BAHSETTİĞİ MANTIK: URL/users vs URL/api/...
 // ==========================================
 
-// Örnek mezun/öğrenci verisi (Mock Data)
-const mockUsers = [
+// Örnek mezun/öğrenci verisi (In-Memory Array - Henüz veritabanı yok)
+let mockUsers = [
     { id: 1, name: "Şevval Sude", role: "Student", department: "Computer Engineering" },
     { id: 2, name: "Sude", role: "Alumni", company: "Google" },
     { id: 3, name: "Şevval", role: "Alumni", company: "Microsoft" }
 ];
 
-// URL/api/users -> Saf JSON veri döner (Mobil uygulama veya Frontend API için)
+// URL/api/users (GET) -> Tüm kullanıcıları JSON formatında listeler
 app.get('/api/users', (req, res) => {
     res.json(mockUsers);
 });
+
+// 🎯 YENİ GÖREV: POST /api/users (dont use any database yet)
+// Yeni kullanıcıyı geçici olarak bellekteki mockUsers dizisine ekler
+app.post('/api/users', (req, res) => {
+    const { name, role, department, company } = req.body;
+
+    // Basit doğrulama: İsim ve rol zorunlu olsun
+    if (!name || !role) {
+        return res.status(400).json({
+            success: false,
+            message: "Hata: 'name' ve 'role' alanları zorunludur!"
+        });
+    }
+
+    // Yeni kullanıcı nesnesi oluştur
+    const newUser = {
+        id: mockUsers.length + 1,
+        name,
+        role,
+        department: department || null,
+        company: company || null
+    };
+
+    // Dizimize ekle (In-Memory)
+    mockUsers.push(newUser);
+
+    // 201 Created durum koduyla yanıt ver
+    res.status(201).json({
+        success: true,
+        message: "Kullanıcı başarıyla eklendi!",
+        user: newUser
+    });
+});
+
 
 // URL/users -> Görsel HTML sayfası döner (Tarayıcıda kullanıcıların listelendiği sayfa)
 app.get('/users', (req, res) => {
