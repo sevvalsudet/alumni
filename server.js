@@ -117,6 +117,22 @@ app.get('/api/users', (req, res) => {
     res.json(mockUsers);
 });
 
+// URL/api/users/:id (GET) -> Tek bir kullanıcıyı ID'ye göre getirir
+app.get('/api/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const user = mockUsers.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+        });
+    }
+
+    res.json(user);
+});
+
+
 // 🎯 YENİ GÖREV: POST /api/users (dont use any database yet)
 // Yeni kullanıcıyı geçici olarak bellekteki mockUsers dizisine ekler
 app.post('/api/users', (req, res) => {
@@ -149,6 +165,83 @@ app.post('/api/users', (req, res) => {
         user: newUser
     });
 });
+
+// 🎯 YENİ GÖREV: PUT /api/users/:id -> Kullanıcıyı TAMAMEN güncelle (Full Update)
+app.put('/api/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const userIndex = mockUsers.findIndex(u => u.id === id);
+
+    if (userIndex === -1) {
+        return res.status(404).json({
+            success: false,
+            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+        });
+    }
+
+    const { name, role, department, company } = req.body;
+
+    // Tüm nesneyi yenisiyle güncelle
+    mockUsers[userIndex] = {
+        id,
+        name: name || mockUsers[userIndex].name,
+        role: role || mockUsers[userIndex].role,
+        department: department || null,
+        company: company || null
+    };
+
+    res.json({
+        success: true,
+        message: `${id} ID'li kullanıcı başarıyla güncellendi (PUT)!`,
+        user: mockUsers[userIndex]
+    });
+});
+
+// 🎯 YENİ GÖREV: PATCH /api/users/:id -> Kullanıcıyı KISMEN güncelle (Partial Update)
+app.patch('/api/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const user = mockUsers.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+        });
+    }
+
+    // Sadece istekte gönderilen alanları güncelle (örn: sadece şirketi değiştirmek gibi)
+    Object.assign(user, req.body);
+
+    res.json({
+        success: true,
+        message: `${id} ID'li kullanıcı kısmen güncellendi (PATCH)!`,
+        user
+    });
+});
+
+// 🎯 YENİ GÖREV: DELETE /api/users/:id -> Kullanıcıyı sistemden SİL
+app.delete('/api/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const userIndex = mockUsers.findIndex(u => u.id === id);
+
+    // Eğer bu ID'ye sahip kullanıcı bulunamazsa 404 dön
+    if (userIndex === -1) {
+        return res.status(404).json({
+            success: false,
+            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+        });
+    }
+
+    // Kullanıcıyı diziden çıkar (sil)
+    const deletedUser = mockUsers.splice(userIndex, 1)[0];
+
+    res.json({
+        success: true,
+        message: `${id} ID numaralı kullanıcı başarıyla silindi!`,
+        deletedUser
+    });
+});
+
+
 
 
 // URL/users -> Görsel HTML sayfası döner (Tarayıcıda kullanıcıların listelendiği sayfa)
