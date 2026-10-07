@@ -7,13 +7,13 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; color: #333; padding: 30px 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 950px; margin: 0 auto; }
         header { text-align: center; margin-bottom: 30px; }
         h1 { color: #2c3e50; font-size: 28px; margin-bottom: 8px; }
         p.subtitle { color: #7f8c8d; font-size: 15px; }
         .badge { background: #27ae60; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; }
         
-        /* Grid Layout */
+        /* Card Layout */
         .card { background: white; border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); margin-bottom: 25px; }
         h2 { font-size: 20px; color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; }
         
@@ -24,19 +24,24 @@
         label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
         input, select { padding: 10px 12px; border: 1px solid #dcdfe6; border-radius: 6px; font-size: 14px; outline: none; transition: border-color 0.2s; }
         input:focus, select:focus { border-color: #3498db; }
-        button.btn { background: #3498db; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        button.btn:hover { background: #2980b9; }
+        button.btn-primary { background: #3498db; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button.btn-primary:hover { background: #2980b9; }
 
         /* Table Styling */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #edf2f7; font-size: 14px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #edf2f7; font-size: 14px; vertical-align: middle; }
         th { background-color: #f8fafc; color: #475569; font-weight: 600; }
         tr:hover { background-color: #f8fafc; }
         .role-tag { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .role-student { background-color: #e0f2fe; color: #0369a1; }
         .role-alumni { background-color: #dcfce7; color: #15803d; }
-        a.action-link { color: #3498db; text-decoration: none; font-weight: 600; }
-        a.action-link:hover { text-decoration: underline; }
+        
+        /* Action buttons */
+        .actions { display: flex; gap: 8px; align-items: center; }
+        a.btn-view { color: #3498db; text-decoration: none; font-weight: 600; padding: 4px 8px; border-radius: 4px; background: #ebf5fb; font-size: 13px; }
+        a.btn-edit { color: #d97706; text-decoration: none; font-weight: 600; padding: 4px 8px; border-radius: 4px; background: #fef3c7; font-size: 13px; }
+        button.btn-delete { background: #fee2e2; color: #dc2626; border: none; padding: 5px 8px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        button.btn-delete:hover { background: #fecaca; }
 
         /* Nav links */
         .nav-footer { text-align: center; margin-top: 20px; font-size: 14px; }
@@ -47,12 +52,12 @@
     <div class="container">
         <header>
             <h1>🎓 Alumni Tracking System</h1>
-            <p class="subtitle">MVC Mimarisi - View Katmanı (EJS Template)</p>
+            <p class="subtitle">MVC Mimarisi - Tam CRUD View Katmanı</p>
         </header>
 
-        <!-- ➕ 1. CREATING: POST /users Formu -->
+        <!-- ➕ 1. CREATE: POST /users Formu -->
         <div class="card">
-            <h2>➕ Yeni Kullanıcı Ekle <span class="badge">POST /users</span></h2>
+            <h2>➕ Yeni Kullanıcı Ekle <span class="badge">[CREATE]</span></h2>
             <form action="/users" method="POST">
                 <div class="form-grid">
                     <div class="form-group">
@@ -75,15 +80,15 @@
                         <input type="text" id="company" name="company" placeholder="Örn: Google / Trendyol">
                     </div>
                     <div class="form-group full">
-                        <button type="submit" class="btn">Kullanıcıyı Kaydet (POST)</button>
+                        <button type="submit" class="btn-primary">Kullanıcıyı Kaydet (POST /users)</button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <!-- 📖 2. LISTING: GET /users Tablosu -->
+        <!-- 📖 2. READ: GET /users Listeleme & UPDATE & DELETE İşlemleri -->
         <div class="card">
-            <h2>📋 Kayıtlı Kullanıcılar Listesi <span class="badge">GET /users</span></h2>
+            <h2>📋 Kayıtlı Kullanıcılar Listesi <span class="badge">[READ / UPDATE / DELETE]</span></h2>
             <table>
                 <thead>
                     <tr>
@@ -92,7 +97,7 @@
                         <th>Rol</th>
                         <th>Bölüm</th>
                         <th>Şirket</th>
-                        <th>Detay</th>
+                        <th>İşlemler</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,7 +114,16 @@
                                 <td><%= user.department || '-' %></td>
                                 <td><%= user.company || '-' %></td>
                                 <td>
-                                    <a href="/users/<%= user.id %>" class="action-link">Görüntüle →</a>
+                                    <div class="actions">
+                                        <!-- Read One -->
+                                        <a href="/users/<%= user.id %>" class="btn-view" title="Görüntüle">Görüntüle</a>
+                                        <!-- Update Form -->
+                                        <a href="/users/<%= user.id %>/edit" class="btn-edit" title="Düzenle">Düzenle</a>
+                                        <!-- Delete Action -->
+                                        <form action="/users/<%= user.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
+                                            <button type="submit" class="btn-delete">Sil</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <% }); %>
