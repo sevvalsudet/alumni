@@ -1,10 +1,10 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const UserModel = require('./models/userModel');
-const userController = require('./controllers/userController');
-const ApiUserController = require('./controllers/apiUserController');
+const userRoutes = require('./routes/userRoutes');
+const apiUserRoutes = require('./routes/apiUserRoutes');
 const app = express();
 const PORT = 3000;
+
 
 
 
@@ -113,20 +113,15 @@ app.get('/api/health', (req, res) => {
 // ==========================================
 
 // ==========================================
-// 💡 MVC CONTROLLER KATMANI (CRUD FONKSİYONLARI)
+// 💡 MVC ROUTER KATMANI (MODÜLER ROTALAR)
 // ==========================================
 
-// 🌐 1. Web UI Controller Rotaları (userController - HTML Görünümleri)
-app.get('/users', userController.getAll);
-app.get('/users/:id', userController.getById);
+// 🌐 1. Web UI Rotaları (HTML Views) -> routes/userRoutes.js
+app.use('/users', userRoutes);
 
-// ⚡ 2. RESTful API Controller Rotaları (ApiUserController - JSON Yanıtları)
-app.get('/api/users', ApiUserController.getAll);
-app.get('/api/users/:id', ApiUserController.getById);
-app.post('/api/users', ApiUserController.create);
-app.put('/api/users/:id', ApiUserController.update);
-app.patch('/api/users/:id', ApiUserController.patch);
-app.delete('/api/users/:id', ApiUserController.delete);
+// ⚡ 2. RESTful API Rotaları (JSON) -> routes/apiUserRoutes.js
+app.use('/api/users', apiUserRoutes);
+
 
 
 // ==========================================
