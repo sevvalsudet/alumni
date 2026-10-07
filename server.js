@@ -1,8 +1,11 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const UserModel = require('./models/userModel');
+const userController = require('./controllers/userController');
+const ApiUserController = require('./controllers/apiUserController');
 const app = express();
 const PORT = 3000;
+
 
 
 // Gelen JSON istek gövdelerini (body) okuyabilmek için middleware
@@ -109,133 +112,22 @@ app.get('/api/health', (req, res) => {
 // 💡 HOCANIN BAHSETTİĞİ MANTIK: URL/users vs URL/api/...
 // ==========================================
 
-// URL/api/users (GET) -> Tüm kullanıcıları JSON formatında listeler (Model: findAll)
-app.get('/api/users', (req, res) => {
-    res.json(UserModel.findAll());
-});
+// ==========================================
+// 💡 MVC CONTROLLER KATMANI (CRUD FONKSİYONLARI)
+// ==========================================
 
-// URL/api/users/:id (GET) -> Tek bir kullanıcıyı ID'ye göre getirir (Model: findById)
-app.get('/api/users/:id', (req, res) => {
-    const user = UserModel.findById(req.params.id);
+// 🌐 1. Web UI Controller Rotaları (userController - HTML Görünümleri)
+app.get('/users', userController.getAll);
+app.get('/users/:id', userController.getById);
 
-    if (!user) {
-        return res.status(404).json({
-            success: false,
-            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
-        });
-    }
+// ⚡ 2. RESTful API Controller Rotaları (ApiUserController - JSON Yanıtları)
+app.get('/api/users', ApiUserController.getAll);
+app.get('/api/users/:id', ApiUserController.getById);
+app.post('/api/users', ApiUserController.create);
+app.put('/api/users/:id', ApiUserController.update);
+app.patch('/api/users/:id', ApiUserController.patch);
+app.delete('/api/users/:id', ApiUserController.delete);
 
-    res.json(user);
-});
-
-// 🎯 POST /api/users -> Yeni kullanıcı ekler (Model: create)
-app.post('/api/users', (req, res) => {
-    const { name, role } = req.body;
-
-    if (!name || !role) {
-        return res.status(400).json({
-            success: false,
-            message: "Hata: 'name' ve 'role' alanları zorunludur!"
-        });
-    }
-
-    const newUser = UserModel.create(req.body);
-
-    res.status(201).json({
-        success: true,
-        message: "Kullanıcı başarıyla eklendi!",
-        user: newUser
-    });
-});
-
-// 🎯 PUT /api/users/:id -> Kullanıcıyı TAMAMEN güncelle (Model: update)
-app.put('/api/users/:id', (req, res) => {
-    const updatedUser = UserModel.update(req.params.id, req.body);
-
-    if (!updatedUser) {
-        return res.status(404).json({
-            success: false,
-            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
-        });
-    }
-
-    res.json({
-        success: true,
-        message: `${req.params.id} ID'li kullanıcı başarıyla güncellendi (PUT)!`,
-        user: updatedUser
-    });
-});
-
-// 🎯 PATCH /api/users/:id -> Kullanıcıyı KISMEN güncelle (Model: patch)
-app.patch('/api/users/:id', (req, res) => {
-    const patchedUser = UserModel.patch(req.params.id, req.body);
-
-    if (!patchedUser) {
-        return res.status(404).json({
-            success: false,
-            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
-        });
-    }
-
-    res.json({
-        success: true,
-        message: `${req.params.id} ID'li kullanıcı kısmen güncellendi (PATCH)!`,
-        user: patchedUser
-    });
-});
-
-// 🎯 DELETE /api/users/:id -> Kullanıcıyı sistemden SİL (Model: delete)
-app.delete('/api/users/:id', (req, res) => {
-    const deletedUser = UserModel.delete(req.params.id);
-
-    if (!deletedUser) {
-        return res.status(404).json({
-            success: false,
-            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
-        });
-    }
-
-    res.json({
-        success: true,
-        message: `${req.params.id} ID numaralı kullanıcı başarıyla silindi!`,
-        deletedUser
-    });
-});
-
-
-
-
-// URL/users -> Görsel HTML sayfası döner (Tarayıcıda kullanıcıların listelendiği sayfa)
-app.get('/users', (req, res) => {
-    const userListHtml = UserModel.findAll()
-        .map(u => `<li><strong>${u.name}</strong> - ${u.role} (${u.department || u.company || 'Belirtilmedi'})</li>`)
-        .join('');
-
-
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="tr">
-        <head>
-            <meta charset="UTF-8">
-            <title>Users - Alumni System</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 40px; background-color: #f4f6f9; }
-                h1 { color: #2c3e50; }
-                ul { line-height: 2; font-size: 16px; }
-                a { color: #3498db; text-decoration: none; font-weight: bold; }
-            </style>
-        </head>
-        <body>
-            <h1>👥 Kullanıcı Listesi (Web Sayfası)</h1>
-            <p>Bu sayfa <code>/users</code> rotasından HTML olarak dönmektedir.</p>
-            <ul>${userListHtml}</ul>
-            <p><small>Aynı veriyi JSON olarak almak için: <a href="/api/users" target="_blank">/api/users</a></small></p>
-            <br>
-            <a href="/">← Ana Sayfaya Dön</a>
-        </body>
-        </html>
-    `);
-});
 
 // ==========================================
 // 📖 SWAGGER / OPENAPI DOKÜMANTASYONU (GET /api/swagger)
