@@ -46,6 +46,70 @@ A scalable, modern web application designed to bridge the gap between institutio
 
 ---
 
+## 🏛️ MVC (Model-View-Controller) Architecture
+
+The application is structured following the **MVC (Model-View-Controller)** architectural pattern powered by the **Express.js** web application framework. This enforces a clean **Separation of Concerns (SoC)** across data persistence, routing control, and client presentation.
+
+```mermaid
+flowchart LR
+    Client["Client (Browser / Postman / Swagger)"]
+    
+    subgraph Express_App ["Express.js Application Framework"]
+        Controller["Controller (Route Handlers & Middleware)"]
+        Model["Model (User Entities & Data Store)"]
+        View["View (HTML UI & JSON API Responses)"]
+    end
+    
+    Client -->|"HTTP Request (GET, POST, PUT, DELETE)"| Controller
+    Controller -->|"Query / Mutate State"| Model
+    Model -->|"Return Data"| Controller
+    Controller -->|"Render HTML / Serialize JSON"| View
+    View -->|"HTTP Response (HTML / JSON)"| Client
+```
+
+### 1. Model (Data & Entity Layer)
+* **Responsibility:** Manages the data representation, state, and business validation rules for alumni and students.
+* **Implementation:** 
+  * The Model encapsulates the `mockUsers` data entity collection containing member records (`id`, `name`, `role`, `department`, `company`).
+  * Enforces schema consistency and required field checks (e.g., verifying `name` and `role` before saving).
+  * Designed for direct migration to relational database models (MySQL) without modifying controller logic.
+
+### 2. View (Presentation & Serialization Layer)
+* **Responsibility:** Formats and presents information back to the client. The application supports a dual presentation approach:
+  * **Web UI Views (HTML):** Server-rendered pages delivered directly to web browsers for navigation (`/`, `/about`, `/users`).
+  * **API JSON Views:** Structured JSON payloads (`res.json(...)`) returned to API clients, frontend applications, and mobile clients (`/api/health`, `/api/users`).
+  * **Interactive Documentation View (Swagger UI):** OpenAPI 3.0 specification rendered at `/api/swagger` allowing real-time interactive endpoint testing.
+
+### 3. Controller (Request Orchestration & Business Logic Layer)
+* **Responsibility:** Connects the View and Model layers. Captures incoming HTTP requests, processes input parameters, directs model operations, and selects the corresponding view output.
+* **Implementation:**
+  * Implemented using **Express.js routing and middleware** (`express.json()`).
+  * Handles parameter extraction from URL routes (`req.params.id`) and request bodies (`req.body`).
+  * Manages standard HTTP status codes:
+    * `200 OK`: Successful read or update (`GET`, `PUT`, `PATCH`).
+    * `201 Created`: Successful resource addition (`POST`).
+    * `400 Bad Request`: Input validation failures.
+    * `404 Not Found`: Target resource not found.
+
+---
+
+### 📊 MVC Endpoint Mapping
+
+| HTTP Method | Route | Controller Responsibility | Model Interaction | View Representation |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` & `/about` | Serves main navigation and informational pages | None | HTML Web Page |
+| `GET` | `/users` | Formats and displays all members | Reads `mockUsers` | HTML Rendered View |
+| `GET` | `/api/health` | Returns server health check diagnostics | System Uptime & Status | JSON (`{ status: "ok" }`) |
+| `GET` | `/api/users` | Retrieves and delivers full member directory | Reads `mockUsers` | JSON Array (`[User]`) |
+| `GET` | `/api/users/:id` | Fetches a single member by ID | Filters `mockUsers` | JSON Object or `404` |
+| `POST` | `/api/users` | Validates payload and adds a new member | Appends to `mockUsers` | JSON Object + `201 Created` |
+| `PUT` | `/api/users/:id` | Replaces an existing member's full profile | Updates `mockUsers[index]` | JSON Object + `200 OK` |
+| `PATCH` | `/api/users/:id` | Partially modifies specified member fields | Updates target fields | JSON Object + `200 OK` |
+| `DELETE` | `/api/users/:id` | Removes a member by ID | Splices from `mockUsers` | JSON Confirmation + `200 OK` |
+| `GET` | `/api/swagger` | Serves interactive API testing dashboard | OpenAPI 3.0 Schema | Swagger UI Interface |
+
+---
+
 ## 📂 Project Structure
 
 ```text
