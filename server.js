@@ -1,5 +1,6 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
+const UserModel = require('./models/userModel');
 const app = express();
 const PORT = 3000;
 
@@ -108,40 +109,29 @@ app.get('/api/health', (req, res) => {
 // 💡 HOCANIN BAHSETTİĞİ MANTIK: URL/users vs URL/api/...
 // ==========================================
 
-// Örnek mezun/öğrenci verisi (In-Memory Array - Henüz veritabanı yok)
-let mockUsers = [
-    { id: 1, name: "Şevval Sude", role: "Student", department: "Computer Engineering" },
-    { id: 2, name: "Sude", role: "Alumni", company: "Google" },
-    { id: 3, name: "Şevval", role: "Alumni", company: "Microsoft" }
-];
-
-// URL/api/users (GET) -> Tüm kullanıcıları JSON formatında listeler
+// URL/api/users (GET) -> Tüm kullanıcıları JSON formatında listeler (Model: findAll)
 app.get('/api/users', (req, res) => {
-    res.json(mockUsers);
+    res.json(UserModel.findAll());
 });
 
-// URL/api/users/:id (GET) -> Tek bir kullanıcıyı ID'ye göre getirir
+// URL/api/users/:id (GET) -> Tek bir kullanıcıyı ID'ye göre getirir (Model: findById)
 app.get('/api/users/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const user = mockUsers.find(u => u.id === id);
+    const user = UserModel.findById(req.params.id);
 
     if (!user) {
         return res.status(404).json({
             success: false,
-            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
         });
     }
 
     res.json(user);
 });
 
-
-// 🎯 YENİ GÖREV: POST /api/users (dont use any database yet)
-// Yeni kullanıcıyı geçici olarak bellekteki mockUsers dizisine ekler
+// 🎯 POST /api/users -> Yeni kullanıcı ekler (Model: create)
 app.post('/api/users', (req, res) => {
-    const { name, role, department, company } = req.body;
+    const { name, role } = req.body;
 
-    // Basit doğrulama: İsim ve rol zorunlu olsun
     if (!name || !role) {
         return res.status(400).json({
             success: false,
@@ -149,19 +139,8 @@ app.post('/api/users', (req, res) => {
         });
     }
 
-    // Yeni kullanıcı nesnesi oluştur
-    const newUser = {
-        id: mockUsers.length + 1,
-        name,
-        role,
-        department: department || null,
-        company: company || null
-    };
+    const newUser = UserModel.create(req.body);
 
-    // Dizimize ekle (In-Memory)
-    mockUsers.push(newUser);
-
-    // 201 Created durum koduyla yanıt ver
     res.status(201).json({
         success: true,
         message: "Kullanıcı başarıyla eklendi!",
@@ -169,77 +148,56 @@ app.post('/api/users', (req, res) => {
     });
 });
 
-// 🎯 YENİ GÖREV: PUT /api/users/:id -> Kullanıcıyı TAMAMEN güncelle (Full Update)
+// 🎯 PUT /api/users/:id -> Kullanıcıyı TAMAMEN güncelle (Model: update)
 app.put('/api/users/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const userIndex = mockUsers.findIndex(u => u.id === id);
+    const updatedUser = UserModel.update(req.params.id, req.body);
 
-    if (userIndex === -1) {
+    if (!updatedUser) {
         return res.status(404).json({
             success: false,
-            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
         });
     }
 
-    const { name, role, department, company } = req.body;
-
-    // Tüm nesneyi yenisiyle güncelle
-    mockUsers[userIndex] = {
-        id,
-        name: name || mockUsers[userIndex].name,
-        role: role || mockUsers[userIndex].role,
-        department: department || null,
-        company: company || null
-    };
-
     res.json({
         success: true,
-        message: `${id} ID'li kullanıcı başarıyla güncellendi (PUT)!`,
-        user: mockUsers[userIndex]
+        message: `${req.params.id} ID'li kullanıcı başarıyla güncellendi (PUT)!`,
+        user: updatedUser
     });
 });
 
-// 🎯 YENİ GÖREV: PATCH /api/users/:id -> Kullanıcıyı KISMEN güncelle (Partial Update)
+// 🎯 PATCH /api/users/:id -> Kullanıcıyı KISMEN güncelle (Model: patch)
 app.patch('/api/users/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const user = mockUsers.find(u => u.id === id);
+    const patchedUser = UserModel.patch(req.params.id, req.body);
 
-    if (!user) {
+    if (!patchedUser) {
         return res.status(404).json({
             success: false,
-            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
         });
     }
 
-    // Sadece istekte gönderilen alanları güncelle (örn: sadece şirketi değiştirmek gibi)
-    Object.assign(user, req.body);
-
     res.json({
         success: true,
-        message: `${id} ID'li kullanıcı kısmen güncellendi (PATCH)!`,
-        user
+        message: `${req.params.id} ID'li kullanıcı kısmen güncellendi (PATCH)!`,
+        user: patchedUser
     });
 });
 
-// 🎯 YENİ GÖREV: DELETE /api/users/:id -> Kullanıcıyı sistemden SİL
+// 🎯 DELETE /api/users/:id -> Kullanıcıyı sistemden SİL (Model: delete)
 app.delete('/api/users/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const userIndex = mockUsers.findIndex(u => u.id === id);
+    const deletedUser = UserModel.delete(req.params.id);
 
-    // Eğer bu ID'ye sahip kullanıcı bulunamazsa 404 dön
-    if (userIndex === -1) {
+    if (!deletedUser) {
         return res.status(404).json({
             success: false,
-            message: `Hata: ${id} ID numaralı kullanıcı bulunamadı!`
+            message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
         });
     }
 
-    // Kullanıcıyı diziden çıkar (sil)
-    const deletedUser = mockUsers.splice(userIndex, 1)[0];
-
     res.json({
         success: true,
-        message: `${id} ID numaralı kullanıcı başarıyla silindi!`,
+        message: `${req.params.id} ID numaralı kullanıcı başarıyla silindi!`,
         deletedUser
     });
 });
@@ -249,9 +207,10 @@ app.delete('/api/users/:id', (req, res) => {
 
 // URL/users -> Görsel HTML sayfası döner (Tarayıcıda kullanıcıların listelendiği sayfa)
 app.get('/users', (req, res) => {
-    const userListHtml = mockUsers
-        .map(u => `<li><strong>${u.name}</strong> - ${u.role} (${u.department || u.company})</li>`)
+    const userListHtml = UserModel.findAll()
+        .map(u => `<li><strong>${u.name}</strong> - ${u.role} (${u.department || u.company || 'Belirtilmedi'})</li>`)
         .join('');
+
 
     res.send(`
         <!DOCTYPE html>
