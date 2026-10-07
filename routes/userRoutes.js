@@ -1,14 +1,17 @@
 // routes/userRoutes.js
-// 🎓 MVC Mimarisi - Web Arayüzü Rotaları (HTML)
+// 🎓 MVC Mimarisi - Web Arayüzü Rotaları (View Layer)
 
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-// GET /users -> Tüm kullanıcıları listeleyen web sayfası
+// 📖 GET /users -> Listing (Kullanıcıları listeleyen View katmanı)
 router.get('/', userController.getAll);
 
-// GET /users/:id -> Tek bir kullanıcının detay web sayfası
+// ➕ POST /users -> Creating (Formdan gelen veriyi oluşturan rota)
+router.post('/', userController.create);
+
+// 🔍 GET /users/:id -> Tek bir kullanıcının detay View'ı
 router.get('/:id', userController.getById);
 
 module.exports = router;

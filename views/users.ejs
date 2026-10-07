@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar - Alumni Tracking System</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; color: #333; padding: 30px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: #2c3e50; font-size: 28px; margin-bottom: 8px; }
+        p.subtitle { color: #7f8c8d; font-size: 15px; }
+        .badge { background: #27ae60; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; }
+        
+        /* Grid Layout */
+        .card { background: white; border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); margin-bottom: 25px; }
+        h2 { font-size: 20px; color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; }
+        
+        /* Form Styling */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: span 2; }
+        label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
+        input, select { padding: 10px 12px; border: 1px solid #dcdfe6; border-radius: 6px; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        input:focus, select:focus { border-color: #3498db; }
+        button.btn { background: #3498db; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button.btn:hover { background: #2980b9; }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #edf2f7; font-size: 14px; }
+        th { background-color: #f8fafc; color: #475569; font-weight: 600; }
+        tr:hover { background-color: #f8fafc; }
+        .role-tag { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .role-student { background-color: #e0f2fe; color: #0369a1; }
+        .role-alumni { background-color: #dcfce7; color: #15803d; }
+        a.action-link { color: #3498db; text-decoration: none; font-weight: 600; }
+        a.action-link:hover { text-decoration: underline; }
+
+        /* Nav links */
+        .nav-footer { text-align: center; margin-top: 20px; font-size: 14px; }
+        .nav-footer a { color: #3498db; text-decoration: none; margin: 0 10px; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Alumni Tracking System</h1>
+            <p class="subtitle">MVC Mimarisi - View Katmanı (EJS Template)</p>
+        </header>
+
+        <!-- ➕ 1. CREATING: POST /users Formu -->
+        <div class="card">
+            <h2>➕ Yeni Kullanıcı Ekle <span class="badge">POST /users</span></h2>
+            <form action="/users" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Ad Soyad *</label>
+                        <input type="text" id="name" name="name" placeholder="Örn: Ayşe Kaya" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rol *</label>
+                        <select id="role" name="role" required>
+                            <option value="Alumni">Mezun (Alumni)</option>
+                            <option value="Student">Öğrenci (Student)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Bölüm</label>
+                        <input type="text" id="department" name="department" placeholder="Örn: Computer Engineering">
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Şirket</label>
+                        <input type="text" id="company" name="company" placeholder="Örn: Google / Trendyol">
+                    </div>
+                    <div class="form-group full">
+                        <button type="submit" class="btn">Kullanıcıyı Kaydet (POST)</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 📖 2. LISTING: GET /users Tablosu -->
+        <div class="card">
+            <h2>📋 Kayıtlı Kullanıcılar Listesi <span class="badge">GET /users</span></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ad Soyad</th>
+                        <th>Rol</th>
+                        <th>Bölüm</th>
+                        <th>Şirket</th>
+                        <th>Detay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (users && users.length > 0) { %>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td><strong>#<%= user.id %></strong></td>
+                                <td><%= user.name %></td>
+                                <td>
+                                    <span class="role-tag <%= user.role === 'Student' ? 'role-student' : 'role-alumni' %>">
+                                        <%= user.role %>
+                                    </span>
+                                </td>
+                                <td><%= user.department || '-' %></td>
+                                <td><%= user.company || '-' %></td>
+                                <td>
+                                    <a href="/users/<%= user.id %>" class="action-link">Görüntüle →</a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: #94a3b8; padding: 20px;">Henüz kullanıcı bulunmuyor.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="nav-footer">
+            <a href="/">← Ana Sayfa</a> |
+            <a href="/api/users" target="_blank">JSON API (/api/users)</a> |
+            <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
+        </div>
+    </div>
+</body>
+</html>

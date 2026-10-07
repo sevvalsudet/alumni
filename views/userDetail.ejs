@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.name %> - Detay</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; color: #333; padding: 40px 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .header { display: flex; align-items: center; margin-bottom: 20px; }
+        .avatar { width: 60px; height: 60px; background: #3498db; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-right: 15px; }
+        h1 { font-size: 22px; color: #2c3e50; }
+        .role { color: #7f8c8d; font-size: 14px; }
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; font-size: 15px; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #64748b; font-weight: 500; }
+        .value { color: #1e293b; font-weight: 600; }
+        .back-btn { display: inline-block; margin-top: 20px; color: #3498db; text-decoration: none; font-weight: 600; }
+        .back-btn:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="avatar"><%= user.name.charAt(0) %></div>
+                <div>
+                    <h1><%= user.name %></h1>
+                    <div class="role"><%= user.role %> #<%= user.id %></div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">ID:</span>
+                <span class="value"><%= user.id %></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Rol:</span>
+                <span class="value"><%= user.role %></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Bölüm:</span>
+                <span class="value"><%= user.department || 'Belirtilmedi' %></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Şirket:</span>
+                <span class="value"><%= user.company || 'Belirtilmedi' %></span>
+            </div>
+
+            <a href="/users" class="back-btn">← Kullanıcı Listesine Dön</a>
+        </div>
+    </div>
+</body>
+</html>

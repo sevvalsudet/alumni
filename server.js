@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const userRoutes = require('./routes/userRoutes');
@@ -5,11 +6,14 @@ const apiUserRoutes = require('./routes/apiUserRoutes');
 const app = express();
 const PORT = 3000;
 
+// 🎓 MVC Mimarisi - View Katmanı (EJS View Engine) Ayarları
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-
-
-// Gelen JSON istek gövdelerini (body) okuyabilmek için middleware
+// Gelen JSON ve HTML Form verilerini (body) okuyabilmek için middleware'ler
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // ==========================================
 // 🎓 TAHTADAKİ 6 ROTA (ROUTES)
