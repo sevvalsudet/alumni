@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= announcement.title %> - Alumni Tracking System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f4f6f9; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card-header { border-bottom: 3px solid #e74c3c; padding-bottom: 15px; margin-bottom: 20px; }
+        h1 { color: #2c3e50; margin: 0 0 5px 0; }
+        .meta { color: #888; font-size: 14px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: bold; background: #fde8e8; color: #e74c3c; margin-left: 10px; }
+        .field-label { font-weight: bold; color: #555; display: block; margin-bottom: 5px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .field-value { color: #2c3e50; font-size: 16px; margin-bottom: 20px; line-height: 1.6; }
+        .content-box { background: #fef9f9; border-left: 4px solid #e74c3c; padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+        .actions { margin-top: 25px; display: flex; gap: 12px; }
+        .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 14px; border: none; cursor: pointer; }
+        .btn-edit { background: #f39c12; color: white; }
+        .btn-delete { background: #e74c3c; color: white; }
+        .btn-back { background: #95a5a6; color: white; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">🏠 Ana Sayfa</a>
+        <a href="/announcements">← Announcements</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h1>📢 <%= announcement.title %></h1>
+            <div class="meta">
+                By <strong><%= announcement.author %></strong> on <strong><%= announcement.date %></strong>
+                <span class="badge"><%= announcement.category %></span>
+                <span style="color:#bbb; margin-left:10px;">ID: #<%= announcement.id %></span>
+            </div>
+        </div>
+
+        <span class="field-label">Content</span>
+        <div class="content-box">
+            <p class="field-value"><%= announcement.content %></p>
+        </div>
+
+        <div class="actions">
+            <a href="/announcements/<%= announcement.id %>/edit" class="btn btn-edit">✏️ Edit</a>
+            <form action="/announcements/<%= announcement.id %>/delete" method="POST"
+                  onsubmit="return confirm('Are you sure you want to delete this announcement?')">
+                <button type="submit" class="btn btn-delete">🗑 Delete</button>
+            </form>
+            <a href="/announcements" class="btn btn-back">← Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

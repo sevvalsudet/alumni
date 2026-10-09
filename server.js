@@ -3,6 +3,8 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const userRoutes = require('./routes/userRoutes');
 const apiUserRoutes = require('./routes/apiUserRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
+const apiAnnouncementRoutes = require('./routes/apiAnnouncementRoutes');
 const app = express();
 const PORT = 3000;
 
@@ -72,6 +74,8 @@ app.get('/', (req, res) => {
                 <a href="/api/health" target="_blank">Health (JSON)</a> | 
                 <a href="/users">Kullanıcılar (HTML)</a> | 
                 <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a> | 
+                <a href="/announcements">📢 Duyurular (HTML)</a> | 
+                <a href="/api/announcements" target="_blank">📢 Duyurular (JSON)</a> | 
                 <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
             </div>
         </body>
@@ -125,6 +129,12 @@ app.use('/users', userRoutes);
 
 // ⚡ 2. RESTful API Rotaları (JSON) -> routes/apiUserRoutes.js
 app.use('/api/users', apiUserRoutes);
+
+// 📢 3. Announcements Web UI Rotaları (HTML Views) -> routes/announcementRoutes.js
+app.use('/announcements', announcementRoutes);
+
+// ⚡ 4. Announcements RESTful API Rotaları (JSON) -> routes/apiAnnouncementRoutes.js
+app.use('/api/announcements', apiAnnouncementRoutes);
 
 
 
@@ -287,6 +297,111 @@ const swaggerDocument = {
                 responses: {
                     "200": { description: "Kullanıcı başarıyla silindi" },
                     "404": { description: "Kullanıcı bulunamadı" }
+                }
+            }
+        },
+        "/api/announcements": {
+            get: {
+                summary: "Tüm Duyuruları Listele (List All Announcements)",
+                description: "Sistemde kayıtlı tüm duyuruları döner.",
+                responses: {
+                    "200": { description: "Duyuru listesi başarıyla getirildi" }
+                }
+            },
+            post: {
+                summary: "Yeni Duyuru Ekle (Create Announcement)",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                required: ["title", "content"],
+                                properties: {
+                                    title: { type: "string", example: "Yıllık Mezunlar Buluşması" },
+                                    content: { type: "string", example: "2024 yılı mezun buluşması Aralık ayında yapılacaktır." },
+                                    author: { type: "string", example: "Admin" },
+                                    date: { type: "string", example: "2024-12-01" },
+                                    category: { type: "string", example: "Event" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "201": { description: "Duyuru başarıyla oluşturuldu" },
+                    "400": { description: "Eksik parametre hatası" }
+                }
+            }
+        },
+        "/api/announcements/{id}": {
+            get: {
+                summary: "Belirli Duyuruyu Getir (Get Announcement by ID)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                responses: {
+                    "200": { description: "Duyuru bulundu" },
+                    "404": { description: "Duyuru bulunamadı" }
+                }
+            },
+            put: {
+                summary: "Duyuruyu Tamamen Güncelle (Full Update - PUT)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    title: { type: "string", example: "Güncellenen Duyuru" },
+                                    content: { type: "string", example: "Güncel içerik..." },
+                                    author: { type: "string", example: "Admin" },
+                                    date: { type: "string", example: "2024-12-15" },
+                                    category: { type: "string", example: "General" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "200": { description: "Duyuru güncellendi" },
+                    "404": { description: "Duyuru bulunamadı" }
+                }
+            },
+            patch: {
+                summary: "Duyuruyu Kısmen Güncelle (Partial Update - PATCH)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                requestBody: {
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    category: { type: "string", example: "Career" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "200": { description: "Duyuru kısmen güncellendi" },
+                    "404": { description: "Duyuru bulunamadı" }
+                }
+            },
+            delete: {
+                summary: "Duyuruyu Sil (Delete Announcement)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                responses: {
+                    "200": { description: "Duyuru başarıyla silindi" },
+                    "404": { description: "Duyuru bulunamadı" }
                 }
             }
         }
