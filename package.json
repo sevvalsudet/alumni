@@ -4,6 +4,8 @@
   "description": "A scalable, modern web application designed to bridge the gap between institutions, students, and graduates. The platform enables alumni to maintain lifelong connections, track professional growth, share career opportunities, and foster community mentorship.",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
+    "migrate": "node scripts/migrate.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +16,7 @@
     "dotenv": "^18.0.7",
     "ejs": "^7.0.1",
     "express": "^5.2.1",
+    "mysql2": "^3.24.6",
     "swagger-ui-express": "^5.0.1"
   }
 }
