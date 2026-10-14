@@ -1,69 +1,140 @@
 // models/userModel.js
-// 🎓 MVC Mimarisi - Model Katmanı (User Model)
-// Veritabanı olmadan (In-Memory) çalışan ve tüm CRUD fonksiyonlarını içeren model.
+// 🎓 MVC Mimarisi - Model Katmanı (User Model with Database Connection)
+// Gerçek MySQL veritabanı sorguları (SELECT, INSERT, UPDATE, DELETE) ve kesintisiz fallback desteği.
 
-let users = [
-    { id: 1, name: "Şevval Sude", role: "Student", department: "Computer Engineering", company: null },
-    { id: 2, name: "Sude", role: "Alumni", department: "Computer Engineering", company: "Google" },
-    { id: 3, name: "Şevval", role: "Alumni", department: "Software Engineering", company: "Microsoft" }
+const { pool } = require('../config/db');
+
+// In-memory fallback veri kümesi (DB çevrimdışıyken arayüzün kesintisiz çalışması için)
+let fallbackUsers = [
+    { id: 1, name: "Şevval Sude", email: "sevvalsude@alumni.edu", role: "Student", department: "Computer Engineering", company: null },
+    { id: 2, name: "Sude Top", email: "sude@alumni.edu", role: "Alumni", department: "Computer Engineering", company: "Google" },
+    { id: 3, name: "Şevval Çelik", email: "sevval@alumni.edu", role: "Alumni", department: "Software Engineering", company: "Microsoft" }
 ];
 
 const UserModel = {
-    // 📖 [READ] Tüm kullanıcıları getir
-    findAll: () => {
-        return users;
+    // 📖 [READ ALL] GET all users from database
+    findAll: async () => {
+        try {
+            const [rows] = await pool.query('SELECT * FROM users ORDER BY id ASC');
+            return rows;
+        } catch (err) {
+            return fallbackUsers;
+        }
     },
 
-    // 🔍 [READ] ID numarasına göre tek bir kullanıcı getir
-    findById: (id) => {
-        return users.find(u => u.id === Number(id)) || null;
+    // 🔍 [READ ONE] GET user by ID from database
+    findById: async (id) => {
+        try {
+            const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [Number(id)]);
+            return rows[0] || null;
+        } catch (err) {
+            return fallbackUsers.find(u => u.id === Number(id)) || null;
+        }
     },
 
-    // ➕ [CREATE] Yeni bir kullanıcı oluştur
-    create: (userData) => {
-        const nextId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
-        const newUser = {
-            id: nextId,
-            name: userData.name,
-            role: userData.role,
-            department: userData.department || null,
-            company: userData.company || null
-        };
-        users.push(newUser);
-        return newUser;
+    // ➕ [CREATE] INSERT new user into database
+    create: async (userData) => {
+        const email = userData.email || `${userData.name.toLowerCase().replace(/[^a-z0-9]/g, '')}${Date.now().toString().slice(-4)}@alumni.edu`;
+        try {
+            const [result] = await pool.execute(
+                `INSERT INTO users (name, email, role, department, company, graduation_year, bio, phone, linkedin_url, github_url)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    userData.name,
+                    email,
+                    userData.role || 'Alumni',
+                    userData.department || 'General',
+                    userData.company || null,
+                    userData.graduation_year || null,
+                    userData.bio || null,
+                    userData.phone || null,
+                    userData.linkedin_url || null,
+                    userData.github_url || null
+                ]
+            );
+            return {
+                id: result.insertId,
+                name: userData.name,
+                email,
+                role: userData.role || 'Alumni',
+                department: userData.department || 'General',
+                company: userData.company || null
+            };
+        } catch (err) {
+            const nextId = fallbackUsers.length > 0 ? Math.max(...fallbackUsers.map(u => u.id)) + 1 : 1;
+            const newUser = {
+                id: nextId,
+                name: userData.name,
+                email,
+                role: userData.role || 'Alumni',
+                department: userData.department || 'General',
+                company: userData.company || null
+            };
+            fallbackUsers.push(newUser);
+            return newUser;
+        }
     },
 
-    // ✏️ [UPDATE - PUT] Kullanıcıyı tamamen güncelle
-    update: (id, updateData) => {
-        const index = users.findIndex(u => u.id === Number(id));
-        if (index === -1) return null;
-
-        users[index] = {
-            id: Number(id),
-            name: updateData.name || users[index].name,
-            role: updateData.role || users[index].role,
-            department: updateData.department || null,
-            company: updateData.company || null
-        };
-        return users[index];
+    // ✏️ [UPDATE - PUT] UPDATE user in database
+    update: async (id, updateData) => {
+        try {
+            await pool.execute(
+                `UPDATE users SET name=?, role=?, department=?, company=? WHERE id=?`,
+                [
+                    updateData.name,
+                    updateData.role,
+                    updateData.department || null,
+                    updateData.company || null,
+                    Number(id)
+                ]
+            );
+            return await UserModel.findById(id);
+        } catch (err) {
+            const index = fallbackUsers.findIndex(u => u.id === Number(id));
+            if (index === -1) return null;
+            fallbackUsers[index] = {
+                ...fallbackUsers[index],
+                name: updateData.name || fallbackUsers[index].name,
+                role: updateData.role || fallbackUsers[index].role,
+                department: updateData.department || null,
+                company: updateData.company || null
+            };
+            return fallbackUsers[index];
+        }
     },
 
-    // 🩹 [UPDATE - PATCH] Kullanıcıyı kısmen güncelle (Sadece gelen alanları değiştir)
-    patch: (id, partialData) => {
-        const user = users.find(u => u.id === Number(id));
-        if (!user) return null;
+    // 🩹 [UPDATE - PATCH] Partially UPDATE user in database
+    patch: async (id, partialData) => {
+        try {
+            const fields = Object.keys(partialData).filter(k => k !== 'id');
+            if (fields.length === 0) return await UserModel.findById(id);
 
-        Object.assign(user, partialData);
-        return user;
+            const setClause = fields.map(f => `\`${f}\` = ?`).join(', ');
+            const values = fields.map(f => partialData[f]);
+            values.push(Number(id));
+
+            await pool.execute(`UPDATE users SET ${setClause} WHERE id = ?`, values);
+            return await UserModel.findById(id);
+        } catch (err) {
+            const user = fallbackUsers.find(u => u.id === Number(id));
+            if (!user) return null;
+            Object.assign(user, partialData);
+            return user;
+        }
     },
 
-    // 🗑️ [DELETE] Kullanıcıyı sistemden sil
-    delete: (id) => {
-        const index = users.findIndex(u => u.id === Number(id));
-        if (index === -1) return null;
-
-        const deletedUser = users.splice(index, 1)[0];
-        return deletedUser;
+    // 🗑️ [DELETE] DELETE user from database
+    delete: async (id) => {
+        try {
+            const user = await UserModel.findById(id);
+            if (!user) return null;
+            await pool.execute('DELETE FROM users WHERE id = ?', [Number(id)]);
+            return user;
+        } catch (err) {
+            const index = fallbackUsers.findIndex(u => u.id === Number(id));
+            if (index === -1) return null;
+            return fallbackUsers.splice(index, 1)[0];
+        }
     }
 };
 
