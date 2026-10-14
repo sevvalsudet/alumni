@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "migrate": "node scripts/migrate.js",
+    "seed": "node scripts/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +19,8 @@
     "express": "^5.2.1",
     "mysql2": "^3.24.6",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0"
   }
 }
