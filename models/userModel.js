@@ -4,12 +4,31 @@
 
 const { pool } = require('../config/db');
 
-// In-memory fallback veri kümesi (DB çevrimdışıyken arayüzün kesintisiz çalışması için)
-let fallbackUsers = [
-    { id: 1, name: "Şevval Sude", email: "sevvalsude@alumni.edu", role: "Student", department: "Computer Engineering", company: null },
-    { id: 2, name: "Sude Top", email: "sude@alumni.edu", role: "Alumni", department: "Computer Engineering", company: "Google" },
-    { id: 3, name: "Şevval Çelik", email: "sevval@alumni.edu", role: "Alumni", department: "Software Engineering", company: "Microsoft" }
-];
+const fs = require('fs');
+const path = require('path');
+const userFactory = require('../factories/userFactory');
+
+// In-memory fallback veri kümesi (seedData.json veya Factory üzerinden 25 zengin kullanıcı yükler)
+function loadFallbackUsers() {
+    const seedPath = path.join(__dirname, '..', 'data', 'seedData.json');
+    if (fs.existsSync(seedPath)) {
+        try {
+            const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+            if (data.users && data.users.length > 0) {
+                return data.users;
+            }
+        } catch (e) {}
+    }
+    userFactory.resetId(1);
+    return [
+        userFactory.create({ id: 1, name: "Şevval Sude", email: "sevvalsude@alumni.edu", role: "Student", department: "Computer Engineering", company: null }),
+        userFactory.create({ id: 2, name: "Sude Top", email: "sude@alumni.edu", role: "Alumni", department: "Computer Engineering", company: "Google" }),
+        userFactory.create({ id: 3, name: "Şevval Çelik", email: "sevval@alumni.edu", role: "Alumni", department: "Software Engineering", company: "Microsoft" }),
+        ...(() => { userFactory.resetId(4); return userFactory.createMany(22); })()
+    ];
+}
+
+let fallbackUsers = loadFallbackUsers();
 
 const UserModel = {
     // 📖 [READ ALL] GET all users from database

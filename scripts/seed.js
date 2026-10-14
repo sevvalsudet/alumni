@@ -38,15 +38,15 @@ async function seedDatabase() {
             department: 'Software Engineering',
             company: 'Microsoft'
         }),
-        // Additional diverse users generated via factory
-        ...userFactory.createMany(7)
+        // Additional diverse users generated via factory (IDs 4 to 25)
+        ...(() => { userFactory.resetId(4); return userFactory.createMany(22); })()
     ];
 
     console.log(`👤 [User Factory] Generated ${users.length} user records.`);
 
-    // 2. Generate announcements via announcementFactory
+    // 2. Generate announcements via announcementFactory (10 total)
     announcementFactory.resetId(1);
-    const announcements = announcementFactory.createMany(5, { author_id: 1 });
+    const announcements = announcementFactory.createMany(10, { author_id: 1 });
     console.log(`📢 [Announcement Factory] Generated ${announcements.length} announcement records.`);
 
     // 3. Save seeded dataset to data/seedData.json for reference / file-based usage

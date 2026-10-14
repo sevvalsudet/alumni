@@ -4,28 +4,26 @@
 
 const { pool } = require('../config/db');
 
-let fallbackAnnouncements = [
-    {
-        id: 1,
-        author_id: 1,
-        title: "2024 Alumni Gathering",
-        content: "We are excited to announce our annual alumni gathering scheduled for December 2024. All graduates are welcome!",
-        author: "Admin",
-        date: "2024-11-01",
-        category: "Event",
-        priority: "Normal"
-    },
-    {
-        id: 2,
-        author_id: 1,
-        title: "New Scholarship Opportunities",
-        content: "Several new scholarship programs are now available for current students. Please check the details on the portal.",
-        author: "Admin",
-        date: "2024-10-15",
-        category: "Scholarship",
-        priority: "Normal"
+const fs = require('fs');
+const path = require('path');
+const announcementFactory = require('../factories/announcementFactory');
+
+// In-memory fallback veri kümesi (seedData.json veya Factory üzerinden 10 zengin duyuru yükler)
+function loadFallbackAnnouncements() {
+    const seedPath = path.join(__dirname, '..', 'data', 'seedData.json');
+    if (fs.existsSync(seedPath)) {
+        try {
+            const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+            if (data.announcements && data.announcements.length > 0) {
+                return data.announcements;
+            }
+        } catch (e) {}
     }
-];
+    announcementFactory.resetId(1);
+    return announcementFactory.createMany(10, { author_id: 1, author: 'Admin' });
+}
+
+let fallbackAnnouncements = loadFallbackAnnouncements();
 
 const AnnouncementModel = {
     // 📖 [READ ALL] GET all announcements from database
