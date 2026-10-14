@@ -106,7 +106,32 @@ flowchart LR
 | `PUT` | `/api/users/:id` | Replaces an existing member's full profile | Updates `mockUsers[index]` | JSON Object + `200 OK` |
 | `PATCH` | `/api/users/:id` | Partially modifies specified member fields | Updates target fields | JSON Object + `200 OK` |
 | `DELETE` | `/api/users/:id` | Removes a member by ID | Splices from `mockUsers` | JSON Confirmation + `200 OK` |
+| `GET` | `/announcements` | Formats and displays all announcements | Reads `announcements` | HTML Rendered View |
+| `GET` | `/api/announcements` | Retrieves all announcements | Reads `announcements` | JSON Array (`[Announcement]`) |
+| `POST` | `/api/announcements` | Creates a new announcement | Appends to `announcements` | JSON Object + `201 Created` |
+| `PUT` | `/api/announcements/:id` | Updates an existing announcement | Updates `announcements` | JSON Object + `200 OK` |
+| `DELETE` | `/api/announcements/:id` | Deletes an announcement by ID | Splices from `announcements` | JSON Confirmation + `200 OK` |
 | `GET` | `/api/swagger` | Serves interactive API testing dashboard | OpenAPI 3.0 Schema | Swagger UI Interface |
+
+---
+
+## 🗄️ Data Design Documentation (DDD)
+
+Comprehensive data architecture specifications, schemas, normalization guidelines, and entity relationship diagrams are documented in **[`ddd.md`](ddd.md)**.
+
+### Entity-Relationship Overview
+The platform structures data into relational entities including `USERS`, `ANNOUNCEMENTS`, `JOB_POSTINGS`, `EVENTS`, and `MENTORSHIPS`:
+
+```mermaid
+erDiagram
+    USERS ||--o{ ANNOUNCEMENTS : "publishes"
+    USERS ||--o{ JOB_POSTINGS : "posts"
+    USERS ||--o{ EVENTS : "organizes"
+    USERS ||--o{ EVENT_ATTENDEES : "registers"
+    EVENTS ||--o{ EVENT_ATTENDEES : "includes"
+```
+
+> For full entity dictionaries, attribute constraints, foreign keys, and indexing policies, refer to the complete **[Data Design Document (`ddd.md`)](ddd.md)**.
 
 ---
 
@@ -114,31 +139,34 @@ flowchart LR
 
 ```text
 alumni/
-├── backend/                  # Server-side source code
-│   ├── src/
-│   │   ├── config/           # Database and environment configurations
-│   │   ├── controllers/      # Request handlers and business logic
-│   │   ├── middlewares/      # Authentication & validation middlewares
-│   │   ├── models/           # Database models and queries
-│   │   ├── routes/           # API endpoints routing
-│   │   └── app.js            # Express application entry point
-│   ├── Dockerfile            # Backend Docker container setup
-│   └── package.json          # Node.js dependencies and scripts
-│
-├── frontend/                 # Client-side interface
-│   ├── public/               # Static assets (images, icons)
-│   ├── src/
-│   │   ├── css/              # Stylesheets
-│   │   ├── js/               # Client-side logic & API requests
-│   │   └── pages/            # HTML pages (dashboard, profiles, jobs)
-│   └── Dockerfile            # Frontend web server configuration
-│
-├── database/                 # Database initialization
-│   └── init.sql              # Initial schema and seed data
-│
-├── .gitignore                # Ignored files and directories
-├── docker-compose.yml        # Multi-container orchestration
-└── README.md                 # Project documentation
+├── controllers/              # Request handlers & presentation logic
+│   ├── userController.js            # Web HTML Controller for users
+│   ├── apiUserController.js         # REST API Controller for users
+│   ├── announcementController.js    # Web HTML Controller for announcements
+│   └── apiAnnouncementController.js # REST API Controller for announcements
+├── models/                   # Data entities & storage abstractions
+│   ├── userModel.js                 # User model (CRUD operations)
+│   └── announcementModel.js         # Announcement model (CRUD operations)
+├── routes/                   # Modular route declarations
+│   ├── userRoutes.js                # Web routes (/users)
+│   ├── apiUserRoutes.js             # API routes (/api/users)
+│   ├── announcementRoutes.js        # Web routes (/announcements)
+│   └── apiAnnouncementRoutes.js     # API routes (/api/announcements)
+├── views/                    # EJS dynamic HTML templates
+│   ├── users.ejs                    # User listing & create view
+│   ├── userDetail.ejs               # User profile detail view
+│   ├── userEdit.ejs                 # User edit form view
+│   ├── announcements.ejs            # Announcement listing & create view
+│   ├── announcementDetail.ejs       # Announcement detail view
+│   └── announcementEdit.ejs         # Announcement edit form view
+├── server.js                 # Express server configuration & entry point
+├── Dockerfile                # Docker container configuration
+├── docker-compose.yml        # Docker compose service definition
+├── .dockerignore             # Docker build ignore rules
+├── ddd.md                    # Data Design Documentation
+├── package.json              # Node.js dependencies & scripts
+├── .gitignore                # Git ignore rules
+└── README.md                 # Project architecture & documentation
 ```
 
 ---
