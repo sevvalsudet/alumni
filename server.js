@@ -6,7 +6,7 @@ const apiUserRoutes = require('./routes/apiUserRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const apiAnnouncementRoutes = require('./routes/apiAnnouncementRoutes');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // 🎓 MVC Mimarisi - View Katmanı (EJS View Engine) Ayarları
 app.set('view engine', 'ejs');
