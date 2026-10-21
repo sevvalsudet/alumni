@@ -24,7 +24,9 @@ const jobPostingController = {
             if (!job) {
                 return res.status(404).send('<h1>404 - İş İlanı Bulunamadı</h1><a href="/jobs">← İlanlara Dön</a>');
             }
-            res.render('jobDetail', { job });
+            const applicants = await JobPostingModel.getApplicants(req.params.id);
+            const users = await UserModel.findAll();
+            res.render('jobDetail', { job, applicants, users });
         } catch (err) {
             console.error('Error fetching job detail:', err);
             res.status(500).send('<h1>500 - Sunucu Hatası</h1>');

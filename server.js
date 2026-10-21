@@ -53,39 +53,79 @@ app.get('/sum/:number1/:number2', (req, res) => {
     res.send(`Sonuç: ${result}`);
 });
 
-// ⑤ GET / -> Geçici bir Ana Sayfa (temporary one main page)
+// ⑤ GET / -> Ana Sayfa (Main Dashboard)
 app.get('/', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html lang="tr">
         <head>
             <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Alumni Tracking System - Ana Sayfa</title>
             <style>
-                body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f6f9; }
-                h1 { color: #2c3e50; }
-                p { color: #7f8c8d; font-size: 18px; }
-                .nav-links a { margin: 0 10px; color: #3498db; text-decoration: none; font-weight: bold; }
+                * { box-sizing: border-box; margin: 0; padding: 0; }
+                body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; color: #333; padding: 40px 20px; }
+                .container { max-width: 950px; margin: 0 auto; }
+                header { text-align: center; margin-bottom: 30px; }
+                h1 { color: #2c3e50; font-size: 32px; margin-bottom: 8px; }
+                p.subtitle { color: #7f8c8d; font-size: 16px; }
+                .nav-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; background: white; padding: 12px 18px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+                .nav-bar a { color: #555; text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
+                .nav-bar a:hover { background: #f0f4f8; color: #3498db; }
+                .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px; }
+                .module-card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); text-align: center; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+                .module-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+                .card-users { border-top: 4px solid #3498db; }
+                .card-announcements { border-top: 4px solid #e74c3c; }
+                .card-jobs { border-top: 4px solid #27ae60; }
+                .card-apps { border-top: 4px solid #8e44ad; }
+                .card-docs { border-top: 4px solid #f39c12; }
+                .module-icon { font-size: 36px; margin-bottom: 12px; }
+                .module-title { font-size: 18px; font-weight: 700; color: #2c3e50; margin-bottom: 6px; }
+                .module-desc { font-size: 13px; color: #64748b; line-height: 1.5; }
             </style>
         </head>
         <body>
-            <h1>🎓 Alumni Tracking System</h1>
-            <p>Hoş Geldiniz! Bu projenin geçici ana sayfasıdır (Temporary Main Page).</p>
-            <div class="nav-links">
-                <a href="/about">Hakkımızda</a> | 
-                <a href="/hello">Hello</a> | 
-                <a href="/hello/sevval">Kişisel Selamlama</a> | 
-                <a href="/sum/10/25">Toplama (10+25)</a> | 
-                <a href="/api/health" target="_blank">Health (JSON)</a> | 
-                <a href="/users">Kullanıcılar (HTML)</a> | 
-                <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a> | 
-                <a href="/announcements">📢 Duyurular (HTML)</a> | 
-                <a href="/api/announcements" target="_blank">📢 Duyurular (JSON)</a> | 
-                <a href="/jobs">💼 İş İlanları (HTML)</a> | 
-                <a href="/api/jobs" target="_blank">💼 İş İlanları (JSON)</a> | 
-                <a href="/applications">📝 Başvurular (HTML)</a> | 
-                <a href="/api/applications" target="_blank">📝 Başvurular (JSON)</a> | 
-                <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
+            <div class="container">
+                <header>
+                    <h1>🎓 Alumni Tracking System</h1>
+                    <p class="subtitle">Mezun ve Öğrenci Takip, İlan ve Başvuru Platformu</p>
+                </header>
+                <div class="nav-bar">
+                    <a href="/users">👥 Kullanıcılar</a>
+                    <a href="/announcements">📢 Duyurular</a>
+                    <a href="/jobs">💼 İş İlanları</a>
+                    <a href="/applications">📝 Başvurular</a>
+                    <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
+                    <a href="/about">ℹ️ Hakkımızda</a>
+                </div>
+                <div class="grid">
+                    <a href="/users" class="module-card card-users">
+                        <div class="module-icon">👥</div>
+                        <div class="module-title">Kullanıcılar</div>
+                        <div class="module-desc">Mezun ve öğrenci profillerini listeleyin, ekleyin ve yönetin.</div>
+                    </a>
+                    <a href="/announcements" class="module-card card-announcements">
+                        <div class="module-icon">📢</div>
+                        <div class="module-title">Duyurular</div>
+                        <div class="module-desc">Üniversite ve kariyer duyurularını takip edin.</div>
+                    </a>
+                    <a href="/jobs" class="module-card card-jobs">
+                        <div class="module-icon">💼</div>
+                        <div class="module-title">İş İlanları</div>
+                        <div class="module-desc">Kariyer fırsatlarını inceleyin ve yeni ilanlar yayınlayın.</div>
+                    </a>
+                    <a href="/applications" class="module-card card-apps">
+                        <div class="module-icon">📝</div>
+                        <div class="module-title">Başvurular</div>
+                        <div class="module-desc">Adayların başvurularını ve süreç durumlarını inceleyin.</div>
+                    </a>
+                    <a href="/api/swagger" target="_blank" class="module-card card-docs">
+                        <div class="module-icon">📖</div>
+                        <div class="module-title">REST API</div>
+                        <div class="module-desc">Swagger UI interaktif API dokümantasyonu ve testleri.</div>
+                    </a>
+                </div>
             </div>
         </body>
         </html>
