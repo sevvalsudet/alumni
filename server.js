@@ -8,6 +8,8 @@ const announcementRoutes = require('./routes/announcementRoutes');
 const apiAnnouncementRoutes = require('./routes/apiAnnouncementRoutes');
 const jobPostingRoutes = require('./routes/jobPostingRoutes');
 const apiJobPostingRoutes = require('./routes/apiJobPostingRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
+const apiApplicationRoutes = require('./routes/apiApplicationRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -81,6 +83,8 @@ app.get('/', (req, res) => {
                 <a href="/api/announcements" target="_blank">📢 Duyurular (JSON)</a> | 
                 <a href="/jobs">💼 İş İlanları (HTML)</a> | 
                 <a href="/api/jobs" target="_blank">💼 İş İlanları (JSON)</a> | 
+                <a href="/applications">📝 Başvurular (HTML)</a> | 
+                <a href="/api/applications" target="_blank">📝 Başvurular (JSON)</a> | 
                 <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
             </div>
         </body>
@@ -146,6 +150,12 @@ app.use('/jobs', jobPostingRoutes);
 
 // ⚡ 6. Job Postings RESTful API Rotaları (Direct) -> routes/apiJobPostingRoutes.js
 app.use('/api/jobs', apiJobPostingRoutes);
+
+// 📝 7. Applications Web UI Rotaları (Direct) -> routes/applicationRoutes.js
+app.use('/applications', applicationRoutes);
+
+// ⚡ 8. Applications RESTful API Rotaları (Direct) -> routes/apiApplicationRoutes.js
+app.use('/api/applications', apiApplicationRoutes);
 
 
 
@@ -413,6 +423,85 @@ const swaggerDocument = {
                 responses: {
                     "200": { description: "Duyuru başarıyla silindi" },
                     "404": { description: "Duyuru bulunamadı" }
+                }
+            }
+        },
+        "/api/applications": {
+            get: {
+                summary: "Tüm Başvuruları Listele (List All Applications)",
+                description: "Sistemde kayıtlı tüm iş başvurularını döner.",
+                responses: {
+                    "200": { description: "Başvuru listesi başarıyla getirildi" }
+                }
+            },
+            post: {
+                summary: "Yeni Başvuru Oluştur (Create Application)",
+                description: "Bir iş ilanına yeni bir başvuru kaydeder.",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                required: ["job_id", "user_id"],
+                                properties: {
+                                    job_id: { type: "integer", example: 1 },
+                                    user_id: { type: "integer", example: 2 },
+                                    resume_url: { type: "string", example: "https://example.com/cv.pdf" },
+                                    cover_letter: { type: "string", example: "Pozisyona başvurmaktan heyecan duyuyorum." },
+                                    status: { type: "string", example: "Pending" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "201": { description: "Başvuru başarıyla oluşturuldu" },
+                    "400": { description: "Eksik parametre hatası" }
+                }
+            }
+        },
+        "/api/applications/{id}": {
+            get: {
+                summary: "Belirli Başvuruyu Getir (Get Application by ID)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                responses: {
+                    "200": { description: "Başvuru bulundu" },
+                    "404": { description: "Başvuru bulunamadı" }
+                }
+            },
+            patch: {
+                summary: "Başvuru Durumunu Güncelle (Update Status - PATCH)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                requestBody: {
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    status: { type: "string", example: "Interviewing" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    "200": { description: "Başvuru güncellendi" },
+                    "404": { description: "Başvuru bulunamadı" }
+                }
+            },
+            delete: {
+                summary: "Başvuruyu Sil (Delete Application)",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "integer" }, example: 1 }
+                ],
+                responses: {
+                    "200": { description: "Başvuru başarıyla silindi" },
+                    "404": { description: "Başvuru bulunamadı" }
                 }
             }
         }

@@ -24,6 +24,8 @@ The platform centers around verified academic and professional connections betwe
 erDiagram
     USERS ||--o{ ANNOUNCEMENTS : "publishes"
     USERS ||--o{ JOB_POSTINGS : "posts"
+    USERS ||--o{ APPLICATIONS : "submits"
+    JOB_POSTINGS ||--o{ APPLICATIONS : "receives"
     USERS ||--o{ EVENTS : "organizes"
     USERS ||--o{ EVENT_ATTENDEES : "registers"
     EVENTS ||--o{ EVENT_ATTENDEES : "includes"
@@ -75,6 +77,17 @@ erDiagram
         date application_deadline
         boolean is_active
         timestamp created_at
+        timestamp updated_at
+    }
+
+    APPLICATIONS {
+        int id PK
+        int job_id FK
+        int user_id FK
+        string resume_url
+        text cover_letter
+        string status
+        timestamp applied_at
         timestamp updated_at
     }
 
@@ -175,9 +188,25 @@ Maintains career, job, and internship opportunities submitted by alumni, adminis
 | `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP` | Publication timestamp |
 | `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Last modification timestamp |
 
+### 4.4. `applications` Table
+Tracks job and internship applications submitted by alumni and students for listed opportunities.
+
+| Column | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `INT` | `PRIMARY KEY`, `AUTO_INCREMENT` | Unique application identifier |
+| `job_id` | `INT` | `NOT NULL`, `FOREIGN KEY (job_postings.id) ON DELETE CASCADE` | Associated job listing |
+| `user_id` | `INT` | `NOT NULL`, `FOREIGN KEY (users.id) ON DELETE CASCADE` | Applicant user identifier |
+| `resume_url` | `VARCHAR(255)` | `NULL` | Link or storage path to applicant resume/CV document |
+| `cover_letter` | `TEXT` | `NULL` | Personal statement or letter of motivation |
+| `status` | `ENUM('Pending', 'Reviewed', 'Interviewing', 'Accepted', 'Rejected')` | `NOT NULL`, `DEFAULT 'Pending'` | Review lifecycle status |
+| `applied_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP` | Initial submission timestamp |
+| `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Last status or review change timestamp |
+
+*Composite Unique Constraint:* `UNIQUE KEY uk_user_job (user_id, job_id)` prevents candidate duplication per job posting.
+
 ---
 
-### 4.4. `events` Table
+### 4.5. `events` Table
 Tracks alumni reunions, seminars, networking webinars, and workshops.
 
 | Column | Data Type | Constraints | Description |
@@ -195,7 +224,7 @@ Tracks alumni reunions, seminars, networking webinars, and workshops.
 
 ---
 
-### 4.5. `event_attendees` Table
+### 4.6. `event_attendees` Table
 Associative junction table establishing the many-to-many relationship between members and events.
 
 | Column | Data Type | Constraints | Description |
@@ -210,7 +239,7 @@ Associative junction table establishing the many-to-many relationship between me
 
 ---
 
-### 4.6. `mentorships` Table
+### 4.7. `mentorships` Table
 Pairs experienced alumni mentors with students or early-career graduates.
 
 | Column | Data Type | Constraints | Description |
@@ -231,13 +260,15 @@ Pairs experienced alumni mentors with students or early-career graduates.
    - Every non-key attribute depends strictly on the primary key, the whole key, and nothing but the key.
    - Eliminates transitive dependencies (e.g., department and company information are tied directly to user entities).
 2. **Referential Integrity:**
-   - Foreign keys enforce parent-child integrity (`ON DELETE CASCADE` on registrations, `ON DELETE RESTRICT` on author/organizer relationships).
+   - Foreign keys enforce parent-child integrity (`ON DELETE CASCADE` on applications and event registrations, `ON DELETE RESTRICT` on author/organizer relationships).
 3. **Data Indexing Strategy:**
    - `users.email`: Unique B-Tree index for \(O(1)\) lookup during authentication.
    - `users.role`, `users.department`: Standard indexes for directory filtering.
    - `announcements.category`, `announcements.date`: Composite index for reverse-chronological filtered queries.
    - `job_postings.is_active`, `job_postings.application_deadline`: Composite index for active job search filtering.
    - `job_postings.posted_by`: Foreign key index for member submission lookup.
+   - `applications.job_id`, `applications.user_id`: Foreign key indexes for rapid candidate and application lookup.
+   - `applications.status`: Index for review status filtering.
    - `events.event_date`: Index for upcoming schedule timeline retrieval.
 
 ---

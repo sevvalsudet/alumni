@@ -17,4 +17,13 @@ router.post('/:id/delete', jobPostingController.delete);
 // 🔍 [DIRECT] GET /jobs/:id -> Tek bir iş ilanının detay View'ı
 router.get('/:id', jobPostingController.getById);
 
+// ==========================================
+// 🔗 NESTED ROTALAR (İÇ İÇE GEÇMİŞ ROTALAR)
+// ==========================================
+
+const applicationController = require('../controllers/applicationController');
+
+// 📝 [NESTED] GET /jobs/:id/applications -> Bu ilana gelen başvuruları gösteren sayfa
+router.get('/:id/applications', applicationController.getJobApplications);
+
 module.exports = router;

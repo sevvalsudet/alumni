@@ -42,6 +42,7 @@
         <a href="/users">👥 Users</a>
         <a href="/announcements">📢 Announcements</a>
         <a href="/jobs">💼 Job Postings</a>
+        <a href="/applications" style="color: #8e44ad;">📝 Applications</a>
         <a href="/api/jobs" target="_blank">⚡ API (JSON)</a>
         <a href="/api/swagger" target="_blank">📖 Swagger</a>
     </div>
@@ -186,6 +187,7 @@
                         </td>
                         <td class="actions">
                             <a href="/jobs/<%= job.id %>" class="btn-view">👁 View</a>
+                            <a href="/jobs/<%= job.id %>/applications" class="btn-view" style="background:#8e44ad;">📝 Apps</a>
                             <form action="/jobs/<%= job.id %>/delete" method="POST" style="display:inline"
                                   onsubmit="return confirm('Are you sure you want to delete this job posting?')">
                                 <button type="submit" class="btn-delete">🗑 Delete</button>

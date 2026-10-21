@@ -51,4 +51,8 @@ router.get('/:id/announcements', async (req, res) => {
     }
 });
 
+// 📝 [NESTED] GET /api/users/:id/applications -> Belirli bir kullanıcının yaptığı başvuruları listele
+const apiApplicationController = require('../controllers/apiApplicationController');
+router.get('/:id/applications', apiApplicationController.getByUser);
+
 module.exports = router;

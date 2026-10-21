@@ -24,6 +24,10 @@ router.post('/:id/delete', userController.delete);
 const jobPostingController = require('../controllers/jobPostingController');
 router.get('/:id/jobs', jobPostingController.getUserJobs);
 
+// 🔗 [NESTED VIEW] GET /users/:id/applications -> Kullanıcının yaptığı iş başvurularını gösteren View
+const applicationController = require('../controllers/applicationController');
+router.get('/:id/applications', applicationController.getUserApplications);
+
 // 🔍 6. [READ ONE] GET /users/:id -> Tek bir kullanıcının detay View'ı
 router.get('/:id', userController.getById);
 

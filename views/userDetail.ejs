@@ -52,10 +52,11 @@
                 <span class="value"><%= user.company || 'Belirtilmedi' %></span>
             </div>
 
-            <div class="action-btns">
-                <a href="/users/<%= user.id %>/jobs" style="background:#27ae60; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; font-weight:bold; text-align:center; flex:1;">💼 İlanları Gör</a>
-                <a href="/users/<%= user.id %>/edit" class="btn-edit" style="flex:1; text-align:center;">Düzenle</a>
-                <form action="/users/<%= user.id %>/delete" method="POST" style="flex:1;" onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
+            <div class="action-btns" style="flex-wrap: wrap;">
+                <a href="/users/<%= user.id %>/jobs" style="background:#27ae60; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; font-weight:bold; text-align:center; flex:1; min-width:120px;">💼 İlanları Gör</a>
+                <a href="/users/<%= user.id %>/applications" style="background:#8e44ad; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; font-weight:bold; text-align:center; flex:1; min-width:120px;">📝 Başvuruları Gör</a>
+                <a href="/users/<%= user.id %>/edit" class="btn-edit" style="flex:1; text-align:center; min-width:80px;">Düzenle</a>
+                <form action="/users/<%= user.id %>/delete" method="POST" style="flex:1; min-width:80px;" onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
                     <button type="submit" class="btn-delete" style="width:100%;">Sil</button>
                 </form>
             </div>

@@ -176,6 +176,12 @@ const UserModel = {
             const all = await AnnouncementModel.findAll();
             return all.filter(a => Number(a.author_id) === Number(userId));
         }
+    },
+
+    // 📝 [RELATIONSHIP: HasMany] Kullanıcının yaptığı tüm iş başvurularını getir (1:N)
+    getApplications: async (userId) => {
+        const ApplicationModel = require('./applicationModel');
+        return await ApplicationModel.findByUser(userId);
     }
 };
 

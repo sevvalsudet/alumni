@@ -31,6 +31,8 @@
     <div class="nav">
         <a href="/">🏠 Ana Sayfa</a>
         <a href="/jobs">← All Job Postings</a>
+        <a href="/applications">📝 All Applications</a>
+        <a href="/jobs/<%= job.id %>/applications" style="color: #8e44ad;">📝 Candidate Applications</a>
         <% if (job.posted_by) { %>
             <a href="/users/<%= job.posted_by %>/jobs">🔗 More by <%= job.posted_by_name || 'Author' %></a>
         <% } %>
@@ -73,6 +75,7 @@
         </div>
 
         <div class="actions">
+            <a href="/jobs/<%= job.id %>/applications" class="btn" style="background:#8e44ad; color:white;">📝 View Applications</a>
             <% if (job.application_url) { %>
                 <a href="<%= job.application_url %>" target="_blank" class="btn btn-apply">🚀 Apply Now</a>
             <% } %>

@@ -23,4 +23,16 @@ router.patch('/:id', apiJobPostingController.patch);
 // 🗑️ [DIRECT] DELETE /api/jobs/:id -> İlanı sil
 router.delete('/:id', apiJobPostingController.delete);
 
+// ==========================================
+// 🔗 NESTED ROTALAR (İÇ İÇE GEÇMİŞ ROTALAR)
+// ==========================================
+
+const apiApplicationController = require('../controllers/apiApplicationController');
+
+// 📝 [NESTED] GET /api/jobs/:id/applications -> Belirli bir iş ilanına yapılan başvuruları listele
+router.get('/:id/applications', apiApplicationController.getByJob);
+
+// 📝 [NESTED] POST /api/jobs/:id/applications -> Belirli bir iş ilanına yeni başvuru yap
+router.post('/:id/applications', apiApplicationController.createForJob);
+
 module.exports = router;

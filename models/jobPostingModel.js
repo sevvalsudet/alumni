@@ -272,6 +272,12 @@ const JobPostingModel = {
         } catch (err) {
             return fallbackJobPostings.filter(j => j.posted_by === Number(userId));
         }
+    },
+
+    // 📝 [RELATIONSHIP: HasMany] Bu ilana yapılmış tüm başvuruları getir (1:N)
+    getApplications: async (jobId) => {
+        const ApplicationModel = require('./applicationModel');
+        return await ApplicationModel.findByJob(jobId);
     }
 };
 
