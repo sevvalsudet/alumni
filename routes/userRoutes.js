@@ -20,6 +20,10 @@ router.post('/:id/update', userController.update);
 // 🗑️ 5. [DELETE ACTION] POST /users/:id/delete -> Kullanıcıyı silen rota
 router.post('/:id/delete', userController.delete);
 
+// 🔗 [NESTED VIEW] GET /users/:id/jobs -> Kullanıcının yayınladığı iş ilanlarını gösteren View
+const jobPostingController = require('../controllers/jobPostingController');
+router.get('/:id/jobs', jobPostingController.getUserJobs);
+
 // 🔍 6. [READ ONE] GET /users/:id -> Tek bir kullanıcının detay View'ı
 router.get('/:id', userController.getById);
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= job.title %> at <%= job.company %> - Alumni Tracking System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f4f6f9; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card-header { border-bottom: 3px solid #27ae60; padding-bottom: 15px; margin-bottom: 20px; }
+        h1 { color: #2c3e50; margin: 0 0 8px 0; }
+        .company-subtitle { font-size: 18px; color: #555; margin-bottom: 12px; }
+        .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 12px; font-size: 13px; font-weight: bold; }
+        .badge-type { background: #e8f8f0; color: #27ae60; }
+        .badge-level { background: #eaf2f8; color: #2980b9; }
+        .badge-salary { background: #fef5e7; color: #d35400; }
+        .field-label { font-weight: bold; color: #777; display: block; margin-top: 20px; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .field-value { color: #2c3e50; font-size: 15px; line-height: 1.6; background: #fafbfc; padding: 15px; border-radius: 6px; border: 1px solid #eee; }
+        .meta-box { display: flex; justify-content: space-between; background: #f9fdfa; padding: 15px 20px; border-radius: 6px; border: 1px solid #d4efdf; margin-top: 20px; }
+        .actions { margin-top: 30px; display: flex; gap: 12px; }
+        .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 14px; border: none; cursor: pointer; }
+        .btn-apply { background: #27ae60; color: white; }
+        .btn-delete { background: #e74c3c; color: white; }
+        .btn-back { background: #95a5a6; color: white; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">🏠 Ana Sayfa</a>
+        <a href="/jobs">← All Job Postings</a>
+        <% if (job.posted_by) { %>
+            <a href="/users/<%= job.posted_by %>/jobs">🔗 More by <%= job.posted_by_name || 'Author' %></a>
+        <% } %>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h1>💼 <%= job.title %></h1>
+            <div class="company-subtitle">🏢 <strong><%= job.company %></strong> &bull; 📍 <%= job.location %></div>
+            <div class="badges">
+                <span class="badge badge-type"><%= job.employment_type %></span>
+                <span class="badge badge-level"><%= job.experience_level %></span>
+                <% if (job.salary) { %>
+                    <span class="badge badge-salary">💰 $<%= Number(job.salary).toLocaleString() %></span>
+                <% } %>
+            </div>
+        </div>
+
+        <span class="field-label">Description</span>
+        <div class="field-value"><%= job.description %></div>
+
+        <% if (job.requirements) { %>
+            <span class="field-label">Requirements & Skills</span>
+            <div class="field-value"><%= job.requirements %></div>
+        <% } %>
+
+        <div class="meta-box">
+            <div>
+                <strong>Posted By:</strong>
+                <a href="/users/<%= job.posted_by %>/jobs" style="color: #2980b9;">
+                    <%= job.posted_by_name || 'Member #' + job.posted_by %>
+                </a>
+                <% if (job.posted_by_email) { %> (<%= job.posted_by_email %>)<% } %>
+            </div>
+            <% if (job.application_deadline) { %>
+                <div>
+                    <strong>Deadline:</strong> <%= String(job.application_deadline).split('T')[0] %>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="actions">
+            <% if (job.application_url) { %>
+                <a href="<%= job.application_url %>" target="_blank" class="btn btn-apply">🚀 Apply Now</a>
+            <% } %>
+            <% if (job.contact_email) { %>
+                <a href="mailto:<%= job.contact_email %>" class="btn btn-apply" style="background:#2980b9;">📧 Contact Recruiter</a>
+            <% } %>
+            <form action="/jobs/<%= job.id %>/delete" method="POST"
+                  onsubmit="return confirm('Are you sure you want to delete this job posting?')">
+                <button type="submit" class="btn btn-delete">🗑 Delete</button>
+            </form>
+            <a href="/jobs" class="btn btn-back">← Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

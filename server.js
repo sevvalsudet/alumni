@@ -6,6 +6,8 @@ const userRoutes = require('./routes/userRoutes');
 const apiUserRoutes = require('./routes/apiUserRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const apiAnnouncementRoutes = require('./routes/apiAnnouncementRoutes');
+const jobPostingRoutes = require('./routes/jobPostingRoutes');
+const apiJobPostingRoutes = require('./routes/apiJobPostingRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -77,6 +79,8 @@ app.get('/', (req, res) => {
                 <a href="/api/users" target="_blank">Kullanıcılar (JSON)</a> | 
                 <a href="/announcements">📢 Duyurular (HTML)</a> | 
                 <a href="/api/announcements" target="_blank">📢 Duyurular (JSON)</a> | 
+                <a href="/jobs">💼 İş İlanları (HTML)</a> | 
+                <a href="/api/jobs" target="_blank">💼 İş İlanları (JSON)</a> | 
                 <a href="/api/swagger" target="_blank" style="color: #27ae60;">📖 Swagger UI</a>
             </div>
         </body>
@@ -136,6 +140,12 @@ app.use('/announcements', announcementRoutes);
 
 // ⚡ 4. Announcements RESTful API Rotaları (JSON) -> routes/apiAnnouncementRoutes.js
 app.use('/api/announcements', apiAnnouncementRoutes);
+
+// 💼 5. Job Postings Web UI Rotaları (Direct) -> routes/jobPostingRoutes.js
+app.use('/jobs', jobPostingRoutes);
+
+// ⚡ 6. Job Postings RESTful API Rotaları (Direct) -> routes/apiJobPostingRoutes.js
+app.use('/api/jobs', apiJobPostingRoutes);
 
 
 

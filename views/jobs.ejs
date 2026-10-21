@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career & Job Postings - Alumni Tracking System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 40px auto; padding: 0 20px; background: #f4f6f9; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #27ae60; padding-bottom: 10px; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .nav a:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        th { background: #27ae60; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9fdfa; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .badge-type { background: #e8f8f0; color: #27ae60; }
+        .badge-level { background: #eaf2f8; color: #2980b9; }
+        .badge-salary { background: #fef5e7; color: #d35400; font-weight: bold; }
+        .actions a { margin-right: 8px; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 13px; }
+        .btn-view { background: #3498db; color: white; }
+        .btn-delete { background: #e74c3c; color: white; border: none; cursor: pointer; padding: 4px 10px; border-radius: 4px; font-size: 13px; }
+        .create-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .create-form h2 { color: #27ae60; margin-top: 0; }
+        .form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 220px; margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: bold; color: #555; margin-bottom: 5px; font-size: 13px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+        }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .btn-create { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; }
+        .btn-create:hover { background: #219150; }
+        .empty { text-align: center; padding: 30px; color: #999; }
+        .nested-banner { background: #e8f4fc; border-left: 4px solid #3498db; padding: 12px 18px; margin-bottom: 20px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">🏠 Ana Sayfa</a>
+        <a href="/users">👥 Users</a>
+        <a href="/announcements">📢 Announcements</a>
+        <a href="/jobs">💼 Job Postings</a>
+        <a href="/api/jobs" target="_blank">⚡ API (JSON)</a>
+        <a href="/api/swagger" target="_blank">📖 Swagger</a>
+    </div>
+
+    <% if (selectedUser) { %>
+        <div class="nested-banner">
+            <strong>🔗 Nested View:</strong> Showing job postings published by <strong><%= selectedUser.name %></strong> (#<%= selectedUser.id %>).
+            <a href="/jobs" style="margin-left: 15px; color: #2980b9;">← Show All Jobs</a>
+        </div>
+        <h1>💼 Jobs by <%= selectedUser.name %></h1>
+    <% } else { %>
+        <h1>💼 Career & Job Postings</h1>
+    <% } %>
+
+    <!-- CREATE FORM -->
+    <div class="create-form">
+        <h2>➕ Post a New Job Opportunity</h2>
+        <form action="/jobs" method="POST">
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label for="title">Job Title *</label>
+                    <input type="text" id="title" name="title" placeholder="e.g. Senior Frontend Engineer" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company *</label>
+                    <input type="text" id="company" name="company" placeholder="e.g. Google, Amazon" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location *</label>
+                    <input type="text" id="location" name="location" placeholder="e.g. Istanbul, TR / Remote" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="employment_type">Employment Type</label>
+                    <select id="employment_type" name="employment_type">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Remote">Remote</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experience_level">Experience Level</label>
+                    <select id="experience_level" name="experience_level">
+                        <option value="Entry-level">Entry-level</option>
+                        <option value="Mid-level" selected>Mid-level</option>
+                        <option value="Senior">Senior</option>
+                        <option value="Lead">Lead</option>
+                        <option value="Executive">Executive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="salary">Annual Salary (USD / TRY)</label>
+                    <input type="number" step="0.01" id="salary" name="salary" placeholder="e.g. 95000">
+                </div>
+                <div class="form-group">
+                    <label for="posted_by">Posted By (Alumni Member) *</label>
+                    <select id="posted_by" name="posted_by" required>
+                        <% users.forEach(u => { %>
+                            <option value="<%= u.id %>" <%= (selectedUser && selectedUser.id === u.id) ? 'selected' : '' %>>
+                                <%= u.name %> (<%= u.role %> - <%= u.company || 'Alumni' %>)
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Job Description *</label>
+                <textarea id="description" name="description" placeholder="Summary of role, responsibilities..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="requirements">Requirements & Skills</label>
+                <textarea id="requirements" name="requirements" placeholder="Required degrees, technologies, tools..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact_email">Recruiter / Contact Email</label>
+                    <input type="email" id="contact_email" name="contact_email" placeholder="jobs@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="application_url">Application Portal Link</label>
+                    <input type="url" id="application_url" name="application_url" placeholder="https://company.com/apply">
+                </div>
+                <div class="form-group">
+                    <label for="application_deadline">Application Deadline</label>
+                    <input type="date" id="application_deadline" name="application_deadline">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-create">💼 Publish Opportunity</button>
+        </form>
+    </div>
+
+    <!-- JOBS TABLE -->
+    <% if (jobs.length === 0) { %>
+        <div class="empty">
+            <p>📭 No job postings found. Be the first to share an opportunity!</p>
+        </div>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role & Company</th>
+                    <th>Location</th>
+                    <th>Type & Level</th>
+                    <th>Salary</th>
+                    <th>Posted By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% jobs.forEach(job => { %>
+                    <tr>
+                        <td><strong>#<%= job.id %></strong></td>
+                        <td>
+                            <strong><%= job.title %></strong><br>
+                            <span style="color:#666; font-size:13px;">🏢 <%= job.company %></span>
+                        </td>
+                        <td>📍 <%= job.location %></td>
+                        <td>
+                            <span class="badge badge-type"><%= job.employment_type %></span>
+                            <span class="badge badge-level"><%= job.experience_level %></span>
+                        </td>
+                        <td>
+                            <% if (job.salary) { %>
+                                <span class="badge badge-salary">$<%= Number(job.salary).toLocaleString() %></span>
+                            <% } else { %>
+                                <span style="color:#aaa; font-size:12px;">Not disclosed</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <a href="/users/<%= job.posted_by %>/jobs" style="color:#3498db; text-decoration:none;">
+                                👤 <%= job.posted_by_name || 'Member #' + job.posted_by %>
+                            </a>
+                        </td>
+                        <td class="actions">
+                            <a href="/jobs/<%= job.id %>" class="btn-view">👁 View</a>
+                            <form action="/jobs/<%= job.id %>/delete" method="POST" style="display:inline"
+                                  onsubmit="return confirm('Are you sure you want to delete this job posting?')">
+                                <button type="submit" class="btn-delete">🗑 Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>
