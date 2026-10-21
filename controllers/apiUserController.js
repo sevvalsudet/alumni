@@ -16,9 +16,13 @@ const ApiUserController = {
     },
 
     // 🔍 [READ - ONE] GET /api/users/:id
+    // 🎓 Tahtadaki Mantık: GET /api/users/1 -> User.find(1, { include: 'jobs' })
     getById: async (req, res) => {
         try {
-            const user = await UserModel.findById(req.params.id);
+            const includeJobs = req.query.include === 'jobs' || req.query.include === 'job-postings';
+            const user = await UserModel.findById(req.params.id, {
+                include: includeJobs ? 'jobs' : undefined
+            });
             if (!user) {
                 return res.status(404).json({
                     success: false,

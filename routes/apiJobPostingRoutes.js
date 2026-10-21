@@ -35,4 +35,22 @@ router.get('/:id/applications', apiApplicationController.getByJob);
 // 📝 [NESTED] POST /api/jobs/:id/applications -> Belirli bir iş ilanına yeni başvuru yap
 router.post('/:id/applications', apiApplicationController.createForJob);
 
+// 👤 [NESTED M:N] GET /api/jobs/:id/users -> Job-Postings (n) <--- application ---> (m) User
+// 🎓 Tahtadaki Mantık: İlan ile Başvuran Kullanıcılar doğrudan bağlı değildir, application üzerinden bağlıdır.
+const JobPostingModel = require('../models/jobPostingModel');
+router.get('/:id/users', async (req, res) => {
+    try {
+        const applicants = await JobPostingModel.getApplicants(req.params.id);
+        res.json({
+            success: true,
+            job_id: Number(req.params.id),
+            relationship: "n:m through application",
+            count: applicants.length,
+            data: applicants
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 module.exports = router;

@@ -42,13 +42,34 @@ const UserModel = {
     },
 
     // 🔍 [READ ONE] GET user by ID from database
-    findById: async (id) => {
+    // 🎓 Tahtadaki Mantık: User.find(1, { include: 'jobs' })
+    // User ve Job-Postings doğrudan bağlı değildir, application junction tablosu üzerinden M:N bağlıdır!
+    findById: async (id, options = {}) => {
+        let user = null;
         try {
             const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [Number(id)]);
-            return rows[0] || null;
+            user = rows[0] || null;
         } catch (err) {
-            return fallbackUsers.find(u => u.id === Number(id)) || null;
+            user = fallbackUsers.find(u => u.id === Number(id)) || null;
         }
+
+        if (!user) return null;
+
+        // Tahtada yazan: User.find(1, { include: 'jobs' })
+        const shouldIncludeJobs = options && (options.include === 'jobs' || (Array.isArray(options.include) && options.include.includes('jobs')));
+        if (shouldIncludeJobs) {
+            user = {
+                ...user,
+                jobs: await UserModel.getAppliedJobs(id)
+            };
+        }
+
+        return user;
+    },
+
+    // 🎓 Tahtadaki Sözdizimi: User.find(1, { include: 'jobs' })
+    find: async (id, options = {}) => {
+        return await UserModel.findById(id, options);
     },
 
     // ➕ [CREATE] INSERT new user into database
@@ -160,7 +181,7 @@ const UserModel = {
     // 🔗 MODEL İLİŞKİLERİ (RELATIONSHIPS)
     // ==========================================
 
-    // 💼 [RELATIONSHIP: HasMany] Kullanıcının yayınladığı tüm iş ilanlarını getir (1:N)
+    // 💼 [RELATIONSHIP: HasMany] Kullanıcının YAYINLADIĞI iş ilanlarını getir (1:N via posted_by FK)
     getJobPostings: async (userId) => {
         const JobPostingModel = require('./jobPostingModel');
         return await JobPostingModel.findByUser(userId);
@@ -178,10 +199,52 @@ const UserModel = {
         }
     },
 
-    // 📝 [RELATIONSHIP: HasMany] Kullanıcının yaptığı tüm iş başvurularını getir (1:N)
+    // 📝 [RELATIONSHIP: HasMany] Kullanıcının yaptığı tüm başvuruları getir (1:N via applications FK)
     getApplications: async (userId) => {
         const ApplicationModel = require('./applicationModel');
         return await ApplicationModel.findByUser(userId);
+    },
+
+    // 🔗 [RELATIONSHIP: BelongsToMany] Kullanıcının başvurduğu iş ilanlarını getir
+    //    User (m) <--applications--> JobPosting (n)  [M:N — JUNCTION TABLE: applications]
+    //    Kullanıcı → JobPostings arasında DOĞRUDAN bağlantı YOK, applications üzerinden geçer.
+    //    Eşdeğer Sequelize: User.findOne({ where: { id }, include: [{ model: JobPosting, through: Application }] })
+    getAppliedJobs: async (userId) => {
+        try {
+            const sql = `
+                SELECT 
+                    j.*,
+                    u.name AS posted_by_name,
+                    a.id AS application_id,
+                    a.status AS application_status,
+                    a.applied_at
+                FROM job_postings j
+                INNER JOIN applications a ON j.id = a.job_id
+                INNER JOIN users u ON j.posted_by = u.id
+                WHERE a.user_id = ?
+                ORDER BY a.applied_at DESC
+            `;
+            const [rows] = await pool.query(sql, [Number(userId)]);
+            return rows;
+        } catch (err) {
+            // Offline fallback: go through applications in-memory
+            const ApplicationModel = require('./applicationModel');
+            const JobPostingModel = require('./jobPostingModel');
+            const userApplications = await ApplicationModel.findByUser(userId);
+            const jobs = [];
+            for (const app of userApplications) {
+                const job = await JobPostingModel.findById(app.job_id);
+                if (job) {
+                    jobs.push({
+                        ...job,
+                        application_id: app.id,
+                        application_status: app.status,
+                        applied_at: app.applied_at
+                    });
+                }
+            }
+            return jobs;
+        }
     }
 };
 

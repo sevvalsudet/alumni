@@ -29,7 +29,7 @@ const apiJobPostingController = {
         }
     },
 
-    // 🔍 [DIRECT ROUTE: GET /api/jobs/:id] ID'ye göre iş ilanı detayını getir
+    // 🔍 [DIRECT ROUTE: GET /api/jobs/:id] ID'ye göre iş ilanı detayını getir (Destekler: ?include=users)
     getById: async (req, res) => {
         try {
             const job = await JobPostingModel.findById(req.params.id);
@@ -37,6 +37,16 @@ const apiJobPostingController = {
                 return res.status(404).json({
                     success: false,
                     message: `Hata: ${req.params.id} ID numaralı iş ilanı bulunamadı!`
+                });
+            }
+            if (req.query.include === 'users' || req.query.include === 'applicants') {
+                const applicants = await JobPostingModel.getApplicants(req.params.id);
+                return res.json({
+                    success: true,
+                    data: {
+                        ...job,
+                        applicants
+                    }
                 });
             }
             res.json({ success: true, data: job });

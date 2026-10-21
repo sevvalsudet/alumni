@@ -27,14 +27,30 @@ router.delete('/:id', ApiUserController.delete);
 // 🔗 NESTED ROTALAR (İÇ İÇE GEÇMİŞ ROTALAR)
 // ==========================================
 
+const UserModel = require('../models/userModel');
 const apiJobPostingController = require('../controllers/apiJobPostingController');
 const AnnouncementModel = require('../models/announcementModel');
 
-// 💼 [NESTED] GET /api/users/:id/jobs -> Belirli bir kullanıcının yayınladığı tüm iş ilanlarını listele
-router.get('/:id/jobs', apiJobPostingController.getByUser);
+// 💼 [NESTED M:N] GET /api/users/:id/jobs -> User (m) <--- application ---> (n) Job-Postings
+// 🎓 Tahtadaki Mantık: User ile Job-Postings doğrudan bağlı DEĞİLDİR, application üzerinden bağlıdır.
+router.get('/:id/jobs', async (req, res) => {
+    try {
+        const jobs = await UserModel.getAppliedJobs(req.params.id);
+        res.json({
+            success: true,
+            user_id: Number(req.params.id),
+            relationship: "m:n through application",
+            count: jobs.length,
+            data: jobs
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
 
-// 💼 [NESTED] POST /api/users/:id/jobs -> Belirli bir kullanıcı adına yeni iş ilanı oluştur
-router.post('/:id/jobs', apiJobPostingController.createForUser);
+// 💼 [NESTED] GET /api/users/:id/posted-jobs -> Kullanıcının yayınladığı ilanlar
+router.get('/:id/posted-jobs', apiJobPostingController.getByUser);
+router.post('/:id/posted-jobs', apiJobPostingController.createForUser);
 
 // 📢 [NESTED] GET /api/users/:id/announcements -> Belirli bir kullanıcının yazdığı duyuruları listele
 router.get('/:id/announcements', async (req, res) => {

@@ -23,9 +23,8 @@ The platform centers around verified academic and professional connections betwe
 ```mermaid
 erDiagram
     USERS ||--o{ ANNOUNCEMENTS : "publishes"
-    USERS ||--o{ JOB_POSTINGS : "posts"
-    USERS ||--o{ APPLICATIONS : "submits"
-    JOB_POSTINGS ||--o{ APPLICATIONS : "receives"
+    USERS ||--o{ APPLICATIONS : "m_applications"
+    JOB_POSTINGS ||--o{ APPLICATIONS : "n_applications"
     USERS ||--o{ EVENTS : "organizes"
     USERS ||--o{ EVENT_ATTENDEES : "registers"
     EVENTS ||--o{ EVENT_ATTENDEES : "includes"
@@ -122,6 +121,12 @@ erDiagram
         timestamp ended_at
     }
 ```
+
+> [!IMPORTANT]
+> **Many-to-Many (M:N) Relationship: User (m) ↔ applications ↔ (n) Job-Postings**
+> - `User` ve `Job-Postings` varlıkları arasında **DOĞRUDAN** bir ilişki bulunmamaktadır.
+> - İki varlık birbirine **`applications` (Junction / Köprü)** tablosu üzerinden bağlanır.
+> - `GET /api/users/1` sorgusunda `User.find(1, { include: 'jobs' })` yapıldığında veya `/api/users/1/jobs` çağrıldığında, `applications` köprü tablosu üzerinden kullanıcının başvurduğu iş ilanları listelenir.
 
 ---
 

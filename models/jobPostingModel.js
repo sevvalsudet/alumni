@@ -439,7 +439,7 @@ const JobPostingModel = {
     // 🔗 MODEL İLİŞKİLERİ (RELATIONSHIPS)
     // ==========================================
 
-    // 👤 [RELATIONSHIP: BelongsTo] Bu ilanı yayınlayan kullanıcıyı getir (posted_by -> users.id)
+    // 👤 [RELATIONSHIP: BelongsTo] Bu ilanı yayınlayan kullanıcıyı getir (posted_by -> users.id) [1:N]
     getPoster: async (jobId) => {
         const job = await JobPostingModel.findById(jobId);
         if (!job) return null;
@@ -447,7 +447,7 @@ const JobPostingModel = {
         return await UserModel.findById(job.posted_by);
     },
 
-    // 📋 [RELATIONSHIP: HasMany Inversion] Belirli bir kullanıcının yayınladığı tüm ilanları getir
+    // 📋 [RELATIONSHIP: HasMany via posted_by FK] Belirli bir kullanıcının YAYINLADIĞI tüm ilanları getir (1:N)
     findByUser: async (userId) => {
         try {
             const sql = `
@@ -464,10 +464,57 @@ const JobPostingModel = {
         }
     },
 
-    // 📝 [RELATIONSHIP: HasMany] Bu ilana yapılmış tüm başvuruları getir (1:N)
+    // 📝 [RELATIONSHIP: HasMany] Bu ilana yapılmış tüm başvuruları getir (1:N via applications FK)
     getApplications: async (jobId) => {
         const ApplicationModel = require('./applicationModel');
         return await ApplicationModel.findByJob(jobId);
+    },
+
+    // 🔗 [RELATIONSHIP: BelongsToMany] Bu ilana BAŞVURAN kullanıcıları getir
+    //    JobPosting (n) <--applications--> User (m)  [M:N — JUNCTION TABLE: applications]
+    //    JobPosting → Users arasında DOĞRUDAN bağlantı YOK, applications üzerinden geçer.
+    //    Eşdeğer Sequelize: JobPosting.findOne({ where: { id }, include: [{ model: User, through: Application }] })
+    getApplicants: async (jobId) => {
+        try {
+            const sql = `
+                SELECT 
+                    u.id, u.name, u.email, u.role, u.department, u.company,
+                    a.id AS application_id,
+                    a.status AS application_status,
+                    a.resume_url,
+                    a.applied_at
+                FROM users u
+                INNER JOIN applications a ON u.id = a.user_id
+                WHERE a.job_id = ?
+                ORDER BY a.applied_at DESC
+            `;
+            const [rows] = await pool.query(sql, [Number(jobId)]);
+            return rows;
+        } catch (err) {
+            // Offline fallback: go through applications in-memory
+            const ApplicationModel = require('./applicationModel');
+            const UserModel = require('./userModel');
+            const jobApplications = await ApplicationModel.findByJob(jobId);
+            const applicants = [];
+            for (const app of jobApplications) {
+                const user = await UserModel.findById(app.user_id);
+                if (user) {
+                    applicants.push({
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role,
+                        department: user.department,
+                        company: user.company,
+                        application_id: app.id,
+                        application_status: app.status,
+                        resume_url: app.resume_url,
+                        applied_at: app.applied_at
+                    });
+                }
+            }
+            return applicants;
+        }
     }
 };
 
