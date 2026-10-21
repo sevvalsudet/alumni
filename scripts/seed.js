@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const userFactory = require('../factories/userFactory');
 const announcementFactory = require('../factories/announcementFactory');
+const jobPostingFactory = require('../factories/jobPostingFactory');
 
 async function seedDatabase() {
     console.log('🌱 [Database Seeder] Starting database seeding process...');
@@ -49,7 +50,34 @@ async function seedDatabase() {
     const announcements = announcementFactory.createMany(10, { author_id: 1 });
     console.log(`📢 [Announcement Factory] Generated ${announcements.length} announcement records.`);
 
-    // 3. Save seeded dataset to data/seedData.json for reference / file-based usage
+    // 3. Generate job postings via jobPostingFactory (12 total)
+    jobPostingFactory.resetId(1);
+    const jobPostings = [
+        jobPostingFactory.create({
+            id: 1,
+            posted_by: 2,
+            title: "Software Engineer - Cloud Systems",
+            company: "Google",
+            location: "Istanbul, TR / Remote",
+            employment_type: "Full-time",
+            experience_level: "Mid-level",
+            salary: 125000.00
+        }),
+        jobPostingFactory.create({
+            id: 2,
+            posted_by: 3,
+            title: "Junior Backend Developer",
+            company: "Microsoft",
+            location: "Remote",
+            employment_type: "Full-time",
+            experience_level: "Entry-level",
+            salary: 85000.00
+        }),
+        ...jobPostingFactory.createMany(10)
+    ];
+    console.log(`💼 [Job Posting Factory] Generated ${jobPostings.length} job posting records.`);
+
+    // 4. Save seeded dataset to data/seedData.json for reference / file-based usage
     const dataDir = path.join(__dirname, '..', 'data');
     if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
@@ -59,14 +87,16 @@ async function seedDatabase() {
         seeded_at: new Date().toISOString(),
         users_count: users.length,
         announcements_count: announcements.length,
+        job_postings_count: jobPostings.length,
         users,
-        announcements
+        announcements,
+        job_postings: jobPostings
     };
 
     fs.writeFileSync(path.join(dataDir, 'seedData.json'), JSON.stringify(seedPayload, null, 2), 'utf8');
     console.log(`💾 Seed dataset saved to file: data/seedData.json`);
 
-    // 4. If MySQL is connected, insert into live database
+    // 5. If MySQL is connected, insert into live database
     const mysql = require('mysql2/promise');
     const dbConfig = {
         host: process.env.DB_HOST || 'localhost',
@@ -95,6 +125,22 @@ async function seedDatabase() {
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE title=VALUES(title), content=VALUES(content)
             `, [a.id, a.author_id, a.title, a.content, a.category, a.date, a.priority]);
+        }
+
+        for (const j of jobPostings) {
+            await connection.execute(`
+                INSERT INTO job_postings (
+                    id, posted_by, title, company, location, employment_type, experience_level,
+                    salary, description, requirements, contact_email, application_url, application_deadline, is_active
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE 
+                    title=VALUES(title), company=VALUES(company), location=VALUES(location),
+                    salary=VALUES(salary), description=VALUES(description)
+            `, [
+                j.id, j.posted_by, j.title, j.company, j.location, j.employment_type, j.experience_level,
+                j.salary, j.description, j.requirements, j.contact_email, j.application_url, j.application_deadline,
+                j.is_active ? 1 : 0
+            ]);
         }
 
         console.log('✅ Seed data successfully committed to MySQL database.');
