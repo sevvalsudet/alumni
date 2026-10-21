@@ -66,9 +66,14 @@ erDiagram
         string company
         string location
         string employment_type
+        string experience_level
+        decimal salary
         text description
         string requirements
+        string contact_email
         string application_url
+        date application_deadline
+        boolean is_active
         timestamp created_at
         timestamp updated_at
     }
@@ -149,21 +154,26 @@ Stores public and institutional notices, categorized by topic.
 ---
 
 ### 4.3. `job_postings` Table
-Maintains job and internship postings submitted by alumni and partners.
+Maintains career, job, and internship opportunities submitted by alumni, administrators, and partner organizations.
 
 | Column | Data Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | `INT` | `PRIMARY KEY`, `AUTO_INCREMENT` | Unique listing identifier |
-| `posted_by` | `INT` | `NOT NULL`, `FOREIGN KEY (users.id)` | Submitting alumnus/admin ID |
-| `title` | `VARCHAR(150)` | `NOT NULL` | Job designation |
-| `company` | `VARCHAR(150)` | `NOT NULL` | Hiring company name |
-| `location` | `VARCHAR(100)` | `NOT NULL` | City, Country, or 'Remote' |
-| `employment_type`| `ENUM('Full-time', 'Part-time', 'Contract', 'Internship')` | `NOT NULL` | Contract classification |
-| `description` | `TEXT` | `NOT NULL` | Role details and scope |
-| `requirements` | `TEXT` | `NULL` | Required skills and qualifications |
-| `application_url`| `VARCHAR(255)`| `NULL` | Direct application portal / link |
+| `posted_by` | `INT` | `NOT NULL`, `FOREIGN KEY (users.id) ON DELETE CASCADE` | Submitting alumnus or administrator ID |
+| `title` | `VARCHAR(150)` | `NOT NULL` | Job role title (e.g., 'Backend Software Engineer') |
+| `company` | `VARCHAR(150)` | `NOT NULL` | Hiring organization or enterprise name |
+| `location` | `VARCHAR(100)` | `NOT NULL` | Geographic location (e.g., 'Istanbul, TR', 'Remote') |
+| `employment_type`| `ENUM('Full-time', 'Part-time', 'Contract', 'Internship', 'Remote')` | `NOT NULL`, `DEFAULT 'Full-time'` | Employment contract classification |
+| `experience_level`| `ENUM('Entry-level', 'Mid-level', 'Senior', 'Lead', 'Executive')` | `NOT NULL`, `DEFAULT 'Entry-level'` | Target professional seniority level |
+| `salary` | `DECIMAL(10,2)` | `NULL` | Proposed salary or compensation figure |
+| `description` | `TEXT` | `NOT NULL` | Comprehensive role overview and core responsibilities |
+| `requirements` | `TEXT` | `NULL` | Technical prerequisites, qualifications, and skills |
+| `contact_email` | `VARCHAR(150)` | `NULL` | Inquiring/recruiter contact email address |
+| `application_url`| `VARCHAR(255)`| `NULL` | Direct external application portal or form link |
+| `application_deadline` | `DATE` | `NULL` | Final acceptance date for submissions |
+| `is_active` | `BOOLEAN` | `NOT NULL`, `DEFAULT TRUE` | Active visibility flag for the job listing |
 | `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP` | Publication timestamp |
-| `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Update timestamp |
+| `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Last modification timestamp |
 
 ---
 
@@ -226,6 +236,8 @@ Pairs experienced alumni mentors with students or early-career graduates.
    - `users.email`: Unique B-Tree index for \(O(1)\) lookup during authentication.
    - `users.role`, `users.department`: Standard indexes for directory filtering.
    - `announcements.category`, `announcements.date`: Composite index for reverse-chronological filtered queries.
+   - `job_postings.is_active`, `job_postings.application_deadline`: Composite index for active job search filtering.
+   - `job_postings.posted_by`: Foreign key index for member submission lookup.
    - `events.event_date`: Index for upcoming schedule timeline retrieval.
 
 ---
