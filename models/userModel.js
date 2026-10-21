@@ -154,6 +154,28 @@ const UserModel = {
             if (index === -1) return null;
             return fallbackUsers.splice(index, 1)[0];
         }
+    },
+
+    // ==========================================
+    // 🔗 MODEL İLİŞKİLERİ (RELATIONSHIPS)
+    // ==========================================
+
+    // 💼 [RELATIONSHIP: HasMany] Kullanıcının yayınladığı tüm iş ilanlarını getir (1:N)
+    getJobPostings: async (userId) => {
+        const JobPostingModel = require('./jobPostingModel');
+        return await JobPostingModel.findByUser(userId);
+    },
+
+    // 📢 [RELATIONSHIP: HasMany] Kullanıcının yazdığı tüm duyuruları getir (1:N)
+    getAnnouncements: async (userId) => {
+        try {
+            const [rows] = await pool.query('SELECT * FROM announcements WHERE author_id = ? ORDER BY date DESC', [Number(userId)]);
+            return rows;
+        } catch (err) {
+            const AnnouncementModel = require('./announcementModel');
+            const all = await AnnouncementModel.findAll();
+            return all.filter(a => Number(a.author_id) === Number(userId));
+        }
     }
 };
 

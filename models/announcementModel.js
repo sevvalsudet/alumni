@@ -157,6 +157,24 @@ const AnnouncementModel = {
             if (index === -1) return null;
             return fallbackAnnouncements.splice(index, 1)[0];
         }
+    },
+
+    // ==========================================
+    // 🔗 MODEL İLİŞKİLERİ (RELATIONSHIPS)
+    // ==========================================
+
+    // 👤 [RELATIONSHIP: BelongsTo] Duyurunun yazarını getir (author_id -> users.id)
+    getAuthor: async (announcementId) => {
+        const announcement = await AnnouncementModel.findById(announcementId);
+        if (!announcement || !announcement.author_id) return null;
+        const UserModel = require('./userModel');
+        return await UserModel.findById(announcement.author_id);
+    },
+
+    // 📢 [RELATIONSHIP: HasMany Inversion] Belirli bir yazarın duyurularını getir
+    findByAuthor: async (authorId) => {
+        const UserModel = require('./userModel');
+        return await UserModel.getAnnouncements(authorId);
     }
 };
 
