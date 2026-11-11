@@ -561,9 +561,21 @@ app.get('/api/swagger.json', (req, res) => {
     res.json(swaggerDocument);
 });
 
+// 🧪 [TEST ROUTE: 5xx Guardian Testi] Kasıtlı olarak 500 hatası fırlatan test rotaları
+app.get('/api/trigger-error', (req, res, next) => {
+    next(new Error("Test 500 Hatası: Veritabanı sorgusu zaman aşımına uğradı!"));
+});
+app.get('/trigger-error', (req, res, next) => {
+    next(new Error("Test 500 Hatası: Beklenmeyen sistem arızası simüle edildi."));
+});
+
 // 🛡️ [404 GUARDIAN MIDDLEWARE] Eşleşmeyen tüm rotaları yakalar (API için JSON, Web için 404 sayfası döner)
 const notFoundGuardian = require('./middlewares/notFoundGuardian');
 app.use(notFoundGuardian);
+
+// 🛡️⚡ [5XX GUARDIAN MIDDLEWARE] Tüm sunucu/kodlama hatalarını yakalar (Crash önler, API için JSON 500, Web için 500.ejs döner)
+const serverErrorGuardian = require('./middlewares/serverErrorGuardian');
+app.use(serverErrorGuardian);
 
 // Sunucuyu 3000 portunda dinlemeye başlat
 app.listen(PORT, () => {
