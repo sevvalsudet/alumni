@@ -50,7 +50,11 @@
             </p>
 
             <div class="route-badge">
-                [<%= method %>] <%= url %>
+                <% if (typeof url !== 'undefined' && url) { %>
+                    [<%= typeof method !== 'undefined' ? method : 'GET' %>] <%= url %>
+                <% } else { %>
+                    404 Not Found - Geçersiz Rota
+                <% } %>
             </div>
 
             <div class="actions">

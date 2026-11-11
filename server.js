@@ -569,7 +569,15 @@ app.get('/trigger-error', (req, res, next) => {
     next(new Error("Test 500 Hatası: Beklenmeyen sistem arızası simüle edildi."));
 });
 
-// 🛡️ [404 GUARDIAN MIDDLEWARE] Eşleşmeyen tüm rotaları yakalar (API için JSON, Web için 404 sayfası döner)
+// 🌐 [GENERIC 404 ROUTE] Genel 404 hata sayfası rotası
+app.get('/404', (req, res) => {
+    res.status(404).render('404', {
+        url: req.query.from || req.originalUrl,
+        method: req.query.method || 'GET'
+    });
+});
+
+// 🛡️ [404 GUARDIAN MIDDLEWARE] Eşleşmeyen tüm rotaları yakalar (API için JSON, Web için /404'e redirect eder)
 const notFoundGuardian = require('./middlewares/notFoundGuardian');
 app.use(notFoundGuardian);
 
