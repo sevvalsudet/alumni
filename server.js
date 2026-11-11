@@ -561,6 +561,10 @@ app.get('/api/swagger.json', (req, res) => {
     res.json(swaggerDocument);
 });
 
+// 🛡️ [404 GUARDIAN MIDDLEWARE] Eşleşmeyen tüm rotaları yakalar (API için JSON, Web için 404 sayfası döner)
+const notFoundGuardian = require('./middlewares/notFoundGuardian');
+app.use(notFoundGuardian);
+
 // Sunucuyu 3000 portunda dinlemeye başlat
 app.listen(PORT, () => {
     console.log(`🚀 Sunucu çalışıyor: http://localhost:${PORT}`);
