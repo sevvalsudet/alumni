@@ -149,6 +149,15 @@ const apiJobPostingController = {
     getByUser: async (req, res) => {
         try {
             const userId = req.params.userId || req.params.id;
+            const UserModel = require('../models/userModel');
+            const user = await UserModel.findById(userId);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${userId} ID numaralı kullanıcı bulunamadı!`
+                });
+            }
+
             const jobs = await JobPostingModel.findByUser(userId);
             res.json({
                 success: true,
@@ -165,6 +174,15 @@ const apiJobPostingController = {
     createForUser: async (req, res) => {
         try {
             const userId = req.params.userId || req.params.id;
+            const UserModel = require('../models/userModel');
+            const user = await UserModel.findById(userId);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${userId} ID numaralı kullanıcı bulunamadı!`
+                });
+            }
+
             const payload = { ...req.body, posted_by: Number(userId) };
 
             const { title, company, location, description } = payload;

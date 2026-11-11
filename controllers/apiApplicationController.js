@@ -50,6 +50,25 @@ const apiApplicationController = {
                 });
             }
 
+            const JobPostingModel = require('../models/jobPostingModel');
+            const UserModel = require('../models/userModel');
+
+            const job = await JobPostingModel.findById(job_id);
+            if (!job) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${job_id} ID numaralı iş ilanı bulunamadı!`
+                });
+            }
+
+            const user = await UserModel.findById(user_id);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${user_id} ID numaralı kullanıcı bulunamadı!`
+                });
+            }
+
             const newApp = await ApplicationModel.create({
                 job_id: Number(job_id),
                 user_id: Number(user_id),
@@ -64,7 +83,7 @@ const apiApplicationController = {
                 data: newApp
             });
         } catch (err) {
-            if (err.code === 'ER_DUP_ENTRY' || err.message.includes('Duplicate')) {
+            if (err.code === 'ER_DUP_ENTRY' || err.message.includes('Duplicate') || err.message.includes('zaten başvurulmuş')) {
                 return res.status(409).json({
                     success: false,
                     message: "Hata: Bu kullanıcı bu ilana zaten başvurmuş (Duplicate application)!"
@@ -146,6 +165,15 @@ const apiApplicationController = {
     getByJob: async (req, res) => {
         try {
             const jobId = req.params.jobId || req.params.id;
+            const JobPostingModel = require('../models/jobPostingModel');
+            const job = await JobPostingModel.findById(jobId);
+            if (!job) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${jobId} ID numaralı iş ilanı bulunamadı!`
+                });
+            }
+
             const applications = await ApplicationModel.findByJob(jobId);
             res.json({
                 success: true,
@@ -170,6 +198,25 @@ const apiApplicationController = {
                 });
             }
 
+            const JobPostingModel = require('../models/jobPostingModel');
+            const UserModel = require('../models/userModel');
+
+            const job = await JobPostingModel.findById(jobId);
+            if (!job) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${jobId} ID numaralı iş ilanı bulunamadı!`
+                });
+            }
+
+            const user = await UserModel.findById(user_id);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Hata: ${user_id} ID numaralı kullanıcı bulunamadı!`
+                });
+            }
+
             const newApp = await ApplicationModel.create({
                 job_id: Number(jobId),
                 user_id: Number(user_id),
@@ -184,7 +231,7 @@ const apiApplicationController = {
                 data: newApp
             });
         } catch (err) {
-            if (err.code === 'ER_DUP_ENTRY' || err.message.includes('Duplicate')) {
+            if (err.code === 'ER_DUP_ENTRY' || err.message.includes('Duplicate') || err.message.includes('zaten başvurulmuş')) {
                 return res.status(409).json({
                     success: false,
                     message: "Hata: Bu ilana zaten başvuruldu!"

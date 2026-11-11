@@ -35,6 +35,14 @@ const AnnouncementModel = require('../models/announcementModel');
 // 🎓 Tahtadaki Mantık: User ile Job-Postings doğrudan bağlı DEĞİLDİR, application üzerinden bağlıdır.
 router.get('/:id/jobs', async (req, res) => {
     try {
+        const user = await UserModel.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: `Hata: ${req.params.id} ID numaralı kullanıcı bulunamadı!`
+            });
+        }
+
         const jobs = await UserModel.getAppliedJobs(req.params.id);
         res.json({
             success: true,
