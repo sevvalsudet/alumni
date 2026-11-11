@@ -21,6 +21,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 📋 [LOGGER MIDDLEWARE] Terminale her isteğin logunu yazar (time, method, route, res. type, duration)
+const logger = require('./middlewares/logger');
+app.use(logger);
+
 
 // ==========================================
 // 🎓 TAHTADAKİ 6 ROTA (ROUTES)
