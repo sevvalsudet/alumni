@@ -178,13 +178,13 @@ Maintains career, job, and internship opportunities submitted by alumni, adminis
 | :--- | :--- | :--- | :--- |
 | `id` | `INT` | `PRIMARY KEY`, `AUTO_INCREMENT` | Unique listing identifier |
 | `posted_by` | `INT` | `NOT NULL`, `FOREIGN KEY (users.id) ON DELETE CASCADE` | Submitting alumnus or administrator ID |
-| `title` | `VARCHAR(150)` | `NOT NULL` | Job role title (e.g., 'Backend Software Engineer') |
-| `company` | `VARCHAR(150)` | `NOT NULL` | Hiring organization or enterprise name |
-| `location` | `VARCHAR(100)` | `NOT NULL` | Geographic location (e.g., 'Istanbul, TR', 'Remote') |
+| `title` | `VARCHAR(120)` | `NOT NULL` | Job role title (Required, Max 120 characters) |
+| `company` | `VARCHAR(150)` | `NOT NULL` | Hiring organization or enterprise name (Required) |
+| `location` | `VARCHAR(100)` | `NULL` | Geographic location / city (Optional, e.g., 'Istanbul, TR', 'Remote') |
 | `employment_type`| `ENUM('Full-time', 'Part-time', 'Contract', 'Internship', 'Remote')` | `NOT NULL`, `DEFAULT 'Full-time'` | Employment contract classification |
 | `experience_level`| `ENUM('Entry-level', 'Mid-level', 'Senior', 'Lead', 'Executive')` | `NOT NULL`, `DEFAULT 'Entry-level'` | Target professional seniority level |
 | `salary` | `DECIMAL(10,2)` | `NULL` | Proposed salary or compensation figure |
-| `description` | `TEXT` | `NOT NULL` | Comprehensive role overview and core responsibilities |
+| `description` | `TEXT` | `NULL` | Comprehensive role overview and core responsibilities (Optional) |
 | `requirements` | `TEXT` | `NULL` | Technical prerequisites, qualifications, and skills |
 | `contact_email` | `VARCHAR(150)` | `NULL` | Inquiring/recruiter contact email address |
 | `application_url`| `VARCHAR(255)`| `NULL` | Direct external application portal or form link |
@@ -192,6 +192,14 @@ Maintains career, job, and internship opportunities submitted by alumni, adminis
 | `is_active` | `BOOLEAN` | `NOT NULL`, `DEFAULT TRUE` | Active visibility flag for the job listing |
 | `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP` | Publication timestamp |
 | `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Last modification timestamp |
+
+#### Field & Validation Rules for `job_postings`:
+* **`title`**: **Required** (`NOT NULL`), maximum **120 characters** (`VARCHAR(120)`).
+* **`company`**: **Required** (`NOT NULL`, `VARCHAR(150)`).
+* **`city` (`location`)**: **Optional** (`NULL`).
+* **`description`**: **Optional** (`NULL`).
+
+---
 
 ### 4.4. `applications` Table
 Tracks job and internship applications submitted by alumni and students for listed opportunities.
