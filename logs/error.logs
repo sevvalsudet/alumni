@@ -1,0 +1,26 @@
+time 13:48:08 method GET route /api/trigger-error res. type 500 error: Test 500 Hatası: Veritabanı sorgusu zaman aşımına uğradı!
+[2026-11-11T10:48:08.615Z] Stack: Error: Test 500 Hatası: Veritabanı sorgusu zaman aşımına uğradı!
+    at /Users/sevvalsude/alumni/server.js:566:10
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+    at next (/Users/sevvalsude/alumni/node_modules/router/index.js:291:5)
+    at logger (/Users/sevvalsude/alumni/middlewares/logger.js:20:5)
+----------------------------------------
+time 13:48:08 method GET route /trigger-error res. type 500 error: Test 500 Hatası: Beklenmeyen sistem arızası simüle edildi.
+[2026-11-11T10:48:08.635Z] Stack: Error: Test 500 Hatası: Beklenmeyen sistem arızası simüle edildi.
+    at /Users/sevvalsude/alumni/server.js:569:10
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+    at next (/Users/sevvalsude/alumni/node_modules/router/index.js:291:5)
+    at logger (/Users/sevvalsude/alumni/middlewares/logger.js:20:5)
+----------------------------------------
