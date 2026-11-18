@@ -58,7 +58,7 @@
         }
 
         .apple-promo-tile {
-            background: #f0f0f0;
+            background: rgb(245, 245, 247);
             border: none;
             border-radius: 0;
             box-shadow: none;
@@ -188,18 +188,19 @@
 
         .spotlight-marquee-container {
             width: 100%;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
             position: relative;
             padding: 10px 0 20px;
             mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
-            cursor: grab;
-            user-select: none;
-            -webkit-user-select: none;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: default;
         }
 
-        .spotlight-marquee-container:active {
-            cursor: grabbing;
+        .spotlight-marquee-container::-webkit-scrollbar {
+            display: none;
         }
 
         .spotlight-track {
@@ -212,8 +213,8 @@
         .spotlight-card {
             flex: 0 0 320px;
             width: 320px;
-            background: #f0f0f0;
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.025);
             border-radius: 8px;
             padding: 26px 22px;
             box-shadow: none;
@@ -225,7 +226,7 @@
 
         .spotlight-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .spotlight-top {
@@ -303,8 +304,8 @@
         }
 
         .tile-card {
-            background: #f0f0f0;
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.025);
             border-radius: 8px;
             padding: 34px 30px;
             text-decoration: none;
@@ -318,7 +319,7 @@
 
         .tile-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
         }
 
         .tile-eyebrow {
@@ -421,20 +422,23 @@
                 <p class="apple-tile-sub">A continuous lifecycle uniting students, mentors, and employers.</p>
 
                 <div class="apple-ecosystem-visual">
-                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 135" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <marker id="dotArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
                                 <path d="M 1 2 L 7 5 L 1 8 z" fill="#86868b"/>
                             </marker>
                         </defs>
-                        <!-- Cyclic Dotted Arrows -->
-                        <path d="M 85 75 C 105 45, 130 30, 155 24" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
-                        <path d="M 225 24 C 250 30, 275 45, 295 75" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
-                        <path d="M 265 96 C 215 106, 165 106, 115 96" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
-                        <!-- Plain Typography Nodes (No background box) -->
-                        <text x="190" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Alumni</text>
-                        <text x="70" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Students</text>
-                        <text x="310" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Companies</text>
+                        <!-- Symmetrical Oval Dotted Arrows Loop -->
+                        <!-- Arc 1: Students up to Alumni -->
+                        <path d="M 85 75 C 95 38, 120 26, 155 26" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <!-- Arc 2: Alumni down to Companies -->
+                        <path d="M 225 26 C 260 26, 285 38, 295 75" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <!-- Arc 3: Companies curving under to Students (Symmetrical bottom arc completing the oval) -->
+                        <path d="M 280 96 C 250 126, 130 126, 100 96" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <!-- Plain Typography Nodes -->
+                        <text x="190" y="29" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Alumni</text>
+                        <text x="70" y="92" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Students</text>
+                        <text x="310" y="92" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Companies</text>
                     </svg>
                 </div>
             </div>
@@ -943,7 +947,7 @@
         <!-- Apple Dark Feature Showcase Tile -->
         <div class="apple-dark-tile">
             <div>
-                <h3 class="dark-tile-title">🛡️ Built for High Reliability & Scale</h3>
+                <h3 class="dark-tile-title">Built for High Reliability &amp; Scale</h3>
                 <p class="dark-tile-desc">
                     Enterprise-grade architecture featuring automated request logging, 
                     fault-tolerant failover safeguards, and dedicated audit logging for 24/7 uptime.
@@ -966,11 +970,9 @@
         const track = document.querySelector('.spotlight-track');
         if (!container || !track) return;
 
-        let isDown = false;
-        let startX = 0;
         let currentTranslate = 0;
         let isAutoScrolling = true;
-        let hasDragged = false;
+        let resumeTimeout = null;
         const speed = 0.55;
 
         function getHalfWidth() {
@@ -978,7 +980,7 @@
         }
 
         function step() {
-            if (isAutoScrolling && !isDown) {
+            if (isAutoScrolling) {
                 currentTranslate -= speed;
                 const halfWidth = getHalfWidth();
                 if (halfWidth > 0 && Math.abs(currentTranslate) >= halfWidth) {
@@ -990,65 +992,35 @@
         }
 
         track.style.animation = 'none';
-        container.style.cursor = 'grab';
         requestAnimationFrame(step);
 
-        function startDrag(e) {
-            isDown = true;
-            hasDragged = false;
-            isAutoScrolling = false;
-            container.style.cursor = 'grabbing';
-            const pageX = (e.pageX !== undefined) ? e.pageX : (e.touches && e.touches[0].pageX);
-            startX = pageX - currentTranslate;
-        }
+        // Mousepad / Trackpad horizontal & vertical wheel scrolling
+        container.addEventListener('wheel', function(e) {
+            const delta = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+            if (delta !== 0) {
+                currentTranslate -= delta * 1.1;
+                isAutoScrolling = false;
+                clearTimeout(resumeTimeout);
+                resumeTimeout = setTimeout(function() {
+                    isAutoScrolling = true;
+                }, 1200);
 
-        function moveDrag(e) {
-            if (!isDown) return;
-            const pageX = (e.pageX !== undefined) ? e.pageX : (e.touches && e.touches[0].pageX);
-            if (pageX === undefined) return;
-            const dist = Math.abs(pageX - (startX + currentTranslate));
-            if (dist > 4) {
-                hasDragged = true;
+                const halfWidth = getHalfWidth();
+                if (halfWidth > 0) {
+                    if (currentTranslate > 0) currentTranslate -= halfWidth;
+                    if (Math.abs(currentTranslate) >= halfWidth) currentTranslate += halfWidth;
+                }
+                track.style.transform = 'translateX(' + currentTranslate + 'px)';
             }
-            currentTranslate = pageX - startX;
-            const halfWidth = getHalfWidth();
-            if (halfWidth > 0) {
-                if (currentTranslate > 0) currentTranslate -= halfWidth;
-                if (Math.abs(currentTranslate) >= halfWidth) currentTranslate += halfWidth;
-            }
-            track.style.transform = 'translateX(' + currentTranslate + 'px)';
-        }
+        }, { passive: true });
 
-        function endDrag() {
-            if (!isDown) return;
-            isDown = false;
-            container.style.cursor = 'grab';
-            setTimeout(function() {
-                if (!isDown) isAutoScrolling = true;
-            }, 1000);
-        }
-
-        container.addEventListener('mousedown', startDrag);
-        window.addEventListener('mousemove', moveDrag);
-        window.addEventListener('mouseup', endDrag);
-
-        container.addEventListener('touchstart', startDrag, { passive: true });
-        window.addEventListener('touchmove', moveDrag, { passive: true });
-        window.addEventListener('touchend', endDrag);
-
+        // Hover pause
         container.addEventListener('mouseenter', function() {
-            if (!isDown) isAutoScrolling = false;
+            isAutoScrolling = false;
         });
         container.addEventListener('mouseleave', function() {
-            if (!isDown) isAutoScrolling = true;
+            isAutoScrolling = true;
         });
-
-        track.addEventListener('click', function(e) {
-            if (hasDragged) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }, true);
     })();
     </script>
 
