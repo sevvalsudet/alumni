@@ -58,92 +58,45 @@
         }
 
         .apple-promo-tile {
-            background: #f0f0f0;
+            background: #f5f5f7;
             border: none;
             border-radius: 0;
             box-shadow: none;
-            padding: 48px 30px 42px;
+            padding: 32px 24px 28px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 480px;
+            min-height: 280px;
             box-sizing: border-box;
             position: relative;
         }
 
         .apple-tile-title {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.025em;
             color: #1d1d1f;
-            margin: 0 0 8px;
-            line-height: 1.2;
+            margin: 0 0 4px;
+            line-height: 1.25;
             text-align: center;
         }
 
         .apple-tile-sub {
-            font-size: 16px;
-            color: #1d1d1f;
+            font-size: 14px;
+            color: #86868b;
             line-height: 1.4;
-            margin: 0 0 18px;
+            margin: 0 0 12px;
             max-width: 480px;
             text-align: center;
         }
 
-        .apple-tile-actions {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 34px;
-        }
-
-        .apple-pill-blue {
-            background: #0071e3;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1;
-            padding: 9px 18px;
-            border-radius: 980px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.18s ease;
-        }
-        .apple-pill-blue:hover {
-            background: #0077ed;
-            color: #ffffff;
-        }
-
-        .apple-pill-outline {
-            background: transparent;
-            color: #0071e3;
-            border: 1px solid #0071e3;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1;
-            padding: 8px 17px;
-            border-radius: 980px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.18s ease;
-        }
-        .apple-pill-outline:hover {
-            background: #0071e3;
-            color: #ffffff;
-        }
-
-        /* Left Tile: Apple Architectural Ecosystem Visual */
+        /* Left Tile: Apple Minimal Monochrome Ecosystem Visual */
         .apple-ecosystem-visual {
             width: 100%;
-            max-width: 480px;
-            margin: auto 0 0;
+            max-width: 380px;
+            margin: 6px auto 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,10 +112,10 @@
         .apple-partner-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            max-width: 460px;
-            margin: auto 0 0;
+            max-width: 440px;
+            margin: 6px auto 0;
         }
 
         .apple-partner-card {
@@ -467,77 +420,26 @@
             <div class="apple-promo-tile">
                 <h2 class="apple-tile-title">Connecting Every Graduation Journey</h2>
                 <p class="apple-tile-sub">A continuous lifecycle uniting students, mentors, and employers.</p>
-                
-                <div class="apple-tile-actions">
-                    <a href="/users" class="apple-pill-blue">Explore Network</a>
-                    <a href="/jobs" class="apple-pill-outline">View Opportunities</a>
-                </div>
 
                 <div class="apple-ecosystem-visual">
-                    <svg class="apple-ecosystem-svg" viewBox="0 0 480 216" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <filter id="appleCardShadow" x="-10%" y="-10%" width="120%" height="130%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.04"/>
-                            </filter>
-                        </defs>
+                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Clean minimal connector lines -->
+                        <line x1="190" y1="36" x2="90" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
+                        <line x1="190" y1="36" x2="290" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
+                        <line x1="120" y1="92" x2="260" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
+                        <circle cx="190" cy="73" r="3" fill="#1d1d1f"/>
 
-                        <!-- Clean Hairline Connectors -->
-                        <path d="M 215 62 L 140 146" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M 265 62 L 340 146" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M 170 173 L 310 173" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
+                        <!-- Node 1: Alumni (Top Center) -->
+                        <rect x="140" y="8" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
+                        <text x="190" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Alumni</text>
 
-                        <!-- Central Connection Core Hub -->
-                        <circle cx="240" cy="116" r="25" fill="#ffffff" stroke="rgba(0,0,0,0.07)" stroke-width="1.5" filter="url(#appleCardShadow)"/>
-                        <circle cx="240" cy="116" r="16" fill="#eff6ff"/>
-                        <circle cx="240" cy="111" r="2.5" fill="#0071e3"/>
-                        <circle cx="235" cy="120" r="2.5" fill="#0071e3"/>
-                        <circle cx="245" cy="120" r="2.5" fill="#0071e3"/>
-                        <line x1="240" y1="111" x2="235" y2="120" stroke="#0071e3" stroke-width="1.4"/>
-                        <line x1="240" y1="111" x2="245" y2="120" stroke="#0071e3" stroke-width="1.4"/>
-                        <line x1="235" y1="120" x2="245" y2="120" stroke="#0071e3" stroke-width="1.4"/>
-                        <text x="240" y="134" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="6" font-weight="700" fill="#86868b" letter-spacing="0.5">ECOSYSTEM</text>
+                        <!-- Node 2: Students (Bottom Left) -->
+                        <rect x="40" y="76" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
+                        <text x="90" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Students</text>
 
-                        <!-- Apple Meta Badges on Connectors -->
-                        <rect x="106" y="93" width="84" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-                        <text x="148" y="107" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#0071e3">1:1 Mentorship</text>
-
-                        <rect x="290" y="93" width="84" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-                        <text x="332" y="107" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#0071e3">Executive Roles</text>
-
-                        <rect x="197" y="163" width="86" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-                        <text x="240" y="177" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#34c759">Direct Referrals</text>
-
-                        <!-- Entity Card 1: Alumni (Top Center) -->
-                        <g filter="url(#appleCardShadow)">
-                            <rect x="165" y="10" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
-                            <circle cx="191" cy="36" r="14" fill="#eff6ff"/>
-                            <path d="M 191 29 L 192.5 33 L 197 33 L 193.5 35.5 L 195 40 L 191 37.5 L 187 40 L 188.5 35.5 L 185 33 L 189.5 33 Z" fill="#0071e3"/>
-                            <text x="214" y="31" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Alumni</text>
-                            <text x="214" y="46" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Mentors &amp; Leaders</text>
-                        </g>
-
-                        <!-- Entity Card 2: Students (Bottom Left) -->
-                        <g filter="url(#appleCardShadow)">
-                            <rect x="20" y="146" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
-                            <circle cx="46" cy="172" r="14" fill="#f0fdf4"/>
-                            <path d="M 40 170 L 46 167 L 52 170 L 46 173 Z" fill="#34c759"/>
-                            <path d="M 42 172 L 42 175 C 42 177, 50 177, 50 175 L 50 172" fill="none" stroke="#34c759" stroke-width="1"/>
-                            <path d="M 52 170 L 52 175" stroke="#34c759" stroke-width="1"/>
-                            <text x="69" y="167" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Students</text>
-                            <text x="69" y="182" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Active Talent</text>
-                        </g>
-
-                        <!-- Entity Card 3: Companies (Bottom Right) -->
-                        <g filter="url(#appleCardShadow)">
-                            <rect x="310" y="146" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
-                            <circle cx="336" cy="172" r="14" fill="#faf5ff"/>
-                            <path d="M 330 177 L 330 168 L 338 168 L 338 177 Z" fill="none" stroke="#af52de" stroke-width="1.2"/>
-                            <path d="M 338 177 L 338 171 L 342 171 L 342 177 Z" fill="none" stroke="#af52de" stroke-width="1.2"/>
-                            <line x1="333" y1="171" x2="335" y2="171" stroke="#af52de" stroke-width="1"/>
-                            <line x1="333" y1="174" x2="335" y2="174" stroke="#af52de" stroke-width="1"/>
-                            <text x="359" y="167" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Companies</text>
-                            <text x="359" y="182" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Hiring Partners</text>
-                        </g>
+                        <!-- Node 3: Companies (Bottom Right) -->
+                        <rect x="240" y="76" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
+                        <text x="290" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Companies</text>
                     </svg>
                 </div>
             </div>
@@ -546,11 +448,6 @@
             <div class="apple-promo-tile">
                 <h2 class="apple-tile-title">Where Our Graduates Work &amp; Hire</h2>
                 <p class="apple-tile-sub">Alumni leading teams across top global technology organizations.</p>
-
-                <div class="apple-tile-actions">
-                    <a href="/jobs" class="apple-pill-blue">Explore Careers</a>
-                    <a href="/about" class="apple-pill-outline">About Our Network</a>
-                </div>
 
                 <div class="apple-partner-grid">
                     <!-- 1. Google -->
