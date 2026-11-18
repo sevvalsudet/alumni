@@ -112,36 +112,37 @@
         .apple-partner-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px 14px;
             width: 100%;
             max-width: 440px;
-            margin: 6px auto 0;
+            margin: 12px auto 0;
         }
 
         .apple-partner-card {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 9px;
-            background: #f0f0f0;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 12px;
-            height: 48px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 10px;
             text-decoration: none;
             color: #1d1d1f;
             font-size: 13.5px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: -0.01em;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-            transition: all 0.2s ease;
-            padding: 0 12px;
+            box-shadow: none;
+            transition: opacity 0.15s ease, background 0.15s ease;
             box-sizing: border-box;
         }
 
         .apple-partner-card:hover {
-            border-color: rgba(0, 0, 0, 0.16);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-            transform: translateY(-2px);
+            opacity: 0.75;
+            background: rgba(0, 0, 0, 0.04);
+            border-color: transparent;
+            box-shadow: none;
+            transform: none;
         }
 
         .apple-partner-card svg {
@@ -192,41 +193,39 @@
             padding: 10px 0 20px;
             mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .spotlight-marquee-container:active {
+            cursor: grabbing;
         }
 
         .spotlight-track {
             display: flex;
             gap: 20px;
             width: max-content;
-            animation: marqueeScroll 45s linear infinite;
-        }
-
-        .spotlight-track:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes marqueeScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-50% - 10px)); }
+            will-change: transform;
         }
 
         .spotlight-card {
             flex: 0 0 320px;
             width: 320px;
-            background: #ffffff;
+            background: #f0f0f0;
             border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: var(--radius-lg);
+            border-radius: 8px;
             padding: 26px 22px;
-            box-shadow: var(--shadow-apple);
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.25s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .spotlight-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
 
         .spotlight-top {
@@ -272,7 +271,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: var(--canvas-parchment);
+            background: #ffffff;
             padding: 4px 10px;
             border-radius: var(--radius-pill);
             font-size: 12px;
@@ -304,22 +303,22 @@
         }
 
         .tile-card {
-            background: var(--canvas-card);
+            background: #f0f0f0;
             border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: var(--radius-lg);
+            border-radius: 8px;
             padding: 34px 30px;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: var(--shadow-apple);
+            box-shadow: none;
             transition: all 0.25s ease;
         }
 
         .tile-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
         }
 
         .tile-eyebrow {
@@ -354,7 +353,7 @@
         /* Apple Dark Feature Showcase Tile */
         .apple-dark-tile {
             background: var(--canvas-tile-dark);
-            border-radius: var(--radius-lg);
+            border-radius: 8px;
             padding: 24px 32px;
             color: white;
             display: flex;
@@ -422,24 +421,20 @@
                 <p class="apple-tile-sub">A continuous lifecycle uniting students, mentors, and employers.</p>
 
                 <div class="apple-ecosystem-visual">
-                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Clean minimal connector lines -->
-                        <line x1="190" y1="36" x2="90" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
-                        <line x1="190" y1="36" x2="290" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
-                        <line x1="120" y1="92" x2="260" y2="92" stroke="#d2d2d7" stroke-width="1.2"/>
-                        <circle cx="190" cy="73" r="3" fill="#1d1d1f"/>
-
-                        <!-- Node 1: Alumni (Top Center) -->
-                        <rect x="140" y="8" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
-                        <text x="190" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Alumni</text>
-
-                        <!-- Node 2: Students (Bottom Left) -->
-                        <rect x="40" y="76" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
-                        <text x="90" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Students</text>
-
-                        <!-- Node 3: Companies (Bottom Right) -->
-                        <rect x="240" y="76" width="100" height="32" rx="16" fill="#ffffff" stroke="#d2d2d7" stroke-width="1"/>
-                        <text x="290" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" fill="#1d1d1f">Companies</text>
+                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="dotArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                <path d="M 1 2 L 7 5 L 1 8 z" fill="#86868b"/>
+                            </marker>
+                        </defs>
+                        <!-- Cyclic Dotted Arrows -->
+                        <path d="M 85 75 C 105 45, 130 30, 155 24" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <path d="M 225 24 C 250 30, 275 45, 295 75" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <path d="M 265 96 C 215 106, 165 106, 115 96" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <!-- Plain Typography Nodes (No background box) -->
+                        <text x="190" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Alumni</text>
+                        <text x="70" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Students</text>
+                        <text x="310" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Companies</text>
                     </svg>
                 </div>
             </div>
@@ -453,10 +448,10 @@
                     <!-- 1. Google -->
                     <a href="https://about.google" target="_blank" class="apple-partner-card" title="Google">
                         <svg viewBox="0 0 24 24" width="18" height="18">
-                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                         </svg>
                         <span>Google</span>
                     </a>
@@ -483,9 +478,8 @@
                     <!-- 4. Amazon -->
                     <a href="https://www.amazon.jobs" target="_blank" class="apple-partner-card" title="Amazon">
                         <svg viewBox="0 0 24 24" width="18" height="18">
-                            <path fill="#232F3E" d="M13.9 12.8c-1.9.1-3.7.8-3.7 2.6 0 1.5 1.1 2.3 2.5 2.3 1.9 0 3-1.1 3.5-2.2v1.9h2.3V11c0-2.6-1.8-3.6-4.5-3.6-2.5 0-4.3 1.1-4.7 3.2l2.3.3c.3-1.1 1.2-1.6 2.4-1.6 1.4 0 2.2.6 2.2 1.9v.4c-.6-.4-1.4-.6-2.4-.4zm1.2 2.4c-.4.8-1.2 1.4-2.1 1.4-.8 0-1.4-.4-1.4-1.2 0-1 1-1.4 2.3-1.5.5 0 .9.1 1.2.2v1.1z"/>
-                            <path fill="#FF9900" d="M21.7 18.2C17.3 21.4 11.2 22 5.8 19.3c-.8-.4-.1-1.3.7-1 5 2.4 10.7 1.8 14.7-1 .6-.4 1.1.4.5.9z"/>
-                            <path fill="#FF9900" d="M22.8 16.8c-.3-.4-1.9-.3-2.9-.2-.3 0-.3-.3 0-.5 1.7-1.1 4.5-.8 4.8-.4.3.4-.4 3.2-2 4.4-.3.2-.5.1-.4-.2.4-.8.8-2.7.5-3.1z"/>
+                            <path fill="#FF9900" d="M.045 18.258c4.35 3.197 10.375 3.82 15.772 1.137 5.397-2.684 4.872-2.183 4.609-2.006-.263.177-.732.493-1.077.725-4.475 3.013-10.518 2.656-15.11-.645-.443-.317-.923-.466-1.128-.014-.206.452.49.489.934.803zm23.637-2.628c-.287-.374-1.921-.177-2.898-.052-.296.038-.344-.201-.077-.393 1.724-1.246 4.542-.888 4.79-.575.25.313-.418 3.189-2.046 4.526-.25.205-.487.095-.373-.174.375-.886.891-3.044.604-3.332z"/>
+                            <path fill="#232F3E" d="M13.684 4.646c-3.766 0-6.19 2.457-6.19 5.86 0 3.324 2.213 4.974 4.717 4.974 2.112 0 3.635-.98 4.383-2.167v1.834h2.793V9.756c0-3.323-2.222-5.11-5.703-5.11zm-.245 8.358c-1.637 0-2.87-.999-2.87-2.73 0-1.77 1.252-2.71 2.87-2.71 1.628 0 2.842.94 2.842 2.71 0 1.731-1.214 2.73-2.842 2.73z"/>
                         </svg>
                         <span>Amazon</span>
                     </a>
@@ -493,7 +487,7 @@
                     <!-- 5. Meta -->
                     <a href="https://about.meta.com" target="_blank" class="apple-partner-card" title="Meta">
                         <svg viewBox="0 0 24 24" width="18" height="18">
-                            <path fill="#0668E1" d="M6.88 4C3.08 4 0 7.15 0 11.04c0 4.19 3.01 7.42 6.69 7.42 2.65 0 4.41-1.46 5.31-2.67.9 1.21 2.66 2.67 5.31 2.67 3.68 0 6.69-3.23 6.69-7.42C24 7.15 20.92 4 17.12 4c-3.1 0-5.12 1.94-5.12 1.94S9.98 4 6.88 4zm0 2.45c1.9 0 3.46 1.48 4.2 3.4-.64 1.63-1.95 3.75-4.2 3.75-1.98 0-3.48-1.58-3.48-3.57 0-2 1.5-3.58 3.48-3.58zm10.24 0c1.98 0 3.48 1.58 3.48 3.58 0 1.99-1.5 3.57-3.48 3.57-2.25 0-3.56-2.12-4.2-3.75.74-1.92 2.3-3.4 4.2-3.4z"/>
+                            <path fill="#0081FB" d="M16.96 4C13.86 4 12.87 5.95 12 7.05 11.13 5.95 10.14 4 7.04 4 3.16 4 0 7.15 0 11.04c0 4.19 3.01 7.42 6.69 7.42 3.1 0 4.54-2.12 5.31-3.33.77 1.21 2.21 3.33 5.31 3.33 3.68 0 6.69-3.23 6.69-7.42C24 7.15 20.84 4 16.96 4zm-.18 12.06c-2.25 0-3.56-2.12-4.2-3.75.74-1.92 2.3-3.4 4.2-3.4 1.98 0 3.48 1.58 3.48 3.58 0 1.99-1.5 3.57-3.48 3.57zm-9.56 0c-1.98 0-3.48-1.58-3.48-3.57 0-2 1.5-3.58 3.48-3.58 1.9 0 3.46 1.48 4.2 3.4-.64 1.63-1.95 3.75-4.2 3.75z"/>
                         </svg>
                         <span>Meta</span>
                     </a>
@@ -501,7 +495,7 @@
                     <!-- 6. Netflix -->
                     <a href="https://netflix.com" target="_blank" class="apple-partner-card" title="Netflix">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path fill="#E50914" d="M4 0h3.5v19.5L16.5 0H20v24h-3.5V4.5L7.5 24H4V0z"/>
+                            <path fill="#E50914" d="M4 0h4.5v18.5L15.5 0H20v24h-4.5V5.5L8.5 24H4V0z"/>
                         </svg>
                         <span>Netflix</span>
                     </a>
@@ -509,8 +503,8 @@
                     <!-- 7. Trendyol -->
                     <a href="https://trendyol.com" target="_blank" class="apple-partner-card" title="Trendyol">
                         <svg viewBox="0 0 24 24" width="18" height="18">
-                            <rect width="24" height="24" rx="4" fill="#F27A1A"/>
-                            <path fill="#ffffff" d="M7 8h10v2.5h-3.6v7.5h-2.8v-7.5H7V8z"/>
+                            <rect width="24" height="24" rx="6" fill="#F27A1A"/>
+                            <path fill="#ffffff" d="M13.8 6.5h2.2v2.5h-2.2v4.2c0 .9.4 1.3 1.3 1.3.3 0 .7 0 .9-.1v2.3c-.6.2-1.3.3-2.1.3-2.2 0-3.3-1.1-3.3-3.2V9H8.5V6.5h2.1V3.8l3.2-.8v3.5z"/>
                         </svg>
                         <span>Trendyol</span>
                     </a>
@@ -518,8 +512,7 @@
                     <!-- 8. Stripe -->
                     <a href="https://stripe.com" target="_blank" class="apple-partner-card" title="Stripe">
                         <svg viewBox="0 0 24 24" width="18" height="18">
-                            <rect width="24" height="24" rx="4" fill="#635BFF"/>
-                            <path fill="#ffffff" d="M13.9 10.8c0-.7-.6-1.1-1.6-1.1-1.2 0-2.3.4-3.1.8l-.5-2.5c1.1-.5 2.5-.8 3.9-.8 3.5 0 5.4 1.6 5.4 4.5 0 4.1-5.7 3.5-5.7 5.3 0 .8.7 1.2 1.8 1.2 1.4 0 2.7-.5 3.5-1l.5 2.5c-1.1.6-2.7 1-4.3 1-3.7 0-5.7-1.8-5.7-4.5 0-4.3 5.8-3.6 5.8-5.4z"/>
+                            <path fill="#635BFF" d="M13.976 9.15c0-.853-.694-1.186-1.834-1.186-1.611 0-3.633.504-4.877 1.186l-.604-3.415C8.077 5.068 10.584 4.5 13.064 4.5c4.717 0 7.828 2.378 7.828 6.634 0 6.495-8.91 5.485-8.91 8.318 0 .976.848 1.341 2.052 1.341 1.954 0 4.298-.698 5.626-1.446l.635 3.398c-1.579.774-4.223 1.255-6.867 1.255C8.012 24 4.5 21.606 4.5 17.434c0-6.14 8.976-5.26 8.976-8.284h.5z"/>
                         </svg>
                         <span>Stripe</span>
                     </a>
@@ -966,6 +959,98 @@
             </div>
         </div>
     </main>
+
+    <script>
+    (function() {
+        const container = document.querySelector('.spotlight-marquee-container');
+        const track = document.querySelector('.spotlight-track');
+        if (!container || !track) return;
+
+        let isDown = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let isAutoScrolling = true;
+        let hasDragged = false;
+        const speed = 0.55;
+
+        function getHalfWidth() {
+            return track.scrollWidth / 2;
+        }
+
+        function step() {
+            if (isAutoScrolling && !isDown) {
+                currentTranslate -= speed;
+                const halfWidth = getHalfWidth();
+                if (halfWidth > 0 && Math.abs(currentTranslate) >= halfWidth) {
+                    currentTranslate += halfWidth;
+                }
+                track.style.transform = 'translateX(' + currentTranslate + 'px)';
+            }
+            requestAnimationFrame(step);
+        }
+
+        track.style.animation = 'none';
+        container.style.cursor = 'grab';
+        requestAnimationFrame(step);
+
+        function startDrag(e) {
+            isDown = true;
+            hasDragged = false;
+            isAutoScrolling = false;
+            container.style.cursor = 'grabbing';
+            const pageX = (e.pageX !== undefined) ? e.pageX : (e.touches && e.touches[0].pageX);
+            startX = pageX - currentTranslate;
+        }
+
+        function moveDrag(e) {
+            if (!isDown) return;
+            const pageX = (e.pageX !== undefined) ? e.pageX : (e.touches && e.touches[0].pageX);
+            if (pageX === undefined) return;
+            const dist = Math.abs(pageX - (startX + currentTranslate));
+            if (dist > 4) {
+                hasDragged = true;
+            }
+            currentTranslate = pageX - startX;
+            const halfWidth = getHalfWidth();
+            if (halfWidth > 0) {
+                if (currentTranslate > 0) currentTranslate -= halfWidth;
+                if (Math.abs(currentTranslate) >= halfWidth) currentTranslate += halfWidth;
+            }
+            track.style.transform = 'translateX(' + currentTranslate + 'px)';
+        }
+
+        function endDrag() {
+            if (!isDown) return;
+            isDown = false;
+            container.style.cursor = 'grab';
+            setTimeout(function() {
+                if (!isDown) isAutoScrolling = true;
+            }, 1000);
+        }
+
+        container.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', moveDrag);
+        window.addEventListener('mouseup', endDrag);
+
+        container.addEventListener('touchstart', startDrag, { passive: true });
+        window.addEventListener('touchmove', moveDrag, { passive: true });
+        window.addEventListener('touchend', endDrag);
+
+        container.addEventListener('mouseenter', function() {
+            if (!isDown) isAutoScrolling = false;
+        });
+        container.addEventListener('mouseleave', function() {
+            if (!isDown) isAutoScrolling = true;
+        });
+
+        track.addEventListener('click', function(e) {
+            if (hasDragged) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
+    })();
+    </script>
 
     <%- include('partials/footer') %>
 </body>
