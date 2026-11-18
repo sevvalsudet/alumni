@@ -6,7 +6,7 @@
         /* Hero: Apple Museum Scale & Runway Editorial Pacing */
         .hero-section {
             text-align: center;
-            padding: 85px 0 65px;
+            padding: 85px 0 50px;
         }
 
         .hero-eyebrow {
@@ -46,45 +46,258 @@
             flex-wrap: wrap;
         }
 
-        /* Apple Metric Tiles */
-        .metric-tiles {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin: 40px 0 65px;
-        }
-
-        .metric-tile {
-            background: var(--canvas-card);
+        /* 1. VISUAL: Minimalist Network Constellation Card */
+        .constellation-card {
+            background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: var(--radius-lg);
-            padding: 26px 24px;
+            padding: 40px 32px 32px;
             box-shadow: var(--shadow-apple);
+            margin: 45px 0 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .metric-tile-label {
+        .constellation-header {
+            max-width: 680px;
+            margin: 0 auto 28px;
+        }
+
+        .constellation-header h3 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .constellation-header p {
+            font-size: 15px;
+            color: var(--ink-secondary);
+            line-height: 1.5;
+        }
+
+        .constellation-svg-wrapper {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .constellation-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .constellation-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            font-size: 12.5px;
+            color: var(--ink-secondary);
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.alumni { background: #0071e3; box-shadow: 0 0 8px rgba(0, 113, 227, 0.4); }
+        .legend-dot.student { background: #34c759; box-shadow: 0 0 8px rgba(52, 199, 89, 0.4); }
+        .legend-dot.company { background: #1d1d1f; box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); }
+
+        /* 2. VISUAL: Monochrome Partner Company Logo Cloud */
+        .company-cloud-section {
+            padding: 30px 0 60px;
+            text-align: center;
+        }
+
+        .company-cloud-label {
             font-size: 11.5px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.12em;
             color: var(--ink-muted);
-            margin-bottom: 6px;
+            margin-bottom: 28px;
+            display: block;
         }
 
-        .metric-tile-value {
+        .company-logos-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(24px, 5vw, 64px);
+            flex-wrap: wrap;
+        }
+
+        .company-logo-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #86868b;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            opacity: 0.75;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .company-logo-item:hover {
+            color: var(--ink-pure);
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        .company-logo-item svg {
+            height: 22px;
+            width: auto;
+            fill: currentColor;
+        }
+
+        /* 3. VISUAL: Horizontal Scrollable Alumni Spotlight Cards */
+        .spotlight-section {
+            margin-bottom: 75px;
+        }
+
+        .spotlight-header-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .spotlight-header-row h2 {
             font-size: 28px;
             font-weight: 700;
             letter-spacing: -0.03em;
             color: var(--ink);
+            margin-bottom: 6px;
         }
 
-        .metric-tile-sub {
-            font-size: 13px;
+        .spotlight-header-row p {
+            font-size: 15px;
             color: var(--ink-secondary);
-            margin-top: 4px;
         }
 
-        /* RunwayML + Apple Module Tiles */
+        .spotlight-scroll-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 4px 24px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        .spotlight-scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .spotlight-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius-pill);
+        }
+
+        .spotlight-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-apple);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+        }
+
+        .spotlight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .spotlight-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .spotlight-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .avatar-1 { background: linear-gradient(135deg, #0071e3, #47a3ff); }
+        .avatar-2 { background: linear-gradient(135deg, #1d1d1f, #48484a); }
+        .avatar-3 { background: linear-gradient(135deg, #f56300, #ff8c38); }
+        .avatar-4 { background: linear-gradient(135deg, #34c759, #30d158); }
+        .avatar-5 { background: linear-gradient(135deg, #af52de, #bf5af2); }
+
+        .spotlight-name {
+            font-size: 16.5px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        .spotlight-role {
+            font-size: 13px;
+            color: var(--apple-blue);
+            font-weight: 500;
+        }
+
+        .spotlight-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--canvas-parchment);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            color: var(--ink-secondary);
+            margin-bottom: 14px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .spotlight-quote {
+            font-size: 14px;
+            color: var(--ink-secondary);
+            line-height: 1.55;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .spotlight-action {
+            margin-top: auto;
+            border-top: 1px solid var(--hairline-soft);
+            padding-top: 14px;
+        }
+
+        /* Product Modules Grid */
         .tiles-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -168,14 +381,13 @@
         }
 
         @media (max-width: 900px) {
-            .metric-tiles { grid-template-columns: repeat(2, 1fr); }
             .tiles-grid { grid-template-columns: repeat(2, 1fr); }
             .tile-wide { grid-column: span 2; }
             .apple-dark-tile { flex-direction: column; align-items: flex-start; }
         }
 
         @media (max-width: 640px) {
-            .metric-tiles, .tiles-grid { grid-template-columns: 1fr; }
+            .tiles-grid { grid-template-columns: 1fr; }
             .tile-wide { grid-column: span 1; }
             .hero-title { font-size: 36px; }
             .hero-desc { font-size: 17px; }
@@ -204,31 +416,273 @@
             </div>
         </section>
 
-        <!-- Metric Ribbon -->
-        <div class="metric-tiles">
-            <div class="metric-tile">
-                <div class="metric-tile-label">Community Network</div>
-                <div class="metric-tile-value">Verified</div>
-                <div class="metric-tile-sub">Active alumni & student profiles across all majors</div>
+        <!-- 1. VISUAL: Minimalist Network Constellation -->
+        <section class="constellation-card">
+            <div class="constellation-header">
+                <span class="hero-eyebrow" style="color: var(--apple-blue);">Live Ecosystem Graph</span>
+                <h3>Connecting Every Graduation Journey</h3>
+                <p>
+                    A real-time neural network linking ambitious students with established alumni leaders and hiring partners globally.
+                </p>
             </div>
-            <div class="metric-tile">
-                <div class="metric-tile-label">Career Desk</div>
-                <div class="metric-tile-value">Open Roles</div>
-                <div class="metric-tile-sub">Full-time, remote & internship opportunities</div>
-            </div>
-            <div class="metric-tile">
-                <div class="metric-tile-label">Career Pathways</div>
-                <div class="metric-tile-value">Direct Apply</div>
-                <div class="metric-tile-sub">Transparent candidate & recruiter pipeline</div>
-            </div>
-            <div class="metric-tile">
-                <div class="metric-tile-label">Alumni Mentorship</div>
-                <div class="metric-tile-value">Lifelong</div>
-                <div class="metric-tile-sub">Continuous professional guidance & networking</div>
-            </div>
-        </div>
 
-        <!-- Museum Product Modules -->
+            <div class="constellation-svg-wrapper">
+                <svg class="constellation-svg" viewBox="0 0 960 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="lineGradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0071e3" stop-opacity="0.15" />
+                            <stop offset="50%" stop-color="#0071e3" stop-opacity="0.65" />
+                            <stop offset="100%" stop-color="#0071e3" stop-opacity="0.15" />
+                        </linearGradient>
+                        <linearGradient id="lineGradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#34c759" stop-opacity="0.5" />
+                            <stop offset="100%" stop-color="#0071e3" stop-opacity="0.5" />
+                        </linearGradient>
+                        <filter id="glowBlur" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="4" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+
+                    <!-- Connecting Lines: Clean Minimalist Hairlines -->
+                    <line x1="120" y1="160" x2="280" y2="80" stroke="url(#lineGradBlue)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                    <line x1="120" y1="160" x2="280" y2="240" stroke="url(#lineGradGreen)" stroke-width="1.5"/>
+                    <line x1="280" y1="80" x2="480" y2="160" stroke="url(#lineGradBlue)" stroke-width="1.5"/>
+                    <line x1="280" y1="240" x2="480" y2="160" stroke="url(#lineGradBlue)" stroke-width="1.5"/>
+                    <line x1="480" y1="160" x2="680" y2="90" stroke="url(#lineGradBlue)" stroke-width="1.8"/>
+                    <line x1="480" y1="160" x2="680" y2="230" stroke="url(#lineGradGreen)" stroke-width="1.5"/>
+                    <line x1="680" y1="90" x2="840" y2="160" stroke="url(#lineGradBlue)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                    <line x1="680" y1="230" x2="840" y2="160" stroke="url(#lineGradBlue)" stroke-width="1.5"/>
+                    <line x1="280" y1="80" x2="680" y2="90" stroke="rgba(0,0,0,0.06)" stroke-width="1" stroke-dasharray="2 4"/>
+                    <line x1="280" y1="240" x2="680" y2="230" stroke="rgba(0,0,0,0.06)" stroke-width="1" stroke-dasharray="2 4"/>
+
+                    <!-- Node 1: Student Hub (Left) -->
+                    <g transform="translate(120, 160)">
+                        <circle r="20" fill="rgba(52, 199, 89, 0.12)" />
+                        <circle r="7" fill="#34c759" filter="url(#glowBlur)" />
+                        <text y="-28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Active Students</text>
+                        <text y="-14" text-anchor="middle" font-size="9.5" fill="#86868b" font-family="-apple-system, sans-serif">Class of '24-'27</text>
+                    </g>
+
+                    <!-- Node 2: Mentorship Track (Top Left) -->
+                    <g transform="translate(280, 80)">
+                        <circle r="18" fill="rgba(0, 113, 227, 0.1)" />
+                        <circle r="6" fill="#0071e3" />
+                        <text y="-24" text-anchor="middle" font-size="11" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Tech Mentorship</text>
+                    </g>
+
+                    <!-- Node 3: Internship Hub (Bottom Left) -->
+                    <g transform="translate(280, 240)">
+                        <circle r="18" fill="rgba(52, 199, 89, 0.1)" />
+                        <circle r="6" fill="#34c759" />
+                        <text y="28" text-anchor="middle" font-size="11" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Summer Internships</text>
+                    </g>
+
+                    <!-- Node 4: Main Center Hub: University Core -->
+                    <g transform="translate(480, 160)">
+                        <circle r="36" fill="rgba(0, 113, 227, 0.08)" />
+                        <circle r="24" fill="#ffffff" stroke="#0071e3" stroke-width="2" />
+                        <circle r="9" fill="#0071e3" filter="url(#glowBlur)" />
+                        <text y="44" text-anchor="middle" font-size="13" font-weight="700" fill="#1d1d1f" font-family="-apple-system, sans-serif">Alumni.io Ecosystem</text>
+                        <text y="58" text-anchor="middle" font-size="10" fill="#0071e3" font-family="-apple-system, sans-serif">Central Relational Hub</text>
+                    </g>
+
+                    <!-- Node 5: Industry Giants (Top Right) -->
+                    <g transform="translate(680, 90)">
+                        <circle r="22" fill="rgba(29, 29, 31, 0.08)" />
+                        <circle r="7" fill="#1d1d1f" />
+                        <text y="-26" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Global Tech Leaders</text>
+                        <text y="-13" text-anchor="middle" font-size="9.5" fill="#86868b" font-family="-apple-system, sans-serif">Google &bull; Apple &bull; Amazon</text>
+                    </g>
+
+                    <!-- Node 6: Startups & High Growth (Bottom Right) -->
+                    <g transform="translate(680, 230)">
+                        <circle r="18" fill="rgba(0, 113, 227, 0.1)" />
+                        <circle r="6" fill="#0071e3" />
+                        <text y="26" text-anchor="middle" font-size="11" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Scaleups & Ventures</text>
+                    </g>
+
+                    <!-- Node 7: Verified Alumni (Far Right) -->
+                    <g transform="translate(840, 160)">
+                        <circle r="20" fill="rgba(0, 113, 227, 0.12)" />
+                        <circle r="7" fill="#0071e3" filter="url(#glowBlur)" />
+                        <text y="-28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Verified Alumni</text>
+                        <text y="-14" text-anchor="middle" font-size="9.5" fill="#86868b" font-family="-apple-system, sans-serif">Global Network</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="constellation-legend">
+                <span class="legend-item"><span class="legend-dot student"></span> Active Students (Applied Roles)</span>
+                <span class="legend-item"><span class="legend-dot alumni"></span> University Alumni (Mentors & Referrals)</span>
+                <span class="legend-item"><span class="legend-dot company"></span> Partner Companies & Enterprises</span>
+            </div>
+        </section>
+
+        <!-- 2. VISUAL: Monochrome Partner Company Logo Cloud -->
+        <section class="company-cloud-section">
+            <span class="company-cloud-label">Where Our Graduates Work & Hire</span>
+            <div class="company-logos-row">
+                <!-- Google -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+                    <span>Google</span>
+                </div>
+                <!-- Apple -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.76 1.05-1.82.93-2.88-.9.04-2 .6-2.65 1.37-.58.67-.98 1.76-.84 2.8.99.08 2.03-.53 2.56-1.29z"/></svg>
+                    <span>Apple</span>
+                </div>
+                <!-- Microsoft -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M0 0h11.377v11.377H0zm12.623 0H24v11.377H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623z"/></svg>
+                    <span>Microsoft</span>
+                </div>
+                <!-- Amazon -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M13.924 16.14c-4.004 2.955-9.845 1.572-13.35-.985-.262-.19-.045-.55.247-.414 3.774 1.762 8.766 2.33 12.617-.46.398-.29.824.234.486.86zm1.187-1.428c-.463-.59-3.07-.279-4.24-.141-.358.043-.414-.287-.093-.51 2.083-1.44 5.485-1.026 6.012-.358.528.667-.14 3.992-2.11 5.56-.303.242-.591.114-.457-.202.443-1.042 1.35-3.759.888-4.349z"/></svg>
+                    <span>Amazon</span>
+                </div>
+                <!-- Trendyol -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6H7v-2h6v8zm4 0h-2V7h2v10z"/></svg>
+                    <span>Trendyol</span>
+                </div>
+                <!-- Stripe -->
+                <div class="company-logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697.5 12.619.5 7.158.5 3.328 3.356 3.328 7.64c0 3.318 2.052 5.037 5.626 6.37 2.45.922 3.284 1.623 3.284 2.607 0 .977-.852 1.505-2.28 1.505-2.203 0-4.996-1.09-6.938-2.181l-.914 5.666c1.882.88 4.796 1.493 7.852 1.493 5.753 0 9.774-2.738 9.774-7.256 0-3.522-2.118-5.267-5.755-6.694z"/></svg>
+                    <span>Stripe</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. VISUAL: Horizontal Scrollable Alumni Spotlight Cards -->
+        <section class="spotlight-section">
+            <div class="spotlight-header-row">
+                <div>
+                    <span class="hero-eyebrow" style="color: var(--apple-blue); margin-bottom: 6px;">Alumni Spotlights</span>
+                    <h2>Meet Leaders from Our Network</h2>
+                    <p>Discover how graduates are innovating and mentoring across leading tech and creative hubs.</p>
+                </div>
+                <div style="font-size: 13px; color: var(--ink-muted);">
+                    <span>Scroll horizontally to explore &rarr;</span>
+                </div>
+            </div>
+
+            <div class="spotlight-scroll-container">
+                <!-- Spotlight Card 1 -->
+                <div class="spotlight-card">
+                    <div>
+                        <div class="spotlight-top">
+                            <div class="spotlight-avatar avatar-1">AK</div>
+                            <div>
+                                <div class="spotlight-name">Ayşe Kaya</div>
+                                <div class="spotlight-role">Senior ML Engineer</div>
+                            </div>
+                        </div>
+                        <div class="spotlight-meta-badge">
+                            🏢 Google &bull; Mountain View, CA
+                        </div>
+                        <p class="spotlight-quote">
+                            "Mentoring current students and opening direct referral tracks for AI roles has been one of the most fulfilling journeys since graduating."
+                        </p>
+                    </div>
+                    <div class="spotlight-action">
+                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '20 &bull; Computer Eng.</span>
+                    </div>
+                </div>
+
+                <!-- Spotlight Card 2 -->
+                <div class="spotlight-card">
+                    <div>
+                        <div class="spotlight-top">
+                            <div class="spotlight-avatar avatar-2">MT</div>
+                            <div>
+                                <div class="spotlight-name">Mehmet Tan</div>
+                                <div class="spotlight-role">Staff Product Designer</div>
+                            </div>
+                        </div>
+                        <div class="spotlight-meta-badge">
+                            🏢 Apple &bull; Cupertino, CA
+                        </div>
+                        <p class="spotlight-quote">
+                            "The university design critique sessions laid the exact foundation needed to design hardware & software experiences at global scale."
+                        </p>
+                    </div>
+                    <div class="spotlight-action">
+                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Industrial Design</span>
+                    </div>
+                </div>
+
+                <!-- Spotlight Card 3 -->
+                <div class="spotlight-card">
+                    <div>
+                        <div class="spotlight-top">
+                            <div class="spotlight-avatar avatar-3">ZD</div>
+                            <div>
+                                <div class="spotlight-name">Zeynep Demir</div>
+                                <div class="spotlight-role">Lead Software Architect</div>
+                            </div>
+                        </div>
+                        <div class="spotlight-meta-badge">
+                            🏢 Trendyol &bull; Istanbul, TR
+                        </div>
+                        <p class="spotlight-quote">
+                            "We actively scout our backend interns and junior engineers directly through our alumni portal every recruitment cycle."
+                        </p>
+                    </div>
+                    <div class="spotlight-action">
+                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '18 &bull; Software Eng.</span>
+                    </div>
+                </div>
+
+                <!-- Spotlight Card 4 -->
+                <div class="spotlight-card">
+                    <div>
+                        <div class="spotlight-top">
+                            <div class="spotlight-avatar avatar-4">CA</div>
+                            <div>
+                                <div class="spotlight-name">Can Arslan</div>
+                                <div class="spotlight-role">Cloud Solutions Lead</div>
+                            </div>
+                        </div>
+                        <div class="spotlight-meta-badge">
+                            🏢 Amazon AWS &bull; Dublin, IE
+                        </div>
+                        <p class="spotlight-quote">
+                            "From campus hackathons to architecting multi-region clouds at AWS, peer connections from this network made all the difference."
+                        </p>
+                    </div>
+                    <div class="spotlight-action">
+                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '21 &bull; Electrical Eng.</span>
+                    </div>
+                </div>
+
+                <!-- Spotlight Card 5 -->
+                <div class="spotlight-card">
+                    <div>
+                        <div class="spotlight-top">
+                            <div class="spotlight-avatar avatar-5">EY</div>
+                            <div>
+                                <div class="spotlight-name">Elif Yılmaz</div>
+                                <div class="spotlight-role">VP of Operations</div>
+                            </div>
+                        </div>
+                        <div class="spotlight-meta-badge">
+                            🏢 Stripe &bull; London, UK
+                        </div>
+                        <p class="spotlight-quote">
+                            "A connected alumni platform creates serendipitous partnerships for startup founders and operators navigating global expansion."
+                        </p>
+                    </div>
+                    <div class="spotlight-action">
+                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '17 &bull; Economics</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Modules Grid -->
         <div class="tiles-grid">
             <!-- Users Tile -->
             <a href="/users" class="tile-card">

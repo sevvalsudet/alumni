@@ -81,17 +81,80 @@
         width: 100%;
     }
 
-    /* Apple-Style Dark Navigation (#2a2a2c) */
+    /* Apple Global Navigation: Exact 44px SF Pro Cadence */
     nav.apple-nav {
         position: sticky;
         top: 0;
         z-index: 999;
-        background: #2a2a2c;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        height: 52px;
+        height: 44px;
         display: flex;
         align-items: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+        font-size: 12px;
+        letter-spacing: -0.01em;
+        transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    /* 1. Apple Homepage Dark Navigation (https://www.apple.com/tr/) */
+    nav.apple-nav.apple-nav-dark {
+        background: rgba(22, 22, 23, 0.82);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    nav.apple-nav.apple-nav-dark .nav-brand {
+        color: #ffffff;
+    }
+    nav.apple-nav.apple-nav-dark .nav-brand-icon-svg {
+        stroke: #ffffff;
+    }
+    nav.apple-nav.apple-nav-dark .nav-item {
+        color: rgba(255, 255, 255, 0.8);
+    }
+    nav.apple-nav.apple-nav-dark .nav-item:hover {
+        color: #ffffff !important;
+        opacity: 1;
+    }
+    nav.apple-nav.apple-nav-dark .nav-item.active {
+        color: #ffffff !important;
+        font-weight: 600;
+        opacity: 1;
+    }
+    nav.apple-nav.apple-nav-dark .nav-status-pill {
+        background: rgba(52, 199, 89, 0.16);
+        color: #7ee787;
+        border: 1px solid rgba(52, 199, 89, 0.35);
+    }
+
+    /* 2. Apple Subpage Light Navigation (https://www.apple.com/tr/store) */
+    nav.apple-nav.apple-nav-light {
+        background: rgba(245, 245, 247, 0.85);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    nav.apple-nav.apple-nav-light .nav-brand {
+        color: #1d1d1f;
+    }
+    nav.apple-nav.apple-nav-light .nav-brand-icon-svg {
+        stroke: #1d1d1f;
+    }
+    nav.apple-nav.apple-nav-light .nav-item {
+        color: rgba(0, 0, 0, 0.72);
+    }
+    nav.apple-nav.apple-nav-light .nav-item:hover {
+        color: #000000 !important;
+        opacity: 1;
+    }
+    nav.apple-nav.apple-nav-light .nav-item.active {
+        color: #000000 !important;
+        font-weight: 600;
+        opacity: 1;
+    }
+    nav.apple-nav.apple-nav-light .nav-status-pill {
+        background: var(--status-green-bg);
+        color: #1b5e20;
+        border: 1px solid rgba(52, 199, 89, 0.25);
     }
 
     .apple-nav-inner {
@@ -99,66 +162,58 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        max-width: 1040px;
+        margin: 0 auto;
     }
 
     .nav-brand {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
         text-decoration: none;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 14.5px;
+        font-weight: 500;
+        font-size: 13.5px;
         letter-spacing: -0.02em;
-        transition: opacity 0.15s ease;
+        transition: opacity 0.2s ease;
     }
 
     .nav-brand:hover {
-        opacity: 0.85;
+        opacity: 0.7;
     }
 
-    .nav-brand-icon {
-        font-size: 17px;
+    .nav-brand-icon-svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        transition: transform 0.2s ease;
+    }
+
+    .nav-brand:hover .nav-brand-icon-svg {
+        transform: scale(1.08);
     }
 
     .nav-items {
         display: flex;
         align-items: center;
-        gap: 2px;
+        gap: 16px;
     }
 
     .nav-item {
-        color: #e0e0e0;
         text-decoration: none;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 400;
-        padding: 6px 14px;
-        border-radius: var(--radius-pill);
-        transition: all 0.18s ease;
-    }
-
-    .nav-item:hover {
-        color: #ffffff !important;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-item.active {
-        color: #ffffff !important;
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.16);
+        padding: 4px 6px;
+        transition: color 0.15s ease, opacity 0.15s ease;
     }
 
     .nav-status-pill {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: rgba(52, 199, 89, 0.16);
-        color: #7ee787;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 500;
-        padding: 4px 10px;
+        padding: 3px 10px;
         border-radius: var(--radius-pill);
-        border: 1px solid rgba(52, 199, 89, 0.35);
     }
 
     .status-pulse {
@@ -166,7 +221,7 @@
         height: 6px;
         border-radius: 50%;
         background: var(--status-green);
-        box-shadow: 0 0 0 2px rgba(52, 199, 89, 0.3);
+        box-shadow: 0 0 0 2px rgba(52, 199, 89, 0.25);
     }
 
     /* Page Header: Apple Tight Headline Cadence */
