@@ -3,6 +3,10 @@
 <head>
     <%- include('partials/head', { title: 'Alumni Tracking System • Apple & RunwayML Edition' }) %>
     <style>
+        body {
+            background-color: rgb(255, 255, 255) !important;
+        }
+
         /* Hero: Apple Museum Scale & Runway Editorial Pacing */
         .hero-section {
             text-align: center;
@@ -422,23 +426,47 @@
                 <p class="apple-tile-sub">A continuous lifecycle uniting students, mentors, and employers.</p>
 
                 <div class="apple-ecosystem-visual">
-                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="apple-ecosystem-svg" viewBox="0 0 380 145" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <marker id="dotArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                                <path d="M 1 2 L 7 5 L 1 8 z" fill="#86868b"/>
+                            <marker id="dotArrowDark" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                <path d="M 1 2 L 7 5 L 1 8 z" fill="#1d1d1f"/>
                             </marker>
                         </defs>
-                        <!-- Symmetrical Oval Dotted Arrows Loop -->
+                        <!-- Mathematically Symmetrical Oval Dotted Arrows Loop -->
                         <!-- Arc 1: Students up to Alumni -->
-                        <path d="M 85 75 C 95 38, 120 26, 155 26" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
+                        <path d="M 78 63 A 112 54 0 0 1 143 19" stroke="#1d1d1f" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
                         <!-- Arc 2: Alumni down to Companies -->
-                        <path d="M 225 26 C 260 26, 285 38, 295 75" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
-                        <!-- Arc 3: Companies curving under to Students (Symmetrical bottom arc completing the oval) -->
-                        <path d="M 280 96 C 250 126, 130 126, 100 96" stroke="#86868b" stroke-width="1.5" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrow)"/>
-                        <!-- Plain Typography Nodes -->
-                        <text x="190" y="29" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Alumni</text>
-                        <text x="70" y="92" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Students</text>
-                        <text x="310" y="92" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Companies</text>
+                        <path d="M 237 19 A 112 54 0 0 1 302 63" stroke="#1d1d1f" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
+                        <!-- Arc 3: Companies under to Students -->
+                        <path d="M 254 112 A 112 54 0 0 1 126 112" stroke="#1d1d1f" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
+                        
+                        <!-- Node 1: Alumni (Top Center) with minimal icon -->
+                        <g transform="translate(190, 20)">
+                            <!-- Mortarboard cap icon -->
+                            <path d="M -34 -4 L -27 -1 L -20 -4 L -27 -7 Z" fill="none" stroke="#1d1d1f" stroke-width="1.3" stroke-linejoin="round"/>
+                            <path d="M -31 0 L -31 3.5 C -31 5, -23 5, -23 3.5 L -23 0" fill="none" stroke="#1d1d1f" stroke-width="1.2"/>
+                            <path d="M -20 -4 L -20 2" stroke="#1d1d1f" stroke-width="1"/>
+                            <text x="-14" y="0" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Alumni</text>
+                        </g>
+
+                        <!-- Node 2: Students (Bottom Left) with minimal icon -->
+                        <g transform="translate(80, 88)">
+                            <!-- Student / user icon -->
+                            <circle cx="-34" cy="-3" r="3.2" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
+                            <path d="M -40 5.5 C -40 2.2, -28 2.2, -28 5.5" fill="none" stroke="#1d1d1f" stroke-width="1.3" stroke-linecap="round"/>
+                            <text x="-22" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Students</text>
+                        </g>
+
+                        <!-- Node 3: Companies (Bottom Right) with minimal icon -->
+                        <g transform="translate(295, 88)">
+                            <!-- Building icon -->
+                            <rect x="-40" y="-6.5" width="10" height="12" rx="1" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
+                            <line x1="-37" y1="-3.5" x2="-37" y2="-1.5" stroke="#1d1d1f" stroke-width="1.1"/>
+                            <line x1="-33" y1="-3.5" x2="-33" y2="-1.5" stroke="#1d1d1f" stroke-width="1.1"/>
+                            <line x1="-37" y1="0.5" x2="-37" y2="2.5" stroke="#1d1d1f" stroke-width="1.1"/>
+                            <line x1="-33" y1="0.5" x2="-33" y2="2.5" stroke="#1d1d1f" stroke-width="1.1"/>
+                            <text x="-24" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#1d1d1f" letter-spacing="-0.01em">Companies</text>
+                        </g>
                     </svg>
                 </div>
             </div>
