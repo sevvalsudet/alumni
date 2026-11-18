@@ -2,8 +2,20 @@
 
 A scalable, modern web application designed to bridge the gap between academic institutions, active students, and graduates. The platform enables alumni to maintain lifelong connections, track professional growth, share career opportunities, manage job applications, and foster community mentorship.
 
-> 🎨 **Brand Identity & Design System:** Check out [brand.md](brand.md) and [DESIGN.md](DESIGN.md) *(RunwayML + Apple aesthetic synthesis)* for visual identity, soft pastel palettes, typography standards, and UI tokens.  
-> 📐 **Data Design Document:** Check out [ddd.md](ddd.md) for database schema, relational integrity, and domain rules.
+> 🎨 **Brand & Design:** For visual identity and UI design tokens, see **[brand.md](brand.md)** and **[DESIGN.md](DESIGN.md)** *(RunwayML + Apple aesthetic synthesis)*.  
+> 📐 **Data Architecture:** For database schemas and relational integrity, see **[ddd.md](ddd.md)**.
+
+---
+
+## 📚 Core Documentation & Design Standards
+
+The project is governed by three primary source-of-truth documents:
+
+| Document | Focus | Highlights & Links |
+| :--- | :--- | :--- |
+| 🎨 **[brand.md](brand.md)** | **Brand Identity & Philosophy** | Brand values, soft pastel color palettes, typography scale, pill badges, and tone of voice. |
+| 📐 **[DESIGN.md](DESIGN.md)** | **Technical Design System** | Synthesis of **[RunwayML](https://getdesign.md/runwayml/design-md)** (editorial pacing, solid black pills) & **[Apple](https://getdesign.md/apple/design-md)** (frosted-glass navigation, parchment `#F5F5F7`, SF Pro tight typography, museum tiles). |
+| 🗄️ **[ddd.md](ddd.md)** | **Data Design Document** | Database schema, foreign key relations, constraints (`UNIQUE(user_id, job_id)`), and controller validations. |
 
 ---
 
@@ -198,20 +210,27 @@ alumni/
 │   ├── apiAnnouncementRoutes.js     # /api/announcements
 │   └── announcementRoutes.js        # /announcements
 ├── views/                    # EJS dynamic HTML templates
-│   ├── 404.ejs                      # Generic 404 Not Found error page
-│   ├── 500.ejs                      # 500 Internal Server Error page
+│   ├── partials/                    # Shared reusable design components
+│   │   ├── head.ejs                 # Shared tokens, typography & responsive styles
+│   │   ├── navbar.ejs               # Apple frosted-glass sticky navigation
+│   │   └── footer.ejs               # Apple parchment footer
+│   ├── index.ejs                    # Modern Apple & RunwayML homepage dashboard
+│   ├── 404.ejs                      # 404 Guardian error page
+│   ├── 500.ejs                      # 500 Server Error Guardian page
 │   ├── users.ejs & userDetail.ejs   # User list and profile views
+│   ├── userEdit.ejs                 # User profile edit form
 │   ├── jobs.ejs & jobDetail.ejs     # Job list and detail with quick-apply
 │   ├── applications.ejs             # Application management view
 │   ├── applicationDetail.ejs        # Application review & status view
-│   └── announcements.ejs            # Announcements board view
+│   ├── announcements.ejs            # Announcements board view
+│   └── announcementDetail.ejs       # Announcement detail view
 ├── scripts/                  # Database management scripts
 │   ├── migrate.js                   # Automated migration runner
 │   └── seed.js                      # Database seeder with factory integration
 ├── .env.example              # Public template for environment configuration
-├── brand.md                  # Brand identity, typography & design system guidelines
-├── DESIGN.md                 # Design system tokens (RunwayML + Apple synthesis)
-├── ddd.md                    # Data Design Documentation (Source of Truth)
+├── brand.md                  # Brand identity, typography & guidelines (see brand.md)
+├── DESIGN.md                 # Design system tokens (RunwayML + Apple, see DESIGN.md)
+├── ddd.md                    # Data Design Documentation (Source of Truth, see ddd.md)
 ├── docker-compose.yml        # Docker compose container setup
 ├── Dockerfile                # Docker image specification
 ├── package.json              # Project dependencies & scripts
