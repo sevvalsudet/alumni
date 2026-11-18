@@ -47,132 +47,160 @@
             margin-bottom: 34px;
         }
 
-        /* Two-Column Overview Grid: Network Connection + Partner Companies */
-        .overview-grid {
+        /* Apple Homepage Promo Twin Tiles (#f5f5f7, minimal edge gap, borderless) */
+        .apple-promo-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 28px;
-            max-width: 1280px;
-            margin: 0 auto 56px;
-            padding: 0 32px;
-            align-items: stretch;
+            gap: 12px;
+            width: 100%;
+            margin: 0 0 54px;
+            box-sizing: border-box;
         }
 
-        .overview-card {
-            background: #f0f0f0;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        .apple-promo-tile {
+            background: #f5f5f7;
+            border: none;
             border-radius: 0;
-            padding: 22px 24px 18px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            box-shadow: none;
+            padding: 48px 30px 42px;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 220px;
-            transition: all 0.25s ease;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 480px;
+            box-sizing: border-box;
+            position: relative;
         }
 
-        .overview-card:hover {
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .overview-card-header {
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .overview-card-header h3 {
-            font-size: 17px;
+        .apple-tile-title {
+            font-size: 32px;
             font-weight: 700;
             letter-spacing: -0.025em;
-            color: var(--ink);
-            margin-bottom: 4px;
+            color: #1d1d1f;
+            margin: 0 0 8px;
+            line-height: 1.2;
             text-align: center;
         }
 
-        .overview-card-header p {
-            font-size: 12.5px;
-            color: var(--ink-secondary);
-            line-height: 1.45;
-            margin: 0;
+        .apple-tile-sub {
+            font-size: 16px;
+            color: #1d1d1f;
+            line-height: 1.4;
+            margin: 0 0 18px;
+            max-width: 480px;
             text-align: center;
         }
 
-        /* Flowing Looping Swirl Dotted SVG */
-        .network-svg-container {
-            width: 100%;
+        .apple-tile-actions {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1;
-            padding: 4px 0;
+            gap: 12px;
+            margin-bottom: 34px;
         }
 
-        .network-dots-svg {
+        .apple-pill-blue {
+            background: #0071e3;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1;
+            padding: 9px 18px;
+            border-radius: 980px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.18s ease;
+        }
+        .apple-pill-blue:hover {
+            background: #0077ed;
+            color: #ffffff;
+        }
+
+        .apple-pill-outline {
+            background: transparent;
+            color: #0071e3;
+            border: 1px solid #0071e3;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1;
+            padding: 8px 17px;
+            border-radius: 980px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.18s ease;
+        }
+        .apple-pill-outline:hover {
+            background: #0071e3;
+            color: #ffffff;
+        }
+
+        /* Left Tile: Apple Architectural Ecosystem Visual */
+        .apple-ecosystem-visual {
             width: 100%;
-            max-width: 420px;
+            max-width: 480px;
+            margin: auto 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .apple-ecosystem-svg {
+            width: 100%;
             height: auto;
             display: block;
         }
 
-        @keyframes flowDash {
-            0% { stroke-dashoffset: 27; }
-            100% { stroke-dashoffset: 0; }
-        }
-
-        .flow-curved-arrow {
-            stroke: #1d1d1f;
-            stroke-width: 1.8;
-            stroke-linecap: round;
-            stroke-dasharray: 4 5;
-            animation: flowDash 2.4s linear infinite;
-        }
-
-        /* Colored Partner Logos Grid */
-        .company-logos-card-grid {
+        /* Right Tile: Apple Partner Logos Showcase (3x3 grid) */
+        .apple-partner-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            align-items: center;
-            justify-items: center;
-            flex: 1;
-            padding: 6px 0 0;
-        }
-
-        .company-logo-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            color: #1d1d1f;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: -0.015em;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            padding: 8px 10px;
-            border-radius: 0;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            gap: 12px;
             width: 100%;
-            height: 38px;
+            max-width: 460px;
+            margin: auto 0 0;
+        }
+
+        .apple-partner-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+            height: 48px;
+            text-decoration: none;
+            color: #1d1d1f;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            padding: 0 12px;
             box-sizing: border-box;
-            justify-content: flex-start;
         }
 
-        .company-logo-item:hover {
-            border-color: #1d1d1f;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transform: translateY(-1px);
+        .apple-partner-card:hover {
+            border-color: rgba(0, 0, 0, 0.16);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
         }
 
-        .company-logo-item svg {
+        .apple-partner-card svg {
             flex-shrink: 0;
         }
 
         @media (max-width: 900px) {
-            .overview-grid {
+            .apple-promo-grid {
                 grid-template-columns: 1fr;
-                padding: 0 16px;
+            }
+            .apple-tile-title {
+                font-size: 26px;
             }
         }
 
@@ -433,95 +461,101 @@
             </div>
         </section>
 
-        <!-- Two-Column Overview Grid: Looping Swirl Flow Diagram (Left) & Partner Companies (Right) -->
-        <section class="overview-grid">
-            <!-- Left Box: Dotted Looping Swirl Diagram (Alumni, Students, Companies) -->
-            <div class="overview-card">
-                <div class="overview-card-header">
-                    <h3>Connecting Every Graduation Journey</h3>
-                    <p>A continuous lifecycle uniting students, mentors, and employers.</p>
+        <!-- Apple Twin Promo Tiles: Connecting Journey (Left) & Partner Organizations (Right) -->
+        <section class="apple-promo-grid">
+            <!-- Left Tile: Apple Architectural Ecosystem Diagram (Alumni, Students, Companies) -->
+            <div class="apple-promo-tile">
+                <h2 class="apple-tile-title">Connecting Every Graduation Journey</h2>
+                <p class="apple-tile-sub">A continuous lifecycle uniting students, mentors, and employers.</p>
+                
+                <div class="apple-tile-actions">
+                    <a href="/users" class="apple-pill-blue">Explore Network</a>
+                    <a href="/jobs" class="apple-pill-outline">View Opportunities</a>
                 </div>
 
-                <div class="network-svg-container">
-                    <svg class="network-dots-svg" viewBox="0 0 380 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="apple-ecosystem-visual">
+                    <svg class="apple-ecosystem-svg" viewBox="0 0 480 216" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <marker id="arrowHead" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1d1d1f"/>
-                            </marker>
+                            <filter id="appleCardShadow" x="-10%" y="-10%" width="120%" height="130%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.04"/>
+                            </filter>
                         </defs>
 
-                        <!-- 1. LEFT BRANCH: From Alumni (190, 36) -> Students (75, 145) with looping swirl -->
-                        <path d="M 166 42 C 125 45, 90 62, 90 84 C 90 99, 122 101, 118 84 C 114 66, 78 92, 75 120"
-                              class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
+                        <!-- Clean Hairline Connectors -->
+                        <path d="M 215 62 L 140 146" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M 265 62 L 340 146" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M 170 173 L 310 173" stroke="#d2d2d7" stroke-width="1.5" stroke-linecap="round"/>
 
-                        <!-- 2. RIGHT BRANCH: From Alumni (190, 36) -> Companies (305, 145) with looping swirl -->
-                        <path d="M 214 42 C 255 45, 290 62, 290 84 C 290 99, 258 101, 262 84 C 266 66, 302 92, 305 120"
-                              class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
+                        <!-- Central Connection Core Hub -->
+                        <circle cx="240" cy="116" r="25" fill="#ffffff" stroke="rgba(0,0,0,0.07)" stroke-width="1.5" filter="url(#appleCardShadow)"/>
+                        <circle cx="240" cy="116" r="16" fill="#eff6ff"/>
+                        <circle cx="240" cy="111" r="2.5" fill="#0071e3"/>
+                        <circle cx="235" cy="120" r="2.5" fill="#0071e3"/>
+                        <circle cx="245" cy="120" r="2.5" fill="#0071e3"/>
+                        <line x1="240" y1="111" x2="235" y2="120" stroke="#0071e3" stroke-width="1.4"/>
+                        <line x1="240" y1="111" x2="245" y2="120" stroke="#0071e3" stroke-width="1.4"/>
+                        <line x1="235" y1="120" x2="245" y2="120" stroke="#0071e3" stroke-width="1.4"/>
+                        <text x="240" y="134" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="6" font-weight="700" fill="#86868b" letter-spacing="0.5">ECOSYSTEM</text>
 
-                        <!-- 3. BOTTOM BRANCH: From Students (75, 145) -> Companies (305, 145) with dotted trail & dot cluster -->
-                        <path d="M 104 156 Q 190 178, 276 156"
-                              class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
+                        <!-- Apple Meta Badges on Connectors -->
+                        <rect x="106" y="93" width="84" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                        <text x="148" y="107" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#0071e3">1:1 Mentorship</text>
 
-                        <!-- Swirling Dot Constellation in Center of Bottom Path (as drawn in sketch) -->
-                        <g class="swirl-dots-cluster">
-                            <circle cx="190" cy="158" r="3" fill="#1d1d1f"/>
-                            <circle cx="178" cy="154" r="2.2" fill="#86868b"/>
-                            <circle cx="202" cy="154" r="2.2" fill="#86868b"/>
-                            <circle cx="174" cy="165" r="1.8" fill="#a1a1a6"/>
-                            <circle cx="206" cy="165" r="1.8" fill="#a1a1a6"/>
-                            <circle cx="186" cy="172" r="2" fill="#86868b"/>
-                            <circle cx="196" cy="172" r="2" fill="#86868b"/>
-                            <circle cx="190" cy="178" r="1.5" fill="#a1a1a6"/>
-                            <circle cx="166" cy="158" r="1.6" fill="#c7c7cc"/>
-                            <circle cx="214" cy="158" r="1.6" fill="#c7c7cc"/>
+                        <rect x="290" y="93" width="84" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                        <text x="332" y="107" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#0071e3">Executive Roles</text>
+
+                        <rect x="197" y="163" width="86" height="20" rx="10" fill="#ffffff" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                        <text x="240" y="177" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#34c759">Direct Referrals</text>
+
+                        <!-- Entity Card 1: Alumni (Top Center) -->
+                        <g filter="url(#appleCardShadow)">
+                            <rect x="165" y="10" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+                            <circle cx="191" cy="36" r="14" fill="#eff6ff"/>
+                            <path d="M 191 29 L 192.5 33 L 197 33 L 193.5 35.5 L 195 40 L 191 37.5 L 187 40 L 188.5 35.5 L 185 33 L 189.5 33 Z" fill="#0071e3"/>
+                            <text x="214" y="31" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Alumni</text>
+                            <text x="214" y="46" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Mentors &amp; Leaders</text>
                         </g>
 
-                        <!-- Node 1: Alumni (Top Center) -->
-                        <g transform="translate(190, 36)">
-                            <circle r="18" fill="#ffffff" stroke="#1d1d1f" stroke-width="1.8"/>
-                            <!-- Star / Mentor Icon -->
-                            <path d="M 0 -6 L 1.8 -1.8 L 6.2 -1.8 L 2.6 1 L 4 5.5 L 0 2.8 L -4 5.5 L -2.6 1 L -6.2 -1.8 L -1.8 -1.8 Z" fill="#1d1d1f"/>
-                            <text y="-25" text-anchor="middle" font-size="12" font-weight="700" fill="#1d1d1f" font-family="-apple-system, sans-serif">Alumni</text>
-                            <text y="-14" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Mentors & Leaders</text>
+                        <!-- Entity Card 2: Students (Bottom Left) -->
+                        <g filter="url(#appleCardShadow)">
+                            <rect x="20" y="146" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+                            <circle cx="46" cy="172" r="14" fill="#f0fdf4"/>
+                            <path d="M 40 170 L 46 167 L 52 170 L 46 173 Z" fill="#34c759"/>
+                            <path d="M 42 172 L 42 175 C 42 177, 50 177, 50 175 L 50 172" fill="none" stroke="#34c759" stroke-width="1"/>
+                            <path d="M 52 170 L 52 175" stroke="#34c759" stroke-width="1"/>
+                            <text x="69" y="167" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Students</text>
+                            <text x="69" y="182" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Active Talent</text>
                         </g>
 
-                        <!-- Node 2: Students (Bottom Left) -->
-                        <g transform="translate(75, 145)">
-                            <circle r="18" fill="#ffffff" stroke="#1d1d1f" stroke-width="1.8"/>
-                            <!-- Student Mortarboard Icon -->
-                            <path d="M -7 -1 L 0 -5 L 7 -1 L 0 3 Z" fill="#1d1d1f"/>
-                            <path d="M -4 1.5 L -4 4.5 C -4 6, 4 6, 4 4.5 L 4 1.5" fill="none" stroke="#1d1d1f" stroke-width="1.2"/>
-                            <path d="M 7 -1 L 7 4" stroke="#1d1d1f" stroke-width="1.2"/>
-                            <text y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#1d1d1f" font-family="-apple-system, sans-serif">Students</text>
-                            <text y="39" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Active Talent</text>
-                        </g>
-
-                        <!-- Node 3: Companies (Bottom Right) -->
-                        <g transform="translate(305, 145)">
-                            <circle r="18" fill="#ffffff" stroke="#1d1d1f" stroke-width="1.8"/>
-                            <!-- Enterprise Building Icon -->
-                            <path d="M -6 6 L -6 -6 L 1 -6 L 1 6 Z" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
-                            <path d="M 1 6 L 1 -2 L 6 -2 L 6 6 Z" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
-                            <line x1="-3.5" y1="-3" x2="-1.5" y2="-3" stroke="#1d1d1f" stroke-width="1"/>
-                            <line x1="-3.5" y1="0" x2="-1.5" y2="0" stroke="#1d1d1f" stroke-width="1"/>
-                            <text y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#1d1d1f" font-family="-apple-system, sans-serif">Companies</text>
-                            <text y="39" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Hiring Partners</text>
+                        <!-- Entity Card 3: Companies (Bottom Right) -->
+                        <g filter="url(#appleCardShadow)">
+                            <rect x="310" y="146" width="150" height="52" rx="12" fill="#ffffff" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+                            <circle cx="336" cy="172" r="14" fill="#faf5ff"/>
+                            <path d="M 330 177 L 330 168 L 338 168 L 338 177 Z" fill="none" stroke="#af52de" stroke-width="1.2"/>
+                            <path d="M 338 177 L 338 171 L 342 171 L 342 177 Z" fill="none" stroke="#af52de" stroke-width="1.2"/>
+                            <line x1="333" y1="171" x2="335" y2="171" stroke="#af52de" stroke-width="1"/>
+                            <line x1="333" y1="174" x2="335" y2="174" stroke="#af52de" stroke-width="1"/>
+                            <text x="359" y="167" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="700" fill="#1d1d1f">Companies</text>
+                            <text x="359" y="182" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="10" font-weight="500" fill="#86868b">Hiring Partners</text>
                         </g>
                     </svg>
                 </div>
             </div>
 
-            <!-- Right Box: Where Our Graduates Work & Hire -->
-            <div class="overview-card">
-                <div class="overview-card-header">
-                    <h3>Where Our Graduates Work & Hire</h3>
-                    <p>Alumni leading teams across top global technology organizations.</p>
+            <!-- Right Tile: Where Our Graduates Work & Hire -->
+            <div class="apple-promo-tile">
+                <h2 class="apple-tile-title">Where Our Graduates Work &amp; Hire</h2>
+                <p class="apple-tile-sub">Alumni leading teams across top global technology organizations.</p>
+
+                <div class="apple-tile-actions">
+                    <a href="/jobs" class="apple-pill-blue">Explore Careers</a>
+                    <a href="/about" class="apple-pill-outline">About Our Network</a>
                 </div>
 
-                <div class="company-logos-card-grid">
+                <div class="apple-partner-grid">
                     <!-- 1. Google -->
-                    <a href="https://about.google" target="_blank" class="company-logo-item" title="Google">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
+                    <a href="https://about.google" target="_blank" class="apple-partner-card" title="Google">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
                             <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
                             <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
                             <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
@@ -531,16 +565,16 @@
                     </a>
 
                     <!-- 2. Apple -->
-                    <a href="https://www.apple.com" target="_blank" class="company-logo-item" title="Apple">
-                        <svg viewBox="0 0 170 170" width="15" height="15" fill="#000000">
+                    <a href="https://www.apple.com" target="_blank" class="apple-partner-card" title="Apple">
+                        <svg viewBox="0 0 170 170" width="16" height="16" fill="#1d1d1f">
                             <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.74-8.8-10.37-18.73-13.88-28.79-3.52-10.06-5.28-20.08-5.28-30.07 0-11.07 2.6-20.73 7.8-28.98 5.2-8.25 12.05-14.65 20.55-19.2 8.5-4.55 17.65-6.88 27.46-6.98 5.11 0 10.87 1.34 17.27 4.02 6.4 2.68 10.12 4.02 11.16 4.02 1.05 0 5.12-1.45 12.22-4.35 7.1-2.9 13.43-4.14 18.99-3.72 14.07.64 25.13 5.43 33.18 14.38-12.27 7.42-18.3 17.48-18.1 30.19.2 9.87 3.86 18.17 10.99 24.89 7.13 6.72 15.7 10.66 25.71 11.83-2.67 8.16-5.87 16.54-9.61 25.14zM119.22 31.84c0-7.72 2.76-14.84 8.28-21.36 5.53-6.52 12.44-10.48 20.74-11.88.22 1.74.33 3.37.33 4.89 0 7.61-2.83 14.88-8.5 21.8-5.66 6.92-12.7 10.96-21.12 12.12-.22-1.74-.33-3.37-.33-4.89z"/>
                         </svg>
                         <span>Apple</span>
                     </a>
 
                     <!-- 3. Microsoft -->
-                    <a href="https://www.microsoft.com" target="_blank" class="company-logo-item" title="Microsoft">
-                        <svg viewBox="0 0 21 21" width="15" height="15">
+                    <a href="https://www.microsoft.com" target="_blank" class="apple-partner-card" title="Microsoft">
+                        <svg viewBox="0 0 21 21" width="16" height="16">
                             <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
                             <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
                             <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
@@ -550,8 +584,8 @@
                     </a>
 
                     <!-- 4. Amazon -->
-                    <a href="https://www.amazon.jobs" target="_blank" class="company-logo-item" title="Amazon">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
+                    <a href="https://www.amazon.jobs" target="_blank" class="apple-partner-card" title="Amazon">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
                             <path fill="#232F3E" d="M13.9 12.8c-1.9.1-3.7.8-3.7 2.6 0 1.5 1.1 2.3 2.5 2.3 1.9 0 3-1.1 3.5-2.2v1.9h2.3V11c0-2.6-1.8-3.6-4.5-3.6-2.5 0-4.3 1.1-4.7 3.2l2.3.3c.3-1.1 1.2-1.6 2.4-1.6 1.4 0 2.2.6 2.2 1.9v.4c-.6-.4-1.4-.6-2.4-.4zm1.2 2.4c-.4.8-1.2 1.4-2.1 1.4-.8 0-1.4-.4-1.4-1.2 0-1 1-1.4 2.3-1.5.5 0 .9.1 1.2.2v1.1z"/>
                             <path fill="#FF9900" d="M21.7 18.2C17.3 21.4 11.2 22 5.8 19.3c-.8-.4-.1-1.3.7-1 5 2.4 10.7 1.8 14.7-1 .6-.4 1.1.4.5.9z"/>
                             <path fill="#FF9900" d="M22.8 16.8c-.3-.4-1.9-.3-2.9-.2-.3 0-.3-.3 0-.5 1.7-1.1 4.5-.8 4.8-.4.3.4-.4 3.2-2 4.4-.3.2-.5.1-.4-.2.4-.8.8-2.7.5-3.1z"/>
@@ -560,42 +594,42 @@
                     </a>
 
                     <!-- 5. Meta -->
-                    <a href="https://about.meta.com" target="_blank" class="company-logo-item" title="Meta">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
+                    <a href="https://about.meta.com" target="_blank" class="apple-partner-card" title="Meta">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
                             <path fill="#0668E1" d="M6.88 4C3.08 4 0 7.15 0 11.04c0 4.19 3.01 7.42 6.69 7.42 2.65 0 4.41-1.46 5.31-2.67.9 1.21 2.66 2.67 5.31 2.67 3.68 0 6.69-3.23 6.69-7.42C24 7.15 20.92 4 17.12 4c-3.1 0-5.12 1.94-5.12 1.94S9.98 4 6.88 4zm0 2.45c1.9 0 3.46 1.48 4.2 3.4-.64 1.63-1.95 3.75-4.2 3.75-1.98 0-3.48-1.58-3.48-3.57 0-2 1.5-3.58 3.48-3.58zm10.24 0c1.98 0 3.48 1.58 3.48 3.58 0 1.99-1.5 3.57-3.48 3.57-2.25 0-3.56-2.12-4.2-3.75.74-1.92 2.3-3.4 4.2-3.4z"/>
                         </svg>
                         <span>Meta</span>
                     </a>
 
                     <!-- 6. Netflix -->
-                    <a href="https://netflix.com" target="_blank" class="company-logo-item" title="Netflix">
-                        <svg viewBox="0 0 24 24" width="14" height="14">
+                    <a href="https://netflix.com" target="_blank" class="apple-partner-card" title="Netflix">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
                             <path fill="#E50914" d="M4 0h3.5v19.5L16.5 0H20v24h-3.5V4.5L7.5 24H4V0z"/>
                         </svg>
                         <span>Netflix</span>
                     </a>
 
                     <!-- 7. Trendyol -->
-                    <a href="https://trendyol.com" target="_blank" class="company-logo-item" title="Trendyol">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
-                            <rect width="24" height="24" rx="3" fill="#F27A1A"/>
+                    <a href="https://trendyol.com" target="_blank" class="apple-partner-card" title="Trendyol">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <rect width="24" height="24" rx="4" fill="#F27A1A"/>
                             <path fill="#ffffff" d="M7 8h10v2.5h-3.6v7.5h-2.8v-7.5H7V8z"/>
                         </svg>
                         <span>Trendyol</span>
                     </a>
 
                     <!-- 8. Stripe -->
-                    <a href="https://stripe.com" target="_blank" class="company-logo-item" title="Stripe">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
-                            <rect width="24" height="24" rx="3" fill="#635BFF"/>
+                    <a href="https://stripe.com" target="_blank" class="apple-partner-card" title="Stripe">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <rect width="24" height="24" rx="4" fill="#635BFF"/>
                             <path fill="#ffffff" d="M13.9 10.8c0-.7-.6-1.1-1.6-1.1-1.2 0-2.3.4-3.1.8l-.5-2.5c1.1-.5 2.5-.8 3.9-.8 3.5 0 5.4 1.6 5.4 4.5 0 4.1-5.7 3.5-5.7 5.3 0 .8.7 1.2 1.8 1.2 1.4 0 2.7-.5 3.5-1l.5 2.5c-1.1.6-2.7 1-4.3 1-3.7 0-5.7-1.8-5.7-4.5 0-4.3 5.8-3.6 5.8-5.4z"/>
                         </svg>
                         <span>Stripe</span>
                     </a>
 
                     <!-- 9. Spotify -->
-                    <a href="https://spotify.com" target="_blank" class="company-logo-item" title="Spotify">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
+                    <a href="https://spotify.com" target="_blank" class="apple-partner-card" title="Spotify">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
                             <circle cx="12" cy="12" r="12" fill="#1DB954"/>
                             <path fill="#ffffff" d="M17.5 15.6c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.2-.8-.5-.1-.4.2-.7.5-.8 4.1-.9 7.6-.5 10.3 1.2.4.2.4.6.2.9zm1.4-3.1c-.3.4-.8.5-1.2.3-2.9-1.8-7.3-2.3-10.7-1.3-.5.1-.9-.1-1.1-.6-.1-.5.1-.9.6-1.1 4-1.2 8.8-.6 12.1 1.4.4.3.5.9.3 1.3zm.1-3.2C15.5 7.2 9.6 7 6.2 8c-.6.2-1.2-.2-1.4-.8-.2-.6.2-1.2.8-1.4 4-.1.2 10.5-.9 14.5 1.5.5.3.7 1 .4 1.5-.3.5-1 .7-1.5.4z"/>
                         </svg>
