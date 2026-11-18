@@ -24,3 +24,133 @@ time 13:48:08 method GET route /trigger-error res. type 500 error: Test 500 Hata
     at next (/Users/sevvalsude/alumni/node_modules/router/index.js:291:5)
     at logger (/Users/sevvalsude/alumni/middlewares/logger.js:20:5)
 ----------------------------------------
+time 10:00:05 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:05.739Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:11 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:11.294Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:12 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:12.821Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:13 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:13.859Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:14 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:14.444Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:14 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:14.607Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:14 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:14.773Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:14 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:14.954Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:19 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:19.209Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
+time 10:00:23 method GET route / res. type 500 error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+[2026-11-18T07:00:23.518Z] Stack: Error: Failed to lookup view "index" in views directory "/Users/sevvalsude/alumni/views"
+    at app.render (/Users/sevvalsude/alumni/node_modules/express/lib/application.js:562:17)
+    at ServerResponse.render (/Users/sevvalsude/alumni/node_modules/express/lib/response.js:923:7)
+    at /Users/sevvalsude/alumni/server.js:62:9
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/sevvalsude/alumni/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/sevvalsude/alumni/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/sevvalsude/alumni/node_modules/router/lib/layer.js:152:17)
+    at /Users/sevvalsude/alumni/node_modules/router/index.js:295:15
+    at processParams (/Users/sevvalsude/alumni/node_modules/router/index.js:582:12)
+----------------------------------------
