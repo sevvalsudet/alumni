@@ -3,37 +3,37 @@
 <head>
     <%- include('partials/head', { title: 'Alumni Tracking System • Apple & RunwayML Edition' }) %>
     <style>
-        /* Hero: Apple Museum Scale & Runway Editorial Pacing */
+        /* Hero: Compact Apple Scale */
         .hero-section {
             text-align: center;
-            padding: 55px 0 24px;
+            padding: 36px 0 16px;
         }
 
         .hero-eyebrow {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--ink-muted);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             display: inline-block;
         }
 
         .hero-title {
-            font-size: clamp(42px, 6.5vw, 68px);
+            font-size: clamp(32px, 4.5vw, 50px);
             font-weight: 700;
             letter-spacing: -0.04em;
-            line-height: 1.05;
+            line-height: 1.08;
             color: var(--ink-pure);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .hero-desc {
-            font-size: 20px;
+            font-size: 16.5px;
             color: var(--ink-secondary);
-            max-width: 720px;
-            margin: 0 auto 36px;
-            line-height: 1.55;
+            max-width: 680px;
+            margin: 0 auto 20px;
+            line-height: 1.5;
             font-weight: 400;
             letter-spacing: -0.015em;
         }
@@ -42,101 +42,82 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
+            margin-bottom: 24px;
         }
 
-        /* 1. VISUAL: Minimalist Monochrome Network Graph */
-        .constellation-card {
+        /* Two-Column Overview Grid: Network Connection + Partner Companies */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 48px;
+            align-items: stretch;
+        }
+
+        .overview-card {
             background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: var(--radius-lg);
-            padding: 24px 32px 18px;
+            padding: 24px 28px;
             box-shadow: var(--shadow-apple);
-            margin: 20px 0 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            transition: all 0.25s ease;
         }
 
-        .constellation-header {
-            max-width: 680px;
-            margin: 0 auto 16px;
+        .overview-card:hover {
+            box-shadow: var(--shadow-hover);
         }
 
-        .constellation-header h3 {
-            font-size: 20px;
+        .overview-card-header {
+            margin-bottom: 14px;
+        }
+
+        .overview-card-header h3 {
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.025em;
             color: var(--ink);
             margin-bottom: 4px;
         }
 
-        .constellation-header p {
+        .overview-card-header p {
             font-size: 13px;
             color: var(--ink-secondary);
-            line-height: 1.5;
+            line-height: 1.45;
+            margin: 0;
         }
 
-        .constellation-svg-wrapper {
+        /* Network Dotted SVG */
+        .network-svg-container {
             width: 100%;
-            max-width: 820px;
-            margin: 0 auto;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 8px 0;
         }
 
-        .constellation-svg {
+        .network-dots-svg {
             width: 100%;
+            max-width: 440px;
             height: auto;
             display: block;
         }
 
-        .constellation-legend {
-            display: flex;
+        /* Company Cloud Grid inside right card */
+        .company-logos-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 12px;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-            font-size: 11.5px;
-            color: var(--ink-muted);
-        }
-
-        .legend-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .legend-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #86868b;
-        }
-
-        /* 2. VISUAL: Monochrome Partner Company Logo Cloud */
-        .company-cloud-section {
-            padding: 10px 0 30px;
-            text-align: center;
-        }
-
-        .company-cloud-label {
-            font-size: 11.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--ink-muted);
-            margin-bottom: 28px;
-            display: block;
-        }
-
-        .company-logos-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(24px, 5vw, 64px);
-            flex-wrap: wrap;
+            justify-items: center;
+            flex: 1;
+            padding: 16px 8px;
         }
 
         .company-logo-item {
@@ -144,24 +125,33 @@
             align-items: center;
             gap: 8px;
             color: #86868b;
-            font-size: 16px;
+            font-size: 14.5px;
             font-weight: 600;
             letter-spacing: -0.02em;
-            opacity: 0.75;
+            opacity: 0.85;
             transition: all 0.2s ease;
             text-decoration: none;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
         }
 
         .company-logo-item:hover {
             color: var(--ink-pure);
             opacity: 1;
+            background: rgba(0, 0, 0, 0.03);
             transform: translateY(-1px);
         }
 
         .company-logo-item svg {
-            height: 22px;
+            height: 20px;
             width: auto;
             fill: currentColor;
+        }
+
+        @media (max-width: 860px) {
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* 3. VISUAL: Horizontal Scrollable Alumni Spotlight Cards */
@@ -413,91 +403,96 @@
             </div>
         </section>
 
-        <!-- 1. VISUAL: Minimalist Monochrome Network Graph -->
-        <section class="constellation-card">
-            <div class="constellation-header">
-                <span class="hero-eyebrow" style="color: var(--ink-muted);">Live Ecosystem Graph</span>
-                <h3>Connecting Every Graduation Journey</h3>
-                <p>Alumni, students, and companies — all in one network.</p>
+        <!-- Two-Column Overview Grid: Dotted Connection Graph (Left) & Partner Companies (Right) -->
+        <section class="overview-grid">
+            <!-- Left Box: Dotted Connections (Alumni, Students, Companies) -->
+            <div class="overview-card">
+                <div class="overview-card-header">
+                    <h3>Connecting Every Graduation Journey</h3>
+                    <p>A direct network connecting students, alumni, and hiring organizations.</p>
+                </div>
+
+                <div class="network-svg-container">
+                    <svg class="network-dots-svg" viewBox="0 0 420 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Outer Dotted Triangle connecting Students, Alumni, and Companies -->
+                        <!-- Students <-> Alumni -->
+                        <line x1="80" y1="120" x2="210" y2="42" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
+                        <!-- Alumni <-> Companies -->
+                        <line x1="210" y1="42" x2="340" y2="120" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
+                        <!-- Students <-> Companies -->
+                        <line x1="80" y1="120" x2="340" y2="120" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
+
+                        <!-- Center Interconnection Hub -->
+                        <circle cx="210" cy="95" r="3.5" fill="#a1a1a6" />
+                        <line x1="80" y1="120" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+                        <line x1="340" y1="120" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+                        <line x1="210" y1="42" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+
+                        <!-- Node 1: Students -->
+                        <g transform="translate(80, 120)">
+                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
+                            <circle r="4.5" fill="#1d1d1f" />
+                            <text y="28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Students</text>
+                            <text y="40" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Active Talent</text>
+                        </g>
+
+                        <!-- Node 2: Alumni -->
+                        <g transform="translate(210, 42)">
+                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
+                            <circle r="4.5" fill="#1d1d1f" />
+                            <text y="-25" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Alumni</text>
+                            <text y="-13" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Mentors & Leaders</text>
+                        </g>
+
+                        <!-- Node 3: Companies -->
+                        <g transform="translate(340, 120)">
+                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
+                            <circle r="4.5" fill="#1d1d1f" />
+                            <text y="28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Companies</text>
+                            <text y="40" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Hiring Partners</text>
+                        </g>
+                    </svg>
+                </div>
             </div>
 
-            <div class="constellation-svg-wrapper">
-                <svg class="constellation-svg" viewBox="0 0 820 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Thin connecting lines -->
-                    <line x1="80"  y1="90"  x2="220" y2="45"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="80"  y1="90"  x2="220" y2="135" stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="220" y1="45"  x2="410" y2="90"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="220" y1="135" x2="410" y2="90"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="410" y1="90"  x2="600" y2="45"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="410" y1="90"  x2="600" y2="135" stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="600" y1="45"  x2="740" y2="90"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="600" y1="135" x2="740" y2="90"  stroke="#d2d2d7" stroke-width="1"/>
-                    <line x1="220" y1="45"  x2="600" y2="45"  stroke="#e8e8ed" stroke-width="1" stroke-dasharray="3 5"/>
-                    <line x1="220" y1="135" x2="600" y2="135" stroke="#e8e8ed" stroke-width="1" stroke-dasharray="3 5"/>
-
-                    <!-- Nodes: small circles -->
-                    <circle cx="80"  cy="90"  r="10" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5"/>
-                    <circle cx="220" cy="45"  r="7"  fill="#f5f5f7" stroke="#86868b" stroke-width="1.2"/>
-                    <circle cx="220" cy="135" r="7"  fill="#f5f5f7" stroke="#86868b" stroke-width="1.2"/>
-                    <circle cx="410" cy="90"  r="14" fill="#f0f0f5" stroke="#1d1d1f" stroke-width="1.8"/>
-                    <circle cx="600" cy="45"  r="7"  fill="#f5f5f7" stroke="#86868b" stroke-width="1.2"/>
-                    <circle cx="600" cy="135" r="7"  fill="#f5f5f7" stroke="#86868b" stroke-width="1.2"/>
-                    <circle cx="740" cy="90"  r="10" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5"/>
-
-                    <!-- Center dot fill -->
-                    <circle cx="410" cy="90" r="5" fill="#1d1d1f"/>
-
-                    <!-- Labels -->
-                    <text x="80"  y="78"  text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Students</text>
-                    <text x="220" y="33"  text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Mentors</text>
-                    <text x="220" y="155" text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Internships</text>
-                    <text x="410" y="115" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Alumni Network</text>
-                    <text x="600" y="33"  text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Tech Leaders</text>
-                    <text x="600" y="155" text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Scaleups</text>
-                    <text x="740" y="78"  text-anchor="middle" font-size="10" fill="#86868b" font-family="-apple-system, sans-serif">Alumni</text>
-                </svg>
-            </div>
-
-            <div class="constellation-legend">
-                <span class="legend-item"><span class="legend-dot"></span> Active Students</span>
-                <span class="legend-item"><span class="legend-dot"></span> University Alumni</span>
-                <span class="legend-item"><span class="legend-dot"></span> Partner Companies</span>
-            </div>
-        </section>
-
-        <!-- 2. VISUAL: Monochrome Partner Company Logo Cloud -->
-        <section class="company-cloud-section">
-            <span class="company-cloud-label">Where Our Graduates Work & Hire</span>
-            <div class="company-logos-row">
-                <!-- Google -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
-                    <span>Google</span>
+            <!-- Right Box: Where Our Graduates Work & Hire -->
+            <div class="overview-card">
+                <div class="overview-card-header">
+                    <h3>Where Our Graduates Work & Hire</h3>
+                    <p>Alumni leading teams across top global technology organizations.</p>
                 </div>
-                <!-- Apple -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.76 1.05-1.82.93-2.88-.9.04-2 .6-2.65 1.37-.58.67-.98 1.76-.84 2.8.99.08 2.03-.53 2.56-1.29z"/></svg>
-                    <span>Apple</span>
-                </div>
-                <!-- Microsoft -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M0 0h11.377v11.377H0zm12.623 0H24v11.377H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623z"/></svg>
-                    <span>Microsoft</span>
-                </div>
-                <!-- Amazon -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M13.924 16.14c-4.004 2.955-9.845 1.572-13.35-.985-.262-.19-.045-.55.247-.414 3.774 1.762 8.766 2.33 12.617-.46.398-.29.824.234.486.86zm1.187-1.428c-.463-.59-3.07-.279-4.24-.141-.358.043-.414-.287-.093-.51 2.083-1.44 5.485-1.026 6.012-.358.528.667-.14 3.992-2.11 5.56-.303.242-.591.114-.457-.202.443-1.042 1.35-3.759.888-4.349z"/></svg>
-                    <span>Amazon</span>
-                </div>
-                <!-- Trendyol -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6H7v-2h6v8zm4 0h-2V7h2v10z"/></svg>
-                    <span>Trendyol</span>
-                </div>
-                <!-- Stripe -->
-                <div class="company-logo-item">
-                    <svg viewBox="0 0 24 24"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697.5 12.619.5 7.158.5 3.328 3.356 3.328 7.64c0 3.318 2.052 5.037 5.626 6.37 2.45.922 3.284 1.623 3.284 2.607 0 .977-.852 1.505-2.28 1.505-2.203 0-4.996-1.09-6.938-2.181l-.914 5.666c1.882.88 4.796 1.493 7.852 1.493 5.753 0 9.774-2.738 9.774-7.256 0-3.522-2.118-5.267-5.755-6.694z"/></svg>
-                    <span>Stripe</span>
+
+                <div class="company-logos-card-grid">
+                    <!-- Google -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+                        <span>Google</span>
+                    </div>
+                    <!-- Apple -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.76 1.05-1.82.93-2.88-.9.04-2 .6-2.65 1.37-.58.67-.98 1.76-.84 2.8.99.08 2.03-.53 2.56-1.29z"/></svg>
+                        <span>Apple</span>
+                    </div>
+                    <!-- Microsoft -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M0 0h11.377v11.377H0zm12.623 0H24v11.377H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623z"/></svg>
+                        <span>Microsoft</span>
+                    </div>
+                    <!-- Amazon -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M13.924 16.14c-4.004 2.955-9.845 1.572-13.35-.985-.262-.19-.045-.55.247-.414 3.774 1.762 8.766 2.33 12.617-.46.398-.29.824.234.486.86zm1.187-1.428c-.463-.59-3.07-.279-4.24-.141-.358.043-.414-.287-.093-.51 2.083-1.44 5.485-1.026 6.012-.358.528.667-.14 3.992-2.11 5.56-.303.242-.591.114-.457-.202.443-1.042 1.35-3.759.888-4.349z"/></svg>
+                        <span>Amazon</span>
+                    </div>
+                    <!-- Trendyol -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6H7v-2h6v8zm4 0h-2V7h2v10z"/></svg>
+                        <span>Trendyol</span>
+                    </div>
+                    <!-- Stripe -->
+                    <div class="company-logo-item">
+                        <svg viewBox="0 0 24 24"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697.5 12.619.5 7.158.5 3.328 3.356 3.328 7.64c0 3.318 2.052 5.037 5.626 6.37 2.45.922 3.284 1.623 3.284 2.607 0 .977-.852 1.505-2.28 1.505-2.203 0-4.996-1.09-6.938-2.181l-.914 5.666c1.882.88 4.796 1.493 7.852 1.493 5.753 0 9.774-2.738 9.774-7.256 0-3.522-2.118-5.267-5.755-6.694z"/></svg>
+                        <span>Stripe</span>
+                    </div>
                 </div>
             </div>
         </section>
