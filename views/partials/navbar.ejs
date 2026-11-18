@@ -1,23 +1,23 @@
 <!-- views/partials/navbar.ejs -->
-<nav class="navbar">
+<nav class="apple-nav">
     <div class="container">
-        <div class="nav-inner">
-            <a href="/" class="brand">
-                <div class="brand-icon">🎓</div>
-                <span>Alumni<span style="color: var(--brand-primary);">.io</span></span>
+        <div class="apple-nav-inner">
+            <a href="/" class="nav-brand">
+                <span class="nav-brand-icon">🎓</span>
+                <span>Alumni</span>
             </a>
             
-            <div class="nav-links">
-                <a href="/users" class="nav-link <%= typeof active !== 'undefined' && active === 'users' ? 'active' : '' %>">👥 Mezunlar</a>
-                <a href="/jobs" class="nav-link <%= typeof active !== 'undefined' && active === 'jobs' ? 'active' : '' %>">💼 İlanlar</a>
-                <a href="/applications" class="nav-link <%= typeof active !== 'undefined' && active === 'applications' ? 'active' : '' %>">📝 Başvurular</a>
-                <a href="/announcements" class="nav-link <%= typeof active !== 'undefined' && active === 'announcements' ? 'active' : '' %>">📢 Duyurular</a>
-                <a href="/api/swagger" target="_blank" class="nav-link" style="color: #0d9488;">📖 API Docs</a>
-                <a href="/about" class="nav-link <%= typeof active !== 'undefined' && active === 'about' ? 'active' : '' %>">ℹ️ Hakkında</a>
+            <div class="nav-items">
+                <a href="/users" class="nav-item <%= typeof active !== 'undefined' && active === 'users' ? 'active' : '' %>">Mezunlar</a>
+                <a href="/jobs" class="nav-item <%= typeof active !== 'undefined' && active === 'jobs' ? 'active' : '' %>">İlanlar</a>
+                <a href="/applications" class="nav-item <%= typeof active !== 'undefined' && active === 'applications' ? 'active' : '' %>">Başvurular</a>
+                <a href="/announcements" class="nav-item <%= typeof active !== 'undefined' && active === 'announcements' ? 'active' : '' %>">Duyurular</a>
+                <a href="/api/swagger" target="_blank" class="nav-item" style="color: var(--apple-blue);">API Docs</a>
+                <a href="/about" class="nav-item <%= typeof active !== 'undefined' && active === 'about' ? 'active' : '' %>">Hakkında</a>
             </div>
 
-            <div class="nav-status">
-                <span class="status-dot"></span>
+            <div class="nav-status-pill">
+                <span class="status-pulse"></span>
                 <span>Sistem Çevrimiçi</span>
             </div>
         </div>
