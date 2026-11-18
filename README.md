@@ -2,7 +2,7 @@
 
 A scalable, modern web application designed to bridge the gap between academic institutions, active students, and graduates. The platform enables alumni to maintain lifelong connections, track professional growth, share career opportunities, manage job applications, and foster community mentorship.
 
-> 🎨 **Brand Identity & Design System:** Check out [brand.md](brand.md) for visual identity, soft pastel color palettes, typography standards, and UI guidelines.  
+> 🎨 **Brand Identity & Design System:** Check out [brand.md](brand.md) and [DESIGN.md](DESIGN.md) *(RunwayML + Apple aesthetic synthesis)* for visual identity, soft pastel palettes, typography standards, and UI tokens.  
 > 📐 **Data Design Document:** Check out [ddd.md](ddd.md) for database schema, relational integrity, and domain rules.
 
 ---
@@ -210,6 +210,7 @@ alumni/
 │   └── seed.js                      # Database seeder with factory integration
 ├── .env.example              # Public template for environment configuration
 ├── brand.md                  # Brand identity, typography & design system guidelines
+├── DESIGN.md                 # Design system tokens (RunwayML + Apple synthesis)
 ├── ddd.md                    # Data Design Documentation (Source of Truth)
 ├── docker-compose.yml        # Docker compose container setup
 ├── Dockerfile                # Docker image specification
