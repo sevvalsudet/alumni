@@ -3,37 +3,37 @@
 <head>
     <%- include('partials/head', { title: 'Alumni Tracking System • Apple & RunwayML Edition' }) %>
     <style>
-        /* Hero: Compact Apple Scale */
+        /* Hero: Apple Museum Scale & Runway Editorial Pacing */
         .hero-section {
             text-align: center;
-            padding: 36px 0 16px;
+            padding: 70px 0 38px;
         }
 
         .hero-eyebrow {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--ink-muted);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             display: inline-block;
         }
 
         .hero-title {
-            font-size: clamp(32px, 4.5vw, 50px);
+            font-size: clamp(38px, 5.5vw, 62px);
             font-weight: 700;
             letter-spacing: -0.04em;
-            line-height: 1.08;
+            line-height: 1.06;
             color: var(--ink-pure);
-            margin-bottom: 12px;
+            margin-bottom: 18px;
         }
 
         .hero-desc {
-            font-size: 16.5px;
+            font-size: 18.5px;
             color: var(--ink-secondary);
-            max-width: 680px;
-            margin: 0 auto 20px;
-            line-height: 1.5;
+            max-width: 720px;
+            margin: 0 auto 30px;
+            line-height: 1.55;
             font-weight: 400;
             letter-spacing: -0.015em;
         }
@@ -42,9 +42,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
+            gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 24px;
+            margin-bottom: 34px;
         }
 
         /* Two-Column Overview Grid: Network Connection + Partner Companies */
@@ -52,100 +52,115 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom: 48px;
+            margin-bottom: 56px;
             align-items: stretch;
         }
 
         .overview-card {
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: var(--radius-lg);
-            padding: 24px 28px;
-            box-shadow: var(--shadow-apple);
+            background: #faf9f5;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 18px 22px 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 250px;
+            min-height: 195px;
             transition: all 0.25s ease;
         }
 
         .overview-card:hover {
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            border-color: rgba(0, 0, 0, 0.14);
         }
 
         .overview-card-header {
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
         .overview-card-header h3 {
-            font-size: 18px;
+            font-size: 16.5px;
             font-weight: 700;
             letter-spacing: -0.025em;
             color: var(--ink);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .overview-card-header p {
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--ink-secondary);
-            line-height: 1.45;
+            line-height: 1.4;
             margin: 0;
         }
 
-        /* Network Dotted SVG */
+        /* Flowing Curved Dotted SVG */
         .network-svg-container {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex: 1;
-            padding: 8px 0;
+            padding: 2px 0;
         }
 
         .network-dots-svg {
             width: 100%;
-            max-width: 440px;
+            max-width: 400px;
             height: auto;
             display: block;
         }
 
-        /* Company Cloud Grid inside right card */
+        @keyframes flowDash {
+            0% { stroke-dashoffset: 27; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .flow-curved-arrow {
+            stroke: #1d1d1f;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-dasharray: 4 5;
+            animation: flowDash 2.2s linear infinite;
+        }
+
+        /* Colored Partner Logos Grid */
         .company-logos-card-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px 12px;
+            gap: 12px 10px;
             align-items: center;
             justify-items: center;
             flex: 1;
-            padding: 16px 8px;
+            padding: 8px 2px 2px;
         }
 
         .company-logo-item {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #86868b;
-            font-size: 14.5px;
+            color: #1d1d1f;
+            font-size: 13.5px;
             font-weight: 600;
-            letter-spacing: -0.02em;
-            opacity: 0.85;
+            letter-spacing: -0.015em;
             transition: all 0.2s ease;
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 135px;
+            justify-content: center;
         }
 
         .company-logo-item:hover {
-            color: var(--ink-pure);
-            opacity: 1;
-            background: rgba(0, 0, 0, 0.03);
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transform: translateY(-1px);
         }
 
         .company-logo-item svg {
-            height: 20px;
-            width: auto;
-            fill: currentColor;
+            flex-shrink: 0;
         }
 
         @media (max-width: 860px) {
@@ -154,9 +169,10 @@
             }
         }
 
-        /* 3. VISUAL: Horizontal Scrollable Alumni Spotlight Cards */
+        /* 3. VISUAL: Smooth Auto-Scrolling Alumni Spotlight Cards */
         .spotlight-section {
             margin-bottom: 75px;
+            overflow: hidden;
         }
 
         .spotlight-header-row {
@@ -181,31 +197,38 @@
             color: var(--ink-secondary);
         }
 
-        .spotlight-scroll-container {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding: 10px 4px 24px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
+        .spotlight-marquee-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 10px 0 20px;
+            mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
         }
 
-        .spotlight-scroll-container::-webkit-scrollbar {
-            height: 6px;
+        .spotlight-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            animation: marqueeScroll 45s linear infinite;
         }
-        .spotlight-scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: var(--radius-pill);
+
+        .spotlight-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 10px)); }
         }
 
         .spotlight-card {
             flex: 0 0 320px;
-            scroll-snap-align: start;
+            width: 320px;
             background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: var(--radius-lg);
-            padding: 28px 24px;
+            padding: 26px 22px;
             box-shadow: var(--shadow-apple);
             display: flex;
             flex-direction: column;
@@ -394,62 +417,71 @@
                 share verified career opportunities, and empower the next generation of leaders.
             </p>
             <div class="hero-buttons">
-                <a href="/jobs" class="btn btn-runway" style="padding: 12px 28px; font-size: 15px;">
+                <a href="/jobs" class="btn btn-runway" style="padding: 13px 30px; font-size: 15.5px;">
                     Explore Job Postings
                 </a>
-                <a href="/users" class="btn btn-outline" style="padding: 12px 26px; font-size: 15px;">
+                <a href="/users" class="btn btn-outline" style="padding: 13px 28px; font-size: 15.5px;">
                     Discover Alumni Network ›
                 </a>
             </div>
         </section>
 
-        <!-- Two-Column Overview Grid: Dotted Connection Graph (Left) & Partner Companies (Right) -->
+        <!-- Two-Column Overview Grid: Curved Flow Diagram (Left) & Partner Companies (Right) -->
         <section class="overview-grid">
-            <!-- Left Box: Dotted Connections (Alumni, Students, Companies) -->
+            <!-- Left Box: Dotted Curved Arrows Loop (Alumni, Students, Companies) -->
             <div class="overview-card">
                 <div class="overview-card-header">
                     <h3>Connecting Every Graduation Journey</h3>
-                    <p>A direct network connecting students, alumni, and hiring organizations.</p>
+                    <p>A continuous lifecycle uniting students, mentors, and employers.</p>
                 </div>
 
                 <div class="network-svg-container">
-                    <svg class="network-dots-svg" viewBox="0 0 420 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Outer Dotted Triangle connecting Students, Alumni, and Companies -->
-                        <!-- Students <-> Alumni -->
-                        <line x1="80" y1="120" x2="210" y2="42" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
-                        <!-- Alumni <-> Companies -->
-                        <line x1="210" y1="42" x2="340" y2="120" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
-                        <!-- Students <-> Companies -->
-                        <line x1="80" y1="120" x2="340" y2="120" stroke="#86868b" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10" />
+                    <svg class="network-dots-svg" viewBox="0 0 380 145" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowHead" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1d1d1f"/>
+                            </marker>
+                        </defs>
 
-                        <!-- Center Interconnection Hub -->
-                        <circle cx="210" cy="95" r="3.5" fill="#a1a1a6" />
-                        <line x1="80" y1="120" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
-                        <line x1="340" y1="120" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
-                        <line x1="210" y1="42" x2="210" y2="95" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+                        <!-- Curved Flow Arrow 1: Students -> Alumni -->
+                        <path d="M 80 80 Q 110 32, 168 32" class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
+
+                        <!-- Curved Flow Arrow 2: Alumni -> Companies -->
+                        <path d="M 212 32 Q 270 32, 300 80" class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
+
+                        <!-- Curved Flow Arrow 3: Companies -> Students -->
+                        <path d="M 295 105 Q 190 132, 85 105" class="flow-curved-arrow" marker-end="url(#arrowHead)"/>
 
                         <!-- Node 1: Students -->
-                        <g transform="translate(80, 120)">
-                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
-                            <circle r="4.5" fill="#1d1d1f" />
-                            <text y="28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Students</text>
-                            <text y="40" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Active Talent</text>
+                        <g transform="translate(65, 95)">
+                            <circle r="17" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.5" />
+                            <!-- Student Mortarboard Icon -->
+                            <path d="M -7 -1 L 0 -5 L 7 -1 L 0 3 Z" fill="#1d1d1f"/>
+                            <path d="M -4 1.5 L -4 4.5 C -4 6, 4 6, 4 4.5 L 4 1.5" fill="none" stroke="#1d1d1f" stroke-width="1.2"/>
+                            <path d="M 7 -1 L 7 4" stroke="#1d1d1f" stroke-width="1.2"/>
+                            <text y="27" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Students</text>
+                            <text y="38" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Active Talent</text>
                         </g>
 
                         <!-- Node 2: Alumni -->
-                        <g transform="translate(210, 42)">
-                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
-                            <circle r="4.5" fill="#1d1d1f" />
-                            <text y="-25" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Alumni</text>
-                            <text y="-13" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Mentors & Leaders</text>
+                        <g transform="translate(190, 32)">
+                            <circle r="17" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.5" />
+                            <!-- Star / Mentor Icon -->
+                            <path d="M 0 -6 L 1.8 -1.8 L 6.2 -1.8 L 2.6 1 L 4 5.5 L 0 2.8 L -4 5.5 L -2.6 1 L -6.2 -1.8 L -1.8 -1.8 Z" fill="#1d1d1f"/>
+                            <text y="-25" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Alumni</text>
+                            <text y="-14" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Mentors & Leaders</text>
                         </g>
 
                         <!-- Node 3: Companies -->
-                        <g transform="translate(340, 120)">
-                            <circle r="16" fill="#f5f5f7" stroke="#86868b" stroke-width="1.5" />
-                            <circle r="4.5" fill="#1d1d1f" />
-                            <text y="28" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Companies</text>
-                            <text y="40" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, BlinkMacSystemFont, sans-serif">Hiring Partners</text>
+                        <g transform="translate(315, 95)">
+                            <circle r="17" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.5" />
+                            <!-- Building / Enterprise Icon -->
+                            <path d="M -6 6 L -6 -6 L 1 -6 L 1 6 Z" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
+                            <path d="M 1 6 L 1 -2 L 6 -2 L 6 6 Z" fill="none" stroke="#1d1d1f" stroke-width="1.3"/>
+                            <line x1="-3.5" y1="-3" x2="-1.5" y2="-3" stroke="#1d1d1f" stroke-width="1"/>
+                            <line x1="-3.5" y1="0" x2="-1.5" y2="0" stroke="#1d1d1f" stroke-width="1"/>
+                            <text y="27" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d1d1f" font-family="-apple-system, sans-serif">Companies</text>
+                            <text y="38" text-anchor="middle" font-size="9" fill="#86868b" font-family="-apple-system, sans-serif">Hiring Partners</text>
                         </g>
                     </svg>
                 </div>
@@ -464,40 +496,62 @@
 
                 <div class="company-logos-card-grid">
                     <!-- Google -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+                    <a href="https://about.google" target="_blank" class="company-logo-item" title="Google">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                        </svg>
                         <span>Google</span>
-                    </div>
+                    </a>
                     <!-- Apple -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.76 1.05-1.82.93-2.88-.9.04-2 .6-2.65 1.37-.58.67-.98 1.76-.84 2.8.99.08 2.03-.53 2.56-1.29z"/></svg>
+                    <a href="https://www.apple.com" target="_blank" class="company-logo-item" title="Apple">
+                        <svg viewBox="0 0 170 170" width="16" height="16" fill="#000000">
+                            <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.74-8.8-10.37-18.73-13.88-28.79-3.52-10.06-5.28-20.08-5.28-30.07 0-11.07 2.6-20.73 7.8-28.98 5.2-8.25 12.05-14.65 20.55-19.2 8.5-4.55 17.65-6.88 27.46-6.98 5.11 0 10.87 1.34 17.27 4.02 6.4 2.68 10.12 4.02 11.16 4.02 1.05 0 5.12-1.45 12.22-4.35 7.1-2.9 13.43-4.14 18.99-3.72 14.07.64 25.13 5.43 33.18 14.38-12.27 7.42-18.3 17.48-18.1 30.19.2 9.87 3.86 18.17 10.99 24.89 7.13 6.72 15.7 10.66 25.71 11.83-2.67 8.16-5.87 16.54-9.61 25.14zM119.22 31.84c0-7.72 2.76-14.84 8.28-21.36 5.53-6.52 12.44-10.48 20.74-11.88.22 1.74.33 3.37.33 4.89 0 7.61-2.83 14.88-8.5 21.8-5.66 6.92-12.7 10.96-21.12 12.12-.22-1.74-.33-3.37-.33-4.89z"/>
+                        </svg>
                         <span>Apple</span>
-                    </div>
+                    </a>
                     <!-- Microsoft -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M0 0h11.377v11.377H0zm12.623 0H24v11.377H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623z"/></svg>
+                    <a href="https://www.microsoft.com" target="_blank" class="company-logo-item" title="Microsoft">
+                        <svg viewBox="0 0 21 21" width="16" height="16">
+                            <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                            <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                            <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                            <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                        </svg>
                         <span>Microsoft</span>
-                    </div>
+                    </a>
                     <!-- Amazon -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M13.924 16.14c-4.004 2.955-9.845 1.572-13.35-.985-.262-.19-.045-.55.247-.414 3.774 1.762 8.766 2.33 12.617-.46.398-.29.824.234.486.86zm1.187-1.428c-.463-.59-3.07-.279-4.24-.141-.358.043-.414-.287-.093-.51 2.083-1.44 5.485-1.026 6.012-.358.528.667-.14 3.992-2.11 5.56-.303.242-.591.114-.457-.202.443-1.042 1.35-3.759.888-4.349z"/></svg>
+                    <a href="https://www.amazon.jobs" target="_blank" class="company-logo-item" title="Amazon">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <path fill="#232F3E" d="M13.9 12.8c-1.9.1-3.7.8-3.7 2.6 0 1.5 1.1 2.3 2.5 2.3 1.9 0 3-1.1 3.5-2.2v1.9h2.3V11c0-2.6-1.8-3.6-4.5-3.6-2.5 0-4.3 1.1-4.7 3.2l2.3.3c.3-1.1 1.2-1.6 2.4-1.6 1.4 0 2.2.6 2.2 1.9v.4c-.6-.4-1.4-.6-2.4-.4zm1.2 2.4c-.4.8-1.2 1.4-2.1 1.4-.8 0-1.4-.4-1.4-1.2 0-1 1-1.4 2.3-1.5.5 0 .9.1 1.2.2v1.1z"/>
+                            <path fill="#FF9900" d="M21.7 18.2C17.3 21.4 11.2 22 5.8 19.3c-.8-.4-.1-1.3.7-1 5 2.4 10.7 1.8 14.7-1 .6-.4 1.1.4.5.9z"/>
+                            <path fill="#FF9900" d="M22.8 16.8c-.3-.4-1.9-.3-2.9-.2-.3 0-.3-.3 0-.5 1.7-1.1 4.5-.8 4.8-.4.3.4-.4 3.2-2 4.4-.3.2-.5.1-.4-.2.4-.8.8-2.7.5-3.1z"/>
+                        </svg>
                         <span>Amazon</span>
-                    </div>
+                    </a>
                     <!-- Trendyol -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6H7v-2h6v8zm4 0h-2V7h2v10z"/></svg>
+                    <a href="https://trendyol.com" target="_blank" class="company-logo-item" title="Trendyol">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <rect width="24" height="24" rx="5" fill="#F27A1A"/>
+                            <path fill="#ffffff" d="M7 8h10v2.5h-3.6v7.5h-2.8v-7.5H7V8z"/>
+                        </svg>
                         <span>Trendyol</span>
-                    </div>
+                    </a>
                     <!-- Stripe -->
-                    <div class="company-logo-item">
-                        <svg viewBox="0 0 24 24"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697.5 12.619.5 7.158.5 3.328 3.356 3.328 7.64c0 3.318 2.052 5.037 5.626 6.37 2.45.922 3.284 1.623 3.284 2.607 0 .977-.852 1.505-2.28 1.505-2.203 0-4.996-1.09-6.938-2.181l-.914 5.666c1.882.88 4.796 1.493 7.852 1.493 5.753 0 9.774-2.738 9.774-7.256 0-3.522-2.118-5.267-5.755-6.694z"/></svg>
+                    <a href="https://stripe.com" target="_blank" class="company-logo-item" title="Stripe">
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                            <rect width="24" height="24" rx="5" fill="#635BFF"/>
+                            <path fill="#ffffff" d="M13.9 10.8c0-.7-.6-1.1-1.6-1.1-1.2 0-2.3.4-3.1.8l-.5-2.5c1.1-.5 2.5-.8 3.9-.8 3.5 0 5.4 1.6 5.4 4.5 0 4.1-5.7 3.5-5.7 5.3 0 .8.7 1.2 1.8 1.2 1.4 0 2.7-.5 3.5-1l.5 2.5c-1.1.6-2.7 1-4.3 1-3.7 0-5.7-1.8-5.7-4.5 0-4.3 5.8-3.6 5.8-5.4z"/>
+                        </svg>
                         <span>Stripe</span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- 3. VISUAL: Horizontal Scrollable Alumni Spotlight Cards -->
+        <!-- 3. VISUAL: Smooth Auto-Scrolling Alumni Spotlight Cards -->
         <section class="spotlight-section">
             <div class="spotlight-header-row">
                 <div>
@@ -506,121 +560,333 @@
                     <p>Discover how graduates are innovating and mentoring across leading tech and creative hubs.</p>
                 </div>
                 <div style="font-size: 13px; color: var(--ink-muted);">
-                    <span>Scroll horizontally to explore &rarr;</span>
+                    <span>Hover to pause & explore &rarr;</span>
                 </div>
             </div>
 
-            <div class="spotlight-scroll-container">
-                <!-- Spotlight Card 1 -->
-                <div class="spotlight-card">
-                    <div>
-                        <div class="spotlight-top">
-                            <div class="spotlight-avatar avatar-1">AK</div>
-                            <div>
-                                <div class="spotlight-name">Ayşe Kaya</div>
-                                <div class="spotlight-role">Senior ML Engineer</div>
+            <div class="spotlight-marquee-container">
+                <div class="spotlight-track">
+                    <!-- Spotlight Card 1: Sarah Jenkins (Google) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-1">SJ</div>
+                                <div>
+                                    <div class="spotlight-name">Sarah Jenkins</div>
+                                    <div class="spotlight-role">Principal ML Engineer</div>
+                                </div>
                             </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                                </svg>
+                                <span>Google &bull; Mountain View, CA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "Mentoring current students and opening direct referral tracks for AI roles has been one of the most fulfilling journeys since graduating."
+                            </p>
                         </div>
-                        <div class="spotlight-meta-badge">
-                            🏢 Google &bull; Mountain View, CA
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '20 &bull; Computer Eng.</span>
                         </div>
-                        <p class="spotlight-quote">
-                            "Mentoring current students and opening direct referral tracks for AI roles has been one of the most fulfilling journeys since graduating."
-                        </p>
                     </div>
-                    <div class="spotlight-action">
-                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '20 &bull; Computer Eng.</span>
-                    </div>
-                </div>
 
-                <!-- Spotlight Card 2 -->
-                <div class="spotlight-card">
-                    <div>
-                        <div class="spotlight-top">
-                            <div class="spotlight-avatar avatar-2">MT</div>
-                            <div>
-                                <div class="spotlight-name">Mehmet Tan</div>
-                                <div class="spotlight-role">Staff Product Designer</div>
+                    <!-- Spotlight Card 2: Mehmet Tan (Apple) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-2">MT</div>
+                                <div>
+                                    <div class="spotlight-name">Mehmet Tan</div>
+                                    <div class="spotlight-role">Staff Product Designer</div>
+                                </div>
                             </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 170 170" width="13" height="13" fill="#000000" style="flex-shrink:0;">
+                                    <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.74-8.8-10.37-18.73-13.88-28.79-3.52-10.06-5.28-20.08-5.28-30.07 0-11.07 2.6-20.73 7.8-28.98 5.2-8.25 12.05-14.65 20.55-19.2 8.5-4.55 17.65-6.88 27.46-6.98 5.11 0 10.87 1.34 17.27 4.02 6.4 2.68 10.12 4.02 11.16 4.02 1.05 0 5.12-1.45 12.22-4.35 7.1-2.9 13.43-4.14 18.99-3.72 14.07.64 25.13 5.43 33.18 14.38-12.27 7.42-18.3 17.48-18.1 30.19.2 9.87 3.86 18.17 10.99 24.89 7.13 6.72 15.7 10.66 25.71 11.83-2.67 8.16-5.87 16.54-9.61 25.14zM119.22 31.84c0-7.72 2.76-14.84 8.28-21.36 5.53-6.52 12.44-10.48 20.74-11.88.22 1.74.33 3.37.33 4.89 0 7.61-2.83 14.88-8.5 21.8-5.66 6.92-12.7 10.96-21.12 12.12-.22-1.74-.33-3.37-.33-4.89z"/>
+                                </svg>
+                                <span>Apple &bull; Cupertino, CA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "The university design critique sessions laid the exact foundation needed to design hardware & software experiences at global scale."
+                            </p>
                         </div>
-                        <div class="spotlight-meta-badge">
-                            🏢 Apple &bull; Cupertino, CA
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Industrial Design</span>
                         </div>
-                        <p class="spotlight-quote">
-                            "The university design critique sessions laid the exact foundation needed to design hardware & software experiences at global scale."
-                        </p>
                     </div>
-                    <div class="spotlight-action">
-                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Industrial Design</span>
-                    </div>
-                </div>
 
-                <!-- Spotlight Card 3 -->
-                <div class="spotlight-card">
-                    <div>
-                        <div class="spotlight-top">
-                            <div class="spotlight-avatar avatar-3">ZD</div>
-                            <div>
-                                <div class="spotlight-name">Zeynep Demir</div>
-                                <div class="spotlight-role">Lead Software Architect</div>
+                    <!-- Spotlight Card 3: David Chen (Microsoft) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-3">DC</div>
+                                <div>
+                                    <div class="spotlight-name">David Chen</div>
+                                    <div class="spotlight-role">Lead Cloud Architect</div>
+                                </div>
                             </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 21 21" width="13" height="13" style="flex-shrink:0;">
+                                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                                </svg>
+                                <span>Microsoft &bull; Seattle, WA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "Peer connections and collaborative research projects prepared me directly for designing distributed resilient enterprise cloud systems."
+                            </p>
                         </div>
-                        <div class="spotlight-meta-badge">
-                            🏢 Trendyol &bull; Istanbul, TR
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '18 &bull; Systems Eng.</span>
                         </div>
-                        <p class="spotlight-quote">
-                            "We actively scout our backend interns and junior engineers directly through our alumni portal every recruitment cycle."
-                        </p>
                     </div>
-                    <div class="spotlight-action">
-                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '18 &bull; Software Eng.</span>
-                    </div>
-                </div>
 
-                <!-- Spotlight Card 4 -->
-                <div class="spotlight-card">
-                    <div>
-                        <div class="spotlight-top">
-                            <div class="spotlight-avatar avatar-4">CA</div>
-                            <div>
-                                <div class="spotlight-name">Can Arslan</div>
-                                <div class="spotlight-role">Cloud Solutions Lead</div>
+                    <!-- Spotlight Card 4: Elena Rostova (Amazon AWS) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-4">ER</div>
+                                <div>
+                                    <div class="spotlight-name">Elena Rostova</div>
+                                    <div class="spotlight-role">Director of Cloud Infrastructure</div>
+                                </div>
                             </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <path fill="#232F3E" d="M13.9 12.8c-1.9.1-3.7.8-3.7 2.6 0 1.5 1.1 2.3 2.5 2.3 1.9 0 3-1.1 3.5-2.2v1.9h2.3V11c0-2.6-1.8-3.6-4.5-3.6-2.5 0-4.3 1.1-4.7 3.2l2.3.3c.3-1.1 1.2-1.6 2.4-1.6 1.4 0 2.2.6 2.2 1.9v.4c-.6-.4-1.4-.6-2.4-.4zm1.2 2.4c-.4.8-1.2 1.4-2.1 1.4-.8 0-1.4-.4-1.4-1.2 0-1 1-1.4 2.3-1.5.5 0 .9.1 1.2.2v1.1z"/>
+                                    <path fill="#FF9900" d="M21.7 18.2C17.3 21.4 11.2 22 5.8 19.3c-.8-.4-.1-1.3.7-1 5 2.4 10.7 1.8 14.7-1 .6-.4 1.1.4.5.9z"/>
+                                    <path fill="#FF9900" d="M22.8 16.8c-.3-.4-1.9-.3-2.9-.2-.3 0-.3-.3 0-.5 1.7-1.1 4.5-.8 4.8-.4.3.4-.4 3.2-2 4.4-.3.2-.5.1-.4-.2.4-.8.8-2.7.5-3.1z"/>
+                                </svg>
+                                <span>Amazon AWS &bull; Dublin, IE</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "From campus hackathons to architecting multi-region systems at AWS, peer connections from this network made all the difference."
+                            </p>
                         </div>
-                        <div class="spotlight-meta-badge">
-                            🏢 Amazon AWS &bull; Dublin, IE
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '21 &bull; Electrical Eng.</span>
                         </div>
-                        <p class="spotlight-quote">
-                            "From campus hackathons to architecting multi-region clouds at AWS, peer connections from this network made all the difference."
-                        </p>
                     </div>
-                    <div class="spotlight-action">
-                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '21 &bull; Electrical Eng.</span>
-                    </div>
-                </div>
 
-                <!-- Spotlight Card 5 -->
-                <div class="spotlight-card">
-                    <div>
-                        <div class="spotlight-top">
-                            <div class="spotlight-avatar avatar-5">EY</div>
-                            <div>
-                                <div class="spotlight-name">Elif Yılmaz</div>
-                                <div class="spotlight-role">VP of Operations</div>
+                    <!-- Spotlight Card 5: Can Arslan (Trendyol) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-5">CA</div>
+                                <div>
+                                    <div class="spotlight-name">Can Arslan</div>
+                                    <div class="spotlight-role">Staff Backend Engineer</div>
+                                </div>
                             </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <rect width="24" height="24" rx="5" fill="#F27A1A"/>
+                                    <path fill="#ffffff" d="M7 8h10v2.5h-3.6v7.5h-2.8v-7.5H7V8z"/>
+                                </svg>
+                                <span>Trendyol &bull; Istanbul, TR</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "We actively scout our backend interns and junior engineers directly through our alumni portal every recruitment cycle."
+                            </p>
                         </div>
-                        <div class="spotlight-meta-badge">
-                            🏢 Stripe &bull; London, UK
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Software Eng.</span>
                         </div>
-                        <p class="spotlight-quote">
-                            "A connected alumni platform creates serendipitous partnerships for startup founders and operators navigating global expansion."
-                        </p>
                     </div>
-                    <div class="spotlight-action">
-                        <span style="font-size: 12px; color: var(--ink-muted);">Class of '17 &bull; Economics</span>
+
+                    <!-- Spotlight Card 6: Marcus Vance (Stripe) -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-1">MV</div>
+                                <div>
+                                    <div class="spotlight-name">Marcus Vance</div>
+                                    <div class="spotlight-role">VP of Global Payments</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <rect width="24" height="24" rx="5" fill="#635BFF"/>
+                                    <path fill="#ffffff" d="M13.9 10.8c0-.7-.6-1.1-1.6-1.1-1.2 0-2.3.4-3.1.8l-.5-2.5c1.1-.5 2.5-.8 3.9-.8 3.5 0 5.4 1.6 5.4 4.5 0 4.1-5.7 3.5-5.7 5.3 0 .8.7 1.2 1.8 1.2 1.4 0 2.7-.5 3.5-1l.5 2.5c-1.1.6-2.7 1-4.3 1-3.7 0-5.7-1.8-5.7-4.5 0-4.3 5.8-3.6 5.8-5.4z"/>
+                                </svg>
+                                <span>Stripe &bull; London, UK</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "A connected alumni platform creates serendipitous partnerships for startup founders and operators navigating global expansion."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '17 &bull; Economics</span>
+                        </div>
+                    </div>
+
+                    <!-- DUPLICATE SET FOR SEAMLESS INFINITE LOOP -->
+                    <!-- Duplicate Card 1 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-1">SJ</div>
+                                <div>
+                                    <div class="spotlight-name">Sarah Jenkins</div>
+                                    <div class="spotlight-role">Principal ML Engineer</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                                </svg>
+                                <span>Google &bull; Mountain View, CA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "Mentoring current students and opening direct referral tracks for AI roles has been one of the most fulfilling journeys since graduating."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '20 &bull; Computer Eng.</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Card 2 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-2">MT</div>
+                                <div>
+                                    <div class="spotlight-name">Mehmet Tan</div>
+                                    <div class="spotlight-role">Staff Product Designer</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 170 170" width="13" height="13" fill="#000000" style="flex-shrink:0;">
+                                    <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.74-8.8-10.37-18.73-13.88-28.79-3.52-10.06-5.28-20.08-5.28-30.07 0-11.07 2.6-20.73 7.8-28.98 5.2-8.25 12.05-14.65 20.55-19.2 8.5-4.55 17.65-6.88 27.46-6.98 5.11 0 10.87 1.34 17.27 4.02 6.4 2.68 10.12 4.02 11.16 4.02 1.05 0 5.12-1.45 12.22-4.35 7.1-2.9 13.43-4.14 18.99-3.72 14.07.64 25.13 5.43 33.18 14.38-12.27 7.42-18.3 17.48-18.1 30.19.2 9.87 3.86 18.17 10.99 24.89 7.13 6.72 15.7 10.66 25.71 11.83-2.67 8.16-5.87 16.54-9.61 25.14zM119.22 31.84c0-7.72 2.76-14.84 8.28-21.36 5.53-6.52 12.44-10.48 20.74-11.88.22 1.74.33 3.37.33 4.89 0 7.61-2.83 14.88-8.5 21.8-5.66 6.92-12.7 10.96-21.12 12.12-.22-1.74-.33-3.37-.33-4.89z"/>
+                                </svg>
+                                <span>Apple &bull; Cupertino, CA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "The university design critique sessions laid the exact foundation needed to design hardware & software experiences at global scale."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Industrial Design</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Card 3 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-3">DC</div>
+                                <div>
+                                    <div class="spotlight-name">David Chen</div>
+                                    <div class="spotlight-role">Lead Cloud Architect</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 21 21" width="13" height="13" style="flex-shrink:0;">
+                                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                                </svg>
+                                <span>Microsoft &bull; Seattle, WA</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "Peer connections and collaborative research projects prepared me directly for designing distributed resilient enterprise cloud systems."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '18 &bull; Systems Eng.</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Card 4 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-4">ER</div>
+                                <div>
+                                    <div class="spotlight-name">Elena Rostova</div>
+                                    <div class="spotlight-role">Director of Cloud Infrastructure</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <path fill="#232F3E" d="M13.9 12.8c-1.9.1-3.7.8-3.7 2.6 0 1.5 1.1 2.3 2.5 2.3 1.9 0 3-1.1 3.5-2.2v1.9h2.3V11c0-2.6-1.8-3.6-4.5-3.6-2.5 0-4.3 1.1-4.7 3.2l2.3.3c.3-1.1 1.2-1.6 2.4-1.6 1.4 0 2.2.6 2.2 1.9v.4c-.6-.4-1.4-.6-2.4-.4zm1.2 2.4c-.4.8-1.2 1.4-2.1 1.4-.8 0-1.4-.4-1.4-1.2 0-1 1-1.4 2.3-1.5.5 0 .9.1 1.2.2v1.1z"/>
+                                    <path fill="#FF9900" d="M21.7 18.2C17.3 21.4 11.2 22 5.8 19.3c-.8-.4-.1-1.3.7-1 5 2.4 10.7 1.8 14.7-1 .6-.4 1.1.4.5.9z"/>
+                                    <path fill="#FF9900" d="M22.8 16.8c-.3-.4-1.9-.3-2.9-.2-.3 0-.3-.3 0-.5 1.7-1.1 4.5-.8 4.8-.4.3.4-.4 3.2-2 4.4-.3.2-.5.1-.4-.2.4-.8.8-2.7.5-3.1z"/>
+                                </svg>
+                                <span>Amazon AWS &bull; Dublin, IE</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "From campus hackathons to architecting multi-region systems at AWS, peer connections from this network made all the difference."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '21 &bull; Electrical Eng.</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Card 5 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-5">CA</div>
+                                <div>
+                                    <div class="spotlight-name">Can Arslan</div>
+                                    <div class="spotlight-role">Staff Backend Engineer</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <rect width="24" height="24" rx="5" fill="#F27A1A"/>
+                                    <path fill="#ffffff" d="M7 8h10v2.5h-3.6v7.5h-2.8v-7.5H7V8z"/>
+                                </svg>
+                                <span>Trendyol &bull; Istanbul, TR</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "We actively scout our backend interns and junior engineers directly through our alumni portal every recruitment cycle."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '19 &bull; Software Eng.</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Card 6 -->
+                    <div class="spotlight-card">
+                        <div>
+                            <div class="spotlight-top">
+                                <div class="spotlight-avatar avatar-1">MV</div>
+                                <div>
+                                    <div class="spotlight-name">Marcus Vance</div>
+                                    <div class="spotlight-role">VP of Global Payments</div>
+                                </div>
+                            </div>
+                            <div class="spotlight-meta-badge">
+                                <svg viewBox="0 0 24 24" width="14" height="14" style="flex-shrink:0;">
+                                    <rect width="24" height="24" rx="5" fill="#635BFF"/>
+                                    <path fill="#ffffff" d="M13.9 10.8c0-.7-.6-1.1-1.6-1.1-1.2 0-2.3.4-3.1.8l-.5-2.5c1.1-.5 2.5-.8 3.9-.8 3.5 0 5.4 1.6 5.4 4.5 0 4.1-5.7 3.5-5.7 5.3 0 .8.7 1.2 1.8 1.2 1.4 0 2.7-.5 3.5-1l.5 2.5c-1.1.6-2.7 1-4.3 1-3.7 0-5.7-1.8-5.7-4.5 0-4.3 5.8-3.6 5.8-5.4z"/>
+                                </svg>
+                                <span>Stripe &bull; London, UK</span>
+                            </div>
+                            <p class="spotlight-quote">
+                                "A connected alumni platform creates serendipitous partnerships for startup founders and operators navigating global expansion."
+                            </p>
+                        </div>
+                        <div class="spotlight-action">
+                            <span style="font-size: 12px; color: var(--ink-muted);">Class of '17 &bull; Economics</span>
+                        </div>
                     </div>
                 </div>
-            </div>
         </section>
 
         <!-- Product Modules Grid -->
