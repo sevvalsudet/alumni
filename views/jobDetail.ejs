@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <%- include('partials/head', { title: job.title + ' • ' + job.company }) %>
     <style>
         .detail-meta-box {
-            background: var(--canvas-subtle);
-            border: 1px solid var(--hairline);
+            background: var(--canvas-parchment);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-md);
-            padding: 18px 20px;
+            padding: 18px 24px;
             margin: 20px 0;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 20px;
         }
         .content-box {
-            background: var(--canvas);
-            border: 1px solid var(--hairline);
+            background: var(--canvas-card);
+            border: 1px solid var(--hairline-soft);
             border-radius: var(--radius-md);
-            padding: 20px;
+            padding: 22px 24px;
             margin: 12px 0 24px;
             color: var(--ink);
             line-height: 1.65;
             white-space: pre-line;
+            font-size: 15px;
         }
         .apply-box {
-            background: var(--jobs-surface);
-            border: 1px dashed #10b981;
+            background: #fbfdff;
+            border: 1px dashed var(--apple-blue);
             border-radius: var(--radius-lg);
-            padding: 26px;
-            margin-top: 30px;
+            padding: 28px;
+            margin-top: 32px;
         }
     </style>
 </head>
@@ -36,78 +37,78 @@
     <%- include('partials/navbar', { active: 'jobs' }) %>
 
     <main class="container">
-        <div style="margin: 20px 0 10px;">
-            <a href="/jobs" style="color: var(--brand-primary); text-decoration: none; font-size: 14px; font-weight: 600;">← Tüm İlanlara Dön</a>
+        <div style="margin: 20px 0 16px;">
+            <a href="/jobs" class="link-chevron" style="font-weight: 600;">← Back to Job Opportunities</a>
         </div>
 
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--hairline);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--hairline-soft);">
                 <div>
-                    <h1 style="font-size: 28px; font-weight: 800; color: var(--ink); margin-bottom: 6px;"><%= job.title %></h1>
-                    <div style="font-size: 15px; color: var(--slate);">
-                        🏢 <strong style="color: var(--ink);"><%= job.company %></strong> &bull; 📍 <%= job.location || 'Konum belirtilmedi' %> &bull; <span style="font-family: monospace;">#<%= job.id %></span>
+                    <h1 style="font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;"><%= job.title %></h1>
+                    <div style="font-size: 15px; color: var(--ink-secondary);">
+                        🏢 <strong style="color: var(--ink);"><%= job.company %></strong> &bull; 📍 <%= job.location || 'Location unspecified' %> &bull; <span style="font-family: monospace;">#<%= job.id %></span>
                     </div>
                 </div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                     <span class="badge badge-jobs"><%= job.employment_type %></span>
-                    <span class="badge badge-primary"><%= job.experience_level %></span>
+                    <span class="badge badge-users"><%= job.experience_level %></span>
                     <% if (job.salary) { %>
-                        <span class="badge badge-warning">💰 $<%= Number(job.salary).toLocaleString() %></span>
+                        <span class="badge badge-announcements">💰 $<%= Number(job.salary).toLocaleString() %></span>
                     <% } %>
                 </div>
             </div>
 
             <div class="detail-meta-box">
                 <div>
-                    <div style="font-size: 12px; color: var(--stone); font-weight: 700; text-transform: uppercase;">İlan Sahibi</div>
+                    <div style="font-size: 12px; color: var(--ink-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">Posted By</div>
                     <div style="margin-top: 4px;">
-                        <a href="/users/<%= job.posted_by %>" style="color: var(--brand-primary); font-weight: 600; text-decoration: none;">
-                            👤 <%= job.posted_by_name || 'Üye #' + job.posted_by %>
+                        <a href="/users/<%= job.posted_by %>" class="link-chevron" style="font-weight: 600;">
+                            👤 <%= job.posted_by_name || 'Member #' + job.posted_by %>
                         </a>
-                        <% if (job.posted_by_email) { %> <span style="color: var(--stone); font-size: 13px;">(<%= job.posted_by_email %>)</span><% } %>
+                        <% if (job.posted_by_email) { %> <span style="color: var(--ink-muted); font-size: 13px;">(<%= job.posted_by_email %>)</span><% } %>
                     </div>
                 </div>
                 <div>
-                    <div style="font-size: 12px; color: var(--stone); font-weight: 700; text-transform: uppercase;">Son Başvuru Tarihi</div>
+                    <div style="font-size: 12px; color: var(--ink-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">Application Deadline</div>
                     <div style="margin-top: 4px; font-weight: 600; color: var(--ink);">
-                        <%= job.application_deadline ? String(job.application_deadline).split('T')[0] : 'Süresiz / Açık' %>
+                        <%= job.application_deadline ? String(job.application_deadline).split('T')[0] : 'Open / Ongoing' %>
                     </div>
                 </div>
             </div>
 
-            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--graphite);">
-                İş Tanımı ve Kapsamı
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted);">
+                Job Description & Scope
             </div>
             <div class="content-box">
                 <%= job.description %>
             </div>
 
             <% if (job.requirements) { %>
-                <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--graphite);">
-                    Aranan Yetkinlikler & Nitelikler
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted);">
+                    Requirements & Qualifications
                 </div>
                 <div class="content-box">
                     <%= job.requirements %>
                 </div>
             <% } %>
 
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--hairline);">
-                <a href="/jobs/<%= job.id %>/applications" class="btn btn-primary" style="background: var(--apps-accent);">
-                    📝 Başvuruları Gör (<%= applicants ? applicants.length : 0 %>)
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--hairline-soft);">
+                <a href="/jobs/<%= job.id %>/applications" class="btn btn-secondary">
+                    📝 View Applications (<%= applicants ? applicants.length : 0 %>)
                 </a>
                 <% if (job.application_url) { %>
-                    <a href="<%= job.application_url %>" target="_blank" class="btn btn-primary">
-                        Dış Portaldan Başvur ↗
+                    <a href="<%= job.application_url %>" target="_blank" class="btn btn-apple">
+                        Apply via External Portal ↗
                     </a>
                 <% } %>
                 <% if (job.contact_email) { %>
                     <a href="mailto:<%= job.contact_email %>" class="btn btn-secondary">
-                        📧 İletişim
+                        📧 Contact Hiring Team
                     </a>
                 <% } %>
                 <form action="/jobs/<%= job.id %>/delete" method="POST" style="margin-left: auto;"
-                      onsubmit="return confirm('Bu iş ilanını silmek istediğinize emin misiniz?')">
-                    <button type="submit" class="btn btn-danger">İlanı Sil</button>
+                      onsubmit="return confirm('Are you sure you want to delete this job posting?')">
+                    <button type="submit" class="btn btn-danger">Delete Opportunity</button>
                 </form>
             </div>
         </div>
@@ -115,25 +116,25 @@
         <!-- 🔗 M:N APPLICANTS THROUGH APPLICATIONS TABLE -->
         <div class="card">
             <h2>
-                <span>👥 Bu İlana Başvuran Adaylar (<%= applicants ? applicants.length : 0 %>)</span>
+                <span>👥 Candidates Applied for this Position (<%= applicants ? applicants.length : 0 %>)</span>
                 <span class="badge badge-apps">M:N Relation</span>
             </h2>
 
             <% if (!applicants || applicants.length === 0) { %>
-                <div style="text-align: center; color: var(--stone); padding: 30px 20px;">
-                    Henüz bu pozisyona bir başvuru yapılmadı. Aşağıdaki form ile hemen başvuru oluşturabilirsiniz.
+                <div style="text-align: center; color: var(--ink-muted); padding: 35px 20px;">
+                    No candidates have applied for this position yet. You can submit an application using the quick form below.
                 </div>
             <% } else { %>
                 <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Başvuru ID</th>
-                                <th>Aday Adı</th>
-                                <th>Rol / Bölüm</th>
-                                <th>Durum</th>
-                                <th>Tarih</th>
-                                <th style="text-align: right;">İşlem</th>
+                                <th>Application ID</th>
+                                <th>Candidate Name</th>
+                                <th>Role / Major</th>
+                                <th>Recruitment Stage</th>
+                                <th>Applied Date</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,7 +142,7 @@
                                 <tr>
                                     <td><strong style="color: var(--ink);">#<%= app.application_id %></strong></td>
                                     <td>
-                                        <a href="/users/<%= app.id %>" style="color: var(--brand-primary); font-weight: 600; text-decoration: none;">
+                                        <a href="/users/<%= app.id %>" class="link-chevron" style="font-weight: 600;">
                                             👤 <%= app.name %>
                                         </a>
                                     </td>
@@ -154,7 +155,7 @@
                                     <td><%= String(app.applied_at).split('T')[0] %></td>
                                     <td style="text-align: right;">
                                         <a href="/applications/<%= app.application_id %>" class="action-pill action-view">
-                                            İncele
+                                            Review
                                         </a>
                                     </td>
                                 </tr>
@@ -166,31 +167,31 @@
 
             <!-- QUICK APPLY FORM -->
             <div class="apply-box">
-                <h3 style="font-size: 18px; font-weight: 700; color: #15803d; margin-bottom: 14px;">
-                    🚀 Bu İlana Hızlı Başvuru Gönder
+                <h3 style="font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">
+                    🚀 Submit Quick Application for this Role
                 </h3>
                 <form action="/applications" method="POST">
                     <input type="hidden" name="job_id" value="<%= job.id %>">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="user_id">Başvuran Kullanıcı Seçin *</label>
+                            <label for="user_id">Select Applying Member *</label>
                             <select id="user_id" name="user_id" required>
                                 <% users.forEach(u => { %>
-                                    <option value="<%= u.id %>"><%= u.name %> (<%= u.role %> - <%= u.department || 'Genel' %>)</option>
+                                    <option value="<%= u.id %>"><%= u.name %> (<%= u.role %> - <%= u.department || 'General' %>)</option>
                                 <% }) %>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="resume_url">Özgeçmiş / CV Linki</label>
+                            <label for="resume_url">Resume / Portfolio URL</label>
                             <input type="url" id="resume_url" name="resume_url" placeholder="https://example.com/cv.pdf">
                         </div>
                         <div class="form-group full">
-                            <label for="cover_letter">Ön Yazı / Motivasyon Notu</label>
-                            <textarea id="cover_letter" name="cover_letter" placeholder="Bu rol için motivasyonunuz ve deneyiminiz..."></textarea>
+                            <label for="cover_letter">Cover Letter / Motivation Statement</label>
+                            <textarea id="cover_letter" name="cover_letter" placeholder="Explain your background, key strengths, and motivation for this role..."></textarea>
                         </div>
                         <div class="form-group full" style="margin-top: 8px;">
-                            <button type="submit" class="btn btn-primary" style="background: #10b981; width: 100%;">
-                                Başvuruyu Tamamla
+                            <button type="submit" class="btn btn-runway" style="width: 100%;">
+                                Submit Application
                             </button>
                         </div>
                     </div>

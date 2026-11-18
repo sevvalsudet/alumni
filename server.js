@@ -62,28 +62,9 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-// ⑥ GET /about -> Geçici bir Hakkımızda Sayfası (temp. about page)
+// ⑥ GET /about -> Hakkımızda Sayfası (About View)
 app.get('/about', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="tr">
-        <head>
-            <meta charset="UTF-8">
-            <title>About - Alumni Tracking System</title>
-            <style>
-                body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f6f9; }
-                h1 { color: #2c3e50; }
-                p { color: #555; font-size: 18px; line-height: 1.6; }
-                a { color: #3498db; text-decoration: none; font-weight: bold; }
-            </style>
-        </head>
-        <body>
-            <h1>ℹ️ Hakkımızda (About Page)</h1>
-            <p>Bu proje mezun takip sistemi (Alumni Tracking System) için geliştirilmektedir.</p>
-            <a href="/">← Ana Sayfaya Dön</a>
-        </body>
-        </html>
-    `);
+    res.render('about');
 });
 
 // ⑦ GET /api/health -> JSON formatında sunucu sağlık durumunu döner

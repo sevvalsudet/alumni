@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Kullanıcı Düzenle • ' + user.name }) %>
+    <%- include('partials/head', { title: 'Edit Profile • ' + user.name }) %>
     <style>
-        .edit-container { max-width: 600px; margin: 0 auto; }
+        .edit-container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -11,45 +14,47 @@
 
     <main class="container">
         <div class="edit-container">
-            <div style="margin-bottom: 20px;">
-                <a href="/users" style="color: var(--brand-primary); text-decoration: none; font-size: 14px; font-weight: 600;">← Mezun Listesine Dön</a>
+            <div style="margin: 20px 0 16px;">
+                <a href="/users/<%= user.id %>" class="link-chevron" style="font-weight: 600;">← Back to Profile</a>
             </div>
 
             <div class="card">
                 <h2>
-                    <span>✏️ Kullanıcı Profilini Düzenle</span>
-                    <span class="badge badge-warning">ID #<%= user.id %></span>
+                    <span>✏️ Edit Member Profile</span>
+                    <span class="badge badge-users">ID #<%= user.id %></span>
                 </h2>
                 
                 <form action="/users/<%= user.id %>/update" method="POST">
-                    <div class="form-group" style="margin-bottom: 16px;">
-                        <label for="name">Ad Soyad *</label>
-                        <input type="text" id="name" name="name" value="<%= user.name %>" required>
+                    <div class="form-grid" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" value="<%= user.name %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">System Role *</label>
+                            <select id="role" name="role" required>
+                                <option value="Alumni" <%= user.role === 'Alumni' ? 'selected' : '' %>>Alumni</option>
+                                <option value="Student" <%= user.role === 'Student' ? 'selected' : '' %>>Student</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="department">Department / Major</label>
+                            <input type="text" id="department" name="department" value="<%= user.department || '' %>" placeholder="e.g. Computer Science">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company">Company / Organization</label>
+                            <input type="text" id="company" name="company" value="<%= user.company || '' %>" placeholder="e.g. Google / Apple">
+                        </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 16px;">
-                        <label for="role">Sistem Rolü *</label>
-                        <select id="role" name="role" required>
-                            <option value="Alumni" <%= user.role === 'Alumni' ? 'selected' : '' %>>Mezun (Alumni)</option>
-                            <option value="Student" <%= user.role === 'Student' ? 'selected' : '' %>>Öğrenci (Student)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 16px;">
-                        <label for="department">Bölüm</label>
-                        <input type="text" id="department" name="department" value="<%= user.department || '' %>" placeholder="Örn: Bilgisayar Mühendisliği">
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 24px;">
-                        <label for="company">Şirket / Organizasyon</label>
-                        <input type="text" id="company" name="company" value="<%= user.company || '' %>" placeholder="Örn: Google / Trendyol">
-                    </div>
-
-                    <div style="display: flex; gap: 12px;">
-                        <button type="submit" class="btn btn-primary" style="flex: 2;">
-                            Değişiklikleri Kaydet
+                    <div style="display: flex; gap: 12px; border-top: 1px solid var(--hairline-soft); padding-top: 20px;">
+                        <button type="submit" class="btn btn-runway" style="flex: 2;">
+                            Save Changes
                         </button>
-                        <a href="/users" class="btn btn-secondary" style="flex: 1;">İptal</a>
+                        <a href="/users/<%= user.id %>" class="btn btn-secondary" style="flex: 1;">Cancel</a>
                     </div>
                 </form>
             </div>

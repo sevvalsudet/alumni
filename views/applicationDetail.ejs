@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Başvuru #' + application.id + ' • Alumni.io' }) %>
+    <%- include('partials/head', { title: 'Application Dossier #' + application.id + ' • Alumni.io' }) %>
     <style>
         .split-grid {
             display: grid;
@@ -10,8 +10,8 @@
             margin: 24px 0;
         }
         .box-panel {
-            background: var(--canvas-subtle);
-            border: 1px solid var(--hairline);
+            background: var(--canvas-parchment);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-md);
             padding: 20px;
         }
@@ -21,12 +21,15 @@
             color: var(--ink);
             margin-bottom: 14px;
             padding-bottom: 10px;
-            border-bottom: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline-soft);
         }
         .box-panel p {
             font-size: 14px;
-            color: var(--slate);
+            color: var(--ink-secondary);
             margin-bottom: 8px;
+        }
+        .box-panel p strong {
+            color: var(--ink);
         }
         .status-update-card {
             background: #fffbeb;
@@ -35,32 +38,37 @@
             padding: 22px;
             margin-top: 26px;
         }
+        @media (max-width: 768px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <%- include('partials/navbar', { active: 'applications' }) %>
 
     <main class="container">
-        <div style="margin: 20px 0 10px;">
-            <a href="/applications" style="color: var(--brand-primary); text-decoration: none; font-size: 14px; font-weight: 600;">← Tüm Başvurulara Dön</a>
+        <div style="margin: 20px 0 16px;">
+            <a href="/applications" class="link-chevron" style="font-weight: 600;">← Back to Applications Pipeline</a>
         </div>
 
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; padding-bottom: 20px; border-bottom: 1px solid var(--hairline);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; padding-bottom: 20px; border-bottom: 1px solid var(--hairline-soft);">
                 <div>
-                    <h1 style="font-size: 26px; font-weight: 800; color: var(--ink); margin-bottom: 6px;">
-                        📝 Başvuru #<%= application.id %>
+                    <h1 style="font-size: 26px; font-weight: 800; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;">
+                        📝 Application Dossier #<%= application.id %>
                     </h1>
-                    <div style="font-size: 15px; color: var(--slate);">
-                        Hedef: <strong style="color: var(--ink);"><%= application.job_title %></strong> &bull; 🏢 <%= application.job_company %>
+                    <div style="font-size: 15px; color: var(--ink-secondary);">
+                        Target: <strong style="color: var(--ink);"><%= application.job_title %></strong> &bull; 🏢 <%= application.job_company %>
                     </div>
                 </div>
                 <div>
                     <% 
-                        let badgeStyle = 'badge-warning';
+                        let badgeStyle = 'badge-announcements';
                         if (application.status === 'Reviewed') badgeStyle = 'badge-users';
                         else if (application.status === 'Interviewing') badgeStyle = 'badge-apps';
-                        else if (application.status === 'Accepted') badgeStyle = 'badge-success';
+                        else if (application.status === 'Accepted') badgeStyle = 'badge-jobs';
                         else if (application.status === 'Rejected') badgeStyle = 'badge-danger';
                     %>
                     <span class="badge <%= badgeStyle %>" style="font-size: 13.5px; padding: 6px 14px;">
@@ -71,84 +79,84 @@
 
             <div class="split-grid">
                 <div class="box-panel">
-                    <h3>💼 İlan Özeti</h3>
-                    <p><strong>Pozisyon:</strong> <%= application.job_title %></p>
-                    <p><strong>Şirket:</strong> <%= application.job_company %></p>
-                    <p><strong>Konum:</strong> <%= application.job_location || 'Belirtilmedi' %></p>
-                    <p><strong>Çalışma Şekli:</strong> <%= application.job_employment_type || 'Full-time' %></p>
-                    <div style="margin-top: 14px;">
+                    <h3>💼 Opportunity Overview</h3>
+                    <p><strong>Position:</strong> <%= application.job_title %></p>
+                    <p><strong>Company:</strong> <%= application.job_company %></p>
+                    <p><strong>Location:</strong> <%= application.job_location || 'Unspecified' %></p>
+                    <p><strong>Employment Type:</strong> <%= application.job_employment_type || 'Full-time' %></p>
+                    <div style="margin-top: 16px;">
                         <a href="/jobs/<%= application.job_id %>" class="btn btn-secondary" style="font-size: 13px; padding: 6px 14px;">
-                            İlan Detayına Git →
+                            View Opportunity Details →
                         </a>
                     </div>
                 </div>
 
                 <div class="box-panel">
-                    <h3>👤 Başvuran Aday</h3>
-                    <p><strong>Ad Soyad:</strong> <%= application.applicant_name %></p>
-                    <p><strong>E-posta:</strong> <%= application.applicant_email %></p>
-                    <p><strong>Bölüm:</strong> <%= application.applicant_department || '—' %></p>
+                    <h3>👤 Candidate Dossier</h3>
+                    <p><strong>Full Name:</strong> <%= application.applicant_name %></p>
+                    <p><strong>Email:</strong> <%= application.applicant_email %></p>
+                    <p><strong>Department / Major:</strong> <%= application.applicant_department || '—' %></p>
                     <% if (application.applicant_current_company) { %>
-                        <p><strong>Mevcut Şirket:</strong> <%= application.applicant_current_company %></p>
+                        <p><strong>Current Company:</strong> <%= application.applicant_current_company %></p>
                     <% } %>
-                    <div style="margin-top: 14px;">
+                    <div style="margin-top: 16px;">
                         <a href="/users/<%= application.user_id %>" class="btn btn-secondary" style="font-size: 13px; padding: 6px 14px;">
-                            Aday Profiline Git →
+                            View Member Profile →
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--graphite); margin-top: 20px;">
-                Özgeçmiş / Portfolyo
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-top: 20px;">
+                Resume / Portfolio
             </div>
             <div style="margin-top: 8px;">
                 <% if (application.resume_url) { %>
-                    <a href="<%= application.resume_url %>" target="_blank" class="btn btn-primary" style="background: var(--jobs-accent);">
-                        📄 CV & Portfolyoyu Aç ↗
+                    <a href="<%= application.resume_url %>" target="_blank" class="btn btn-apple">
+                        📄 View Resume & Portfolio ↗
                     </a>
-                    <span style="font-size: 13px; color: var(--stone); margin-left: 10px;">(<%= application.resume_url %>)</span>
+                    <span style="font-size: 13px; color: var(--ink-muted); margin-left: 10px;">(<%= application.resume_url %>)</span>
                 <% } else { %>
-                    <span style="color: var(--stone); font-style: italic; font-size: 14px;">Özgeçmiş bağlantısı eklenmemiş.</span>
+                    <span style="color: var(--ink-muted); font-style: italic; font-size: 14px;">No resume link submitted.</span>
                 <% } %>
             </div>
 
-            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--graphite); margin-top: 24px;">
-                Ön Yazı / Motivasyon Mektubu
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-top: 24px;">
+                Cover Letter / Motivation Statement
             </div>
-            <div style="background: var(--canvas-subtle); border: 1px solid var(--hairline); border-radius: var(--radius-md); padding: 18px; margin-top: 8px; color: var(--ink); line-height: 1.6; white-space: pre-wrap;">
-                <%= application.cover_letter || 'Ön yazı belirtilmemiş.' %>
+            <div style="background: var(--canvas-parchment); border: 1px solid rgba(0, 0, 0, 0.05); border-radius: var(--radius-md); padding: 18px; margin-top: 8px; color: var(--ink); line-height: 1.6; white-space: pre-wrap;">
+                <%= application.cover_letter || 'No cover letter provided.' %>
             </div>
 
             <div class="status-update-card">
                 <h3 style="font-size: 15px; font-weight: 700; color: #b45309; margin-bottom: 10px;">
-                    ⚙️ Başvuru Süreç Durumunu Güncelle
+                    ⚙️ Update Recruitment Stage
                 </h3>
                 <form action="/applications/<%= application.id %>/status" method="POST" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <select name="status" style="flex: 1; min-width: 200px;">
-                        <option value="Pending" <%= application.status === 'Pending' ? 'selected' : '' %>>⏳ Beklemede (Pending)</option>
-                        <option value="Reviewed" <%= application.status === 'Reviewed' ? 'selected' : '' %>>👀 İncelendi (Reviewed)</option>
-                        <option value="Interviewing" <%= application.status === 'Interviewing' ? 'selected' : '' %>>💬 Mülakat Aşamasında (Interviewing)</option>
-                        <option value="Accepted" <%= application.status === 'Accepted' ? 'selected' : '' %>>🎉 Kabul Edildi (Accepted)</option>
-                        <option value="Rejected" <%= application.status === 'Rejected' ? 'selected' : '' %>>❌ Reddedildi (Rejected)</option>
+                    <select name="status" style="flex: 1; min-width: 220px;">
+                        <option value="Pending" <%= application.status === 'Pending' ? 'selected' : '' %>>⏳ Pending</option>
+                        <option value="Reviewed" <%= application.status === 'Reviewed' ? 'selected' : '' %>>👀 Reviewed</option>
+                        <option value="Interviewing" <%= application.status === 'Interviewing' ? 'selected' : '' %>>💬 Interviewing</option>
+                        <option value="Accepted" <%= application.status === 'Accepted' ? 'selected' : '' %>>🎉 Accepted</option>
+                        <option value="Rejected" <%= application.status === 'Rejected' ? 'selected' : '' %>>❌ Rejected</option>
                     </select>
-                    <button type="submit" class="btn btn-primary" style="background: #d97706;">
-                        Durumu Kaydet
+                    <button type="submit" class="btn btn-runway">
+                        Update Stage
                     </button>
                 </form>
             </div>
 
-            <div style="display: flex; gap: 10px; margin-top: 25px; padding-top: 18px; border-top: 1px solid var(--hairline); align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                <div style="font-size: 13px; color: var(--stone);">
-                    <span>📅 Başvuru: <%= new Date(application.applied_at).toLocaleString() %></span>
+            <div style="display: flex; gap: 10px; margin-top: 25px; padding-top: 18px; border-top: 1px solid var(--hairline-soft); align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                <div style="font-size: 13px; color: var(--ink-muted);">
+                    <span>📅 Submitted: <%= new Date(application.applied_at).toLocaleString() %></span>
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <a href="/jobs/<%= application.job_id %>/applications" class="btn btn-secondary">
-                        👥 İlandaki Diğer Başvurular
+                        👥 Other Applicants for this Role
                     </a>
                     <form action="/applications/<%= application.id %>/delete" method="POST"
-                          onsubmit="return confirm('Bu başvuruyu silmek istediğinize emin misiniz?')">
-                        <button type="submit" class="btn btn-danger">Başvuruyu Sil</button>
+                          onsubmit="return confirm('Are you sure you want to delete this application dossier?')">
+                        <button type="submit" class="btn btn-danger">Delete Application</button>
                     </form>
                 </div>
             </div>

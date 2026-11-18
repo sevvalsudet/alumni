@@ -1,18 +1,69 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <%- include('partials/head', { title: 'İş Başvuruları & Değerlendirme • Alumni.io' }) %>
+    <%- include('partials/head', { title: 'Application Pipeline • Alumni.io' }) %>
     <style>
         .filter-banner {
-            background: var(--apps-surface);
-            border: 1px solid #ddd6fe;
+            background: var(--mod-apps-bg);
+            border: 1px solid rgba(123, 31, 162, 0.2);
             padding: 14px 20px;
             border-radius: var(--radius-md);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: #6b21a8;
+            color: var(--mod-apps-fg);
+            font-size: 13.5px;
+        }
+        .filter-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 3px;
+            border-radius: var(--radius-pill);
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-btn.active {
+            background: var(--canvas-card);
+            color: var(--ink);
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .search-box {
+            position: relative;
+            min-width: 280px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 8px 14px 8px 34px;
+            border-radius: var(--radius-pill);
+            font-size: 13.5px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ink-muted);
             font-size: 14px;
         }
     </style>
@@ -22,38 +73,39 @@
 
     <main class="container">
         <div class="page-header">
-            <h1>📝 Başvuru & Değerlendirme Takibi</h1>
-            <p class="subtitle">Adayların açık pozisyonlara yaptığı başvuruları, değerlendirme durumlarını ve ön yazılarını yönetin.</p>
+            <span class="eyebrow">Evaluation Pipeline</span>
+            <h1>Application & Talent Pipeline</h1>
+            <p class="subtitle">Track submissions across open roles, inspect candidate dossiers, and manage evaluation stages end-to-end.</p>
         </div>
 
         <% if (filterType === 'job' && filterTarget) { %>
             <div class="filter-banner">
                 <div>
-                    <strong>🔗 İlan Bazlı Filtre:</strong> 
-                    <strong><%= filterTarget.title %></strong> (🏢 <%= filterTarget.company %>, #<%= filterTarget.id %>) için başvurular gösteriliyor.
+                    <strong>🔗 Role Filter:</strong> 
+                    Showing submissions for <strong><%= filterTarget.title %></strong> (🏢 <%= filterTarget.company %>, #<%= filterTarget.id %>).
                 </div>
-                <a href="/applications" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Tüm Başvuruları Göster</a>
+                <a href="/applications" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Show All Applications</a>
             </div>
         <% } else if (filterType === 'user' && filterTarget) { %>
             <div class="filter-banner">
                 <div>
-                    <strong>🔗 Aday Bazlı Filtre:</strong> 
-                    <strong><%= filterTarget.name %></strong> (#<%= filterTarget.id %>) tarafından yapılan başvurular gösteriliyor.
+                    <strong>🔗 Candidate Filter:</strong> 
+                    Showing applications submitted by <strong><%= filterTarget.name %></strong> (#<%= filterTarget.id %>).
                 </div>
-                <a href="/applications" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Tüm Başvuruları Göster</a>
+                <a href="/applications" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Show All Applications</a>
             </div>
         <% } %>
 
-        <!-- ➕ CREATE: POST /applications Formu -->
+        <!-- ➕ CREATE: POST /applications -->
         <div class="card">
             <h2>
-                <span>➕ Yeni Başvuru Gönder</span>
+                <span>➕ Submit New Application</span>
                 <span class="badge badge-apps">CREATE</span>
             </h2>
             <form action="/applications" method="POST">
                 <div class="form-grid grid-3">
                     <div class="form-group">
-                        <label for="job_id">Başvurulacak İlan *</label>
+                        <label for="job_id">Target Job Opportunity *</label>
                         <select id="job_id" name="job_id" required>
                             <% jobs.forEach(j => { %>
                                 <option value="<%= j.id %>" <%= (filterType === 'job' && filterTarget && filterTarget.id === j.id) ? 'selected' : '' %>>
@@ -63,28 +115,28 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="user_id">Başvuran Aday *</label>
+                        <label for="user_id">Candidate / Member *</label>
                         <select id="user_id" name="user_id" required>
                             <% users.forEach(u => { %>
                                 <option value="<%= u.id %>" <%= (filterType === 'user' && filterTarget && filterTarget.id === u.id) ? 'selected' : '' %>>
-                                    <%= u.name %> (<%= u.role %> - <%= u.department || 'Genel' %>)
+                                    <%= u.name %> (<%= u.role %> - <%= u.department || 'General' %>)
                                 </option>
                             <% }) %>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="resume_url">Özgeçmiş / Portfolyo Linki</label>
+                        <label for="resume_url">Resume / Portfolio URL</label>
                         <input type="url" id="resume_url" name="resume_url" placeholder="https://example.com/cv.pdf">
                     </div>
 
                     <div class="form-group full">
-                        <label for="cover_letter">Ön Yazı / Motivasyon Mektubu</label>
-                        <textarea id="cover_letter" name="cover_letter" placeholder="Adayın nitelikleri, başarıları ve başvuru motivasyonu..."></textarea>
+                        <label for="cover_letter">Cover Letter / Motivation Statement</label>
+                        <textarea id="cover_letter" name="cover_letter" placeholder="Candidate qualifications, accomplishments, and motivation for applying..."></textarea>
                     </div>
 
                     <div class="form-group full" style="margin-top: 8px;">
                         <button type="submit" class="btn btn-runway" style="width: 100%;">
-                            <span>Başvuruyu Sisteme Kaydet</span>
+                            <span>Submit Application</span>
                             <span>→</span>
                         </button>
                     </div>
@@ -92,52 +144,68 @@
             </form>
         </div>
 
-        <!-- 📖 READ: GET /applications Listeleme -->
+        <!-- 📖 READ: GET /applications -->
         <div class="card">
             <h2>
-                <span>📋 Tüm Başvuru Süreçleri</span>
-                <span class="badge badge-apps"><%= applications.length %> Başvuru</span>
+                <span>📋 All Active Pipeline Submissions</span>
+                <span class="badge badge-apps" id="app-count"><%= applications.length %> <%= applications.length === 1 ? 'Application' : 'Applications' %></span>
             </h2>
 
+            <!-- Status Filter Toolbar -->
+            <div class="filter-toolbar">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" onclick="filterAppStatus('all', this)">All</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Pending', this)">⏳ Pending</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Reviewed', this)">👀 Reviewed</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Interviewing', this)">💬 Interviewing</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Accepted', this)">🎉 Accepted</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Rejected', this)">❌ Rejected</button>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="appSearch" placeholder="Search by candidate or position..." onkeyup="searchApps()">
+                </div>
+            </div>
+
             <% if (applications.length === 0) { %>
-                <div style="text-align: center; color: var(--stone); padding: 35px 20px;">
-                    📭 Bu kritere uygun kayıtlı bir başvuru bulunmamaktadır.
+                <div style="text-align: center; color: var(--ink-muted); padding: 35px 20px;">
+                    📭 No applications found matching your criteria.
                 </div>
             <% } else { %>
                 <div class="table-responsive">
-                    <table>
+                    <table id="appsTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Hedef Pozisyon & Şirket</th>
-                                <th>Aday Bilgisi</th>
-                                <th>Aşama / Durum</th>
-                                <th>Başvuru Tarihi</th>
-                                <th style="text-align: right;">İşlemler</th>
+                                <th>Target Position & Company</th>
+                                <th>Candidate Information</th>
+                                <th>Recruitment Stage</th>
+                                <th>Applied Date</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% applications.forEach(app => { %>
-                                <tr>
+                                <tr class="app-row" data-status="<%= app.status %>">
                                     <td><strong style="color: var(--ink);">#<%= app.id %></strong></td>
                                     <td>
-                                        <a href="/jobs/<%= app.job_id %>" style="color: var(--ink); font-weight: 700; text-decoration: none;">
+                                        <a href="/jobs/<%= app.job_id %>" style="color: var(--ink); font-weight: 700; text-decoration: none;" class="app-job-cell">
                                             💼 <%= app.job_title %>
                                         </a>
-                                        <div style="font-size: 13px; color: var(--stone);">🏢 <%= app.job_company %></div>
+                                        <div style="font-size: 13px; color: var(--ink-muted);">🏢 <%= app.job_company %></div>
                                     </td>
                                     <td>
-                                        <a href="/users/<%= app.user_id %>" style="color: var(--brand-primary); font-weight: 600; text-decoration: none;">
+                                        <a href="/users/<%= app.user_id %>" class="link-chevron app-user-cell" style="font-weight: 600;">
                                             👤 <%= app.applicant_name %>
                                         </a>
-                                        <div style="font-size: 12px; color: var(--stone);"><%= app.applicant_email %></div>
+                                        <div style="font-size: 12px; color: var(--ink-muted);"><%= app.applicant_email %></div>
                                     </td>
                                     <td>
                                         <% 
-                                            let badgeStyle = 'badge-warning';
+                                            let badgeStyle = 'badge-announcements';
                                             if (app.status === 'Reviewed') badgeStyle = 'badge-users';
                                             else if (app.status === 'Interviewing') badgeStyle = 'badge-apps';
-                                            else if (app.status === 'Accepted') badgeStyle = 'badge-success';
+                                            else if (app.status === 'Accepted') badgeStyle = 'badge-jobs';
                                             else if (app.status === 'Rejected') badgeStyle = 'badge-danger';
                                         %>
                                         <span class="badge <%= badgeStyle %>">
@@ -147,10 +215,10 @@
                                     <td><%= String(app.applied_at).split('T')[0] %></td>
                                     <td style="text-align: right;">
                                         <div class="table-actions" style="justify-content: flex-end;">
-                                            <a href="/applications/<%= app.id %>" class="action-pill action-view">İncele</a>
+                                            <a href="/applications/<%= app.id %>" class="action-pill action-view">Review</a>
                                             <form action="/applications/<%= app.id %>/delete" method="POST" style="display:inline"
-                                                  onsubmit="return confirm('Bu başvuruyu silmek istediğinize emin misiniz?')">
-                                                <button type="submit" class="action-pill action-delete">Sil</button>
+                                                  onsubmit="return confirm('Are you sure you want to delete this application?')">
+                                                <button type="submit" class="action-pill action-delete">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -162,6 +230,46 @@
             <% } %>
         </div>
     </main>
+
+    <script>
+        let currentStatus = 'all';
+
+        function filterAppStatus(status, btn) {
+            currentStatus = status;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyAppFilters();
+        }
+
+        function searchApps() {
+            applyAppFilters();
+        }
+
+        function applyAppFilters() {
+            const query = document.getElementById('appSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.app-row');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const status = row.getAttribute('data-status');
+                const job = row.querySelector('.app-job-cell').textContent.toLowerCase();
+                const user = row.querySelector('.app-user-cell').textContent.toLowerCase();
+
+                const statusMatch = (currentStatus === 'all') || (status === currentStatus);
+                const queryMatch = job.includes(query) || user.includes(query);
+
+                if (statusMatch && queryMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('app-count');
+            if (countEl) countEl.textContent = visibleCount + (visibleCount === 1 ? ' Application' : ' Applications');
+        }
+    </script>
 
     <%- include('partials/footer') %>
 </body>

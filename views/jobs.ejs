@@ -1,18 +1,69 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <%- include('partials/head', { title: 'İş & Staj İlanları • Alumni.io' }) %>
+    <%- include('partials/head', { title: 'Career & Job Opportunities • Alumni.io' }) %>
     <style>
         .filter-banner {
-            background: var(--jobs-surface);
-            border: 1px solid #bbf7d0;
+            background: var(--mod-jobs-bg);
+            border: 1px solid rgba(19, 115, 51, 0.2);
             padding: 14px 20px;
             border-radius: var(--radius-md);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: #166534;
+            color: var(--mod-jobs-fg);
+            font-size: 13.5px;
+        }
+        .filter-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 3px;
+            border-radius: var(--radius-pill);
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-btn.active {
+            background: var(--canvas-card);
+            color: var(--ink);
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .search-box {
+            position: relative;
+            min-width: 280px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 8px 14px 8px 34px;
+            border-radius: var(--radius-pill);
+            font-size: 13.5px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ink-muted);
             font-size: 14px;
         }
     </style>
@@ -22,102 +73,103 @@
 
     <main class="container">
         <div class="page-header">
-            <h1>💼 Kariyer & İş İlanları</h1>
-            <p class="subtitle">Mezun ve iş ortakları tarafından paylaşılan açık pozisyonları inceleyin veya yeni bir fırsat yayınlayın.</p>
+            <span class="eyebrow">Career Portal</span>
+            <h1>Job & Internship Board</h1>
+            <p class="subtitle">Explore open positions shared by alumni and partner companies, apply filters, or publish a new career opportunity.</p>
         </div>
 
         <% if (selectedUser) { %>
             <div class="filter-banner">
                 <div>
-                    <strong>🔗 Filtreli Görünüm:</strong> <strong><%= selectedUser.name %></strong> (#<%= selectedUser.id %>) tarafından yayınlanan ilanlar listeleniyor.
+                    <strong>🔗 Filtered View:</strong> Showing opportunities published by <strong><%= selectedUser.name %></strong> (#<%= selectedUser.id %>).
                 </div>
-                <a href="/jobs" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Tüm İlanları Göster</a>
+                <a href="/jobs" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12.5px;">Show All Jobs</a>
             </div>
         <% } %>
 
-        <!-- ➕ CREATE: POST /jobs Formu -->
+        <!-- ➕ CREATE: POST /jobs -->
         <div class="card">
             <h2>
-                <span>➕ Yeni İş İlanı Yayınla</span>
+                <span>➕ Post New Job Opportunity</span>
                 <span class="badge badge-jobs">CREATE</span>
             </h2>
             <form action="/jobs" method="POST">
                 <div class="form-grid grid-3">
                     <div class="form-group span-2">
-                        <label for="title">Pozisyon Başlığı *</label>
-                        <input type="text" id="title" name="title" placeholder="Örn: Senior Full Stack Engineer" required maxlength="120">
+                        <label for="title">Position Title *</label>
+                        <input type="text" id="title" name="title" placeholder="e.g. Senior Full Stack Engineer" required maxlength="120">
                     </div>
                     <div class="form-group">
-                        <label for="company">Şirket / Organizasyon *</label>
-                        <input type="text" id="company" name="company" placeholder="Örn: Google / Trendyol" required>
+                        <label for="company">Company / Organization *</label>
+                        <input type="text" id="company" name="company" placeholder="e.g. Google / Stripe" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Konum / Şehir</label>
-                        <input type="text" id="location" name="location" placeholder="Örn: İstanbul, TR / Remote">
+                        <label for="location">Location / City</label>
+                        <input type="text" id="location" name="location" placeholder="e.g. San Francisco, CA / Remote">
                     </div>
                     <div class="form-group">
-                        <label for="employment_type">Çalışma Şekli</label>
+                        <label for="employment_type">Employment Type</label>
                         <select id="employment_type" name="employment_type">
-                            <option value="Full-time">Tam Zamanlı (Full-time)</option>
-                            <option value="Part-time">Yarı Zamanlı (Part-time)</option>
-                            <option value="Contract">Sözleşmeli (Contract)</option>
-                            <option value="Internship">Staj (Internship)</option>
-                            <option value="Remote">Uzaktan (Remote)</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Remote">Remote</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="experience_level">Deneyim Seviyesi</label>
+                        <label for="experience_level">Experience Level</label>
                         <select id="experience_level" name="experience_level">
-                            <option value="Entry-level">Başlangıç (Entry-level)</option>
-                            <option value="Mid-level" selected>Orta (Mid-level)</option>
-                            <option value="Senior">Kıdemli (Senior)</option>
-                            <option value="Lead">Lider (Lead)</option>
-                            <option value="Executive">Yönetici (Executive)</option>
+                            <option value="Entry-level">Entry-level</option>
+                            <option value="Mid-level" selected>Mid-level</option>
+                            <option value="Senior">Senior</option>
+                            <option value="Lead">Lead</option>
+                            <option value="Executive">Executive</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="salary">Tahmini Maaş (USD / Yıllık)</label>
-                        <input type="number" step="0.01" id="salary" name="salary" placeholder="Örn: 90000">
+                        <label for="salary">Estimated Salary (USD / Year)</label>
+                        <input type="number" step="0.01" id="salary" name="salary" placeholder="e.g. 120000">
                     </div>
                     <div class="form-group span-2">
-                        <label for="posted_by">İlan Sahibi (Alumni / Üye) *</label>
+                        <label for="posted_by">Job Owner (Alumni / Member) *</label>
                         <select id="posted_by" name="posted_by" required>
                             <% users.forEach(u => { %>
                                 <option value="<%= u.id %>" <%= (selectedUser && selectedUser.id === u.id) ? 'selected' : '' %>>
-                                    <%= u.name %> (<%= u.role %> - <%= u.department || 'Genel' %>)
+                                    <%= u.name %> (<%= u.role %> - <%= u.department || 'General' %>)
                                 </option>
                             <% }) %>
                         </select>
                     </div>
 
                     <div class="form-group full">
-                        <label for="description">İş Tanımı ve Kapsamı</label>
-                        <textarea id="description" name="description" placeholder="Rolün genel sorumlulukları ve iş tanımı..."></textarea>
+                        <label for="description">Job Description & Responsibilities</label>
+                        <textarea id="description" name="description" placeholder="Core responsibilities, project scope, team background..."></textarea>
                     </div>
 
                     <div class="form-group full">
-                        <label for="requirements">Gereksinimler & Nitelikler</label>
-                        <textarea id="requirements" name="requirements" placeholder="Teknolojiler, yetkinlikler ve aranan tecrübe..."></textarea>
+                        <label for="requirements">Requirements & Qualifications</label>
+                        <textarea id="requirements" name="requirements" placeholder="Technical stack, skills, expected years of experience..."></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_email">İletişim E-posta</label>
-                        <input type="email" id="contact_email" name="contact_email" placeholder="hr@sirket.com">
+                        <label for="contact_email">Contact Email</label>
+                        <input type="email" id="contact_email" name="contact_email" placeholder="hr@company.com">
                     </div>
                     <div class="form-group">
-                        <label for="application_url">Dış Başvuru Bağlantısı</label>
-                        <input type="url" id="application_url" name="application_url" placeholder="https://careers.sirket.com">
+                        <label for="application_url">External Portal URL</label>
+                        <input type="url" id="application_url" name="application_url" placeholder="https://careers.company.com">
                     </div>
                     <div class="form-group">
-                        <label for="application_deadline">Son Başvuru Tarihi</label>
+                        <label for="application_deadline">Application Deadline</label>
                         <input type="date" id="application_deadline" name="application_deadline">
                     </div>
 
                     <div class="form-group full" style="margin-top: 10px;">
                         <button type="submit" class="btn btn-runway" style="width: 100%;">
-                            <span>İlanı Yayınla</span>
+                            <span>Publish Opportunity</span>
                             <span>→</span>
                         </button>
                     </div>
@@ -125,65 +177,80 @@
             </form>
         </div>
 
-        <!-- 📖 READ: GET /jobs Listeleme -->
+        <!-- 📖 READ: GET /jobs -->
         <div class="card">
             <h2>
-                <span>📋 Güncel İş ve Staj İlanları</span>
-                <span class="badge badge-jobs"><%= jobs.length %> İlan</span>
+                <span>📋 Current Opportunities</span>
+                <span class="badge badge-jobs" id="job-count"><%= jobs.length %> <%= jobs.length === 1 ? 'Opportunity' : 'Opportunities' %></span>
             </h2>
 
+            <!-- Filter Toolbar -->
+            <div class="filter-toolbar">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" onclick="filterJobType('all', this)">All</button>
+                    <button class="tab-btn" onclick="filterJobType('Full-time', this)">Full-time</button>
+                    <button class="tab-btn" onclick="filterJobType('Remote', this)">Remote</button>
+                    <button class="tab-btn" onclick="filterJobType('Internship', this)">Internship</button>
+                    <button class="tab-btn" onclick="filterJobType('Part-time', this)">Part-time</button>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="jobSearch" placeholder="Search by title, company, or location..." onkeyup="searchJobs()">
+                </div>
+            </div>
+
             <% if (jobs.length === 0) { %>
-                <div style="text-align: center; color: var(--stone); padding: 40px 20px;">
-                    📭 Henüz kayıtlı bir iş ilanı bulunmamaktadır. İlk ilanı yukarıdaki formdan oluşturabilirsiniz!
+                <div style="text-align: center; color: var(--ink-muted); padding: 40px 20px;">
+                    📭 No job postings registered yet. You can publish the first opportunity using the form above!
                 </div>
             <% } else { %>
                 <div class="table-responsive">
-                    <table>
+                    <table id="jobsTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Pozisyon & Şirket</th>
-                                <th>Konum</th>
-                                <th>Tür & Seviye</th>
-                                <th>Maaş</th>
-                                <th>İlan Sahibi</th>
-                                <th style="text-align: right;">İşlemler</th>
+                                <th>Position & Company</th>
+                                <th>Location</th>
+                                <th>Type & Level</th>
+                                <th>Salary</th>
+                                <th>Posted By</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% jobs.forEach(job => { %>
-                                <tr>
+                                <tr class="job-row" data-type="<%= job.employment_type %>">
                                     <td><strong style="color: var(--ink);">#<%= job.id %></strong></td>
                                     <td>
-                                        <div style="font-weight: 700; color: var(--ink);"><%= job.title %></div>
-                                        <div style="font-size: 13px; color: var(--stone);">🏢 <%= job.company %></div>
+                                        <div style="font-weight: 700; color: var(--ink);" class="job-title-cell"><%= job.title %></div>
+                                        <div style="font-size: 13px; color: var(--ink-muted);" class="job-company-cell">🏢 <%= job.company %></div>
                                     </td>
-                                    <td><%= job.location || '—' %></td>
+                                    <td class="job-location-cell"><%= job.location || '—' %></td>
                                     <td>
                                         <div style="display: flex; gap: 4px; flex-wrap: wrap;">
                                             <span class="badge badge-jobs"><%= job.employment_type %></span>
-                                            <span class="badge badge-primary"><%= job.experience_level %></span>
+                                            <span class="badge badge-users"><%= job.experience_level %></span>
                                         </div>
                                     </td>
                                     <td>
                                         <% if (job.salary) { %>
-                                            <span class="badge badge-warning">$<%= Number(job.salary).toLocaleString() %></span>
+                                            <span class="badge badge-announcements">$<%= Number(job.salary).toLocaleString() %></span>
                                         <% } else { %>
-                                            <span style="color: var(--stone); font-size: 13px;">—</span>
+                                            <span style="color: var(--ink-muted); font-size: 13px;">—</span>
                                         <% } %>
                                     </td>
                                     <td>
-                                        <a href="/users/<%= job.posted_by %>/jobs" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; font-size: 13px;">
-                                            👤 <%= job.posted_by_name || 'Üye #' + job.posted_by %>
+                                        <a href="/users/<%= job.posted_by %>/jobs" class="link-chevron" style="font-size: 13px;">
+                                            👤 <%= job.posted_by_name || 'Member #' + job.posted_by %>
                                         </a>
                                     </td>
                                     <td style="text-align: right;">
                                         <div class="table-actions" style="justify-content: flex-end;">
-                                            <a href="/jobs/<%= job.id %>" class="action-pill action-view">Detay</a>
-                                            <a href="/jobs/<%= job.id %>/applications" class="action-pill action-sub">Başvurular</a>
+                                            <a href="/jobs/<%= job.id %>" class="action-pill action-view">Details</a>
+                                            <a href="/jobs/<%= job.id %>/applications" class="action-pill action-sub">Applications</a>
                                             <form action="/jobs/<%= job.id %>/delete" method="POST" style="display:inline"
-                                                  onsubmit="return confirm('Bu iş ilanını silmek istediğinize emin misiniz?')">
-                                                <button type="submit" class="action-pill action-delete">Sil</button>
+                                                  onsubmit="return confirm('Are you sure you want to delete this job posting?')">
+                                                <button type="submit" class="action-pill action-delete">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -195,6 +262,47 @@
             <% } %>
         </div>
     </main>
+
+    <script>
+        let currentType = 'all';
+
+        function filterJobType(type, btn) {
+            currentType = type;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyJobFilters();
+        }
+
+        function searchJobs() {
+            applyJobFilters();
+        }
+
+        function applyJobFilters() {
+            const query = document.getElementById('jobSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.job-row');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const type = row.getAttribute('data-type');
+                const title = row.querySelector('.job-title-cell').textContent.toLowerCase();
+                const comp = row.querySelector('.job-company-cell').textContent.toLowerCase();
+                const loc = row.querySelector('.job-location-cell').textContent.toLowerCase();
+
+                const typeMatch = (currentType === 'all') || (type === currentType);
+                const queryMatch = title.includes(query) || comp.includes(query) || loc.includes(query);
+
+                if (typeMatch && queryMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('job-count');
+            if (countEl) countEl.textContent = visibleCount + (visibleCount === 1 ? ' Opportunity' : ' Opportunities');
+        }
+    </script>
 
     <%- include('partials/footer') %>
 </body>

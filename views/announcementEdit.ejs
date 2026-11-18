@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Duyuru Düzenle • ' + announcement.title }) %>
+    <%- include('partials/head', { title: 'Edit Notice • ' + announcement.title }) %>
     <style>
-        .edit-card { max-width: 680px; margin: 0 auto; }
+        .edit-card {
+            max-width: 960px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -11,53 +14,53 @@
 
     <main class="container">
         <div class="edit-card">
-            <div style="margin: 20px 0 10px;">
-                <a href="/announcements/<%= announcement.id %>" style="color: var(--brand-primary); text-decoration: none; font-size: 14px; font-weight: 600;">← Duyuru Detayına Dön</a>
+            <div style="margin: 20px 0 16px;">
+                <a href="/announcements/<%= announcement.id %>" class="link-chevron" style="font-weight: 600;">← Back to Notice Details</a>
             </div>
 
             <div class="card">
                 <h2>
-                    <span>✏️ Duyuruyu Düzenle</span>
-                    <span class="badge badge-warning">ID #<%= announcement.id %></span>
+                    <span>✏️ Edit Notice</span>
+                    <span class="badge badge-announcements">ID #<%= announcement.id %></span>
                 </h2>
 
                 <form action="/announcements/<%= announcement.id %>/update" method="POST">
                     <div class="form-group" style="margin-bottom: 16px;">
-                        <label for="title">Duyuru Başlığı *</label>
+                        <label for="title">Notice Title *</label>
                         <input type="text" id="title" name="title" value="<%= announcement.title %>" required>
                     </div>
 
                     <div class="form-group" style="margin-bottom: 16px;">
-                        <label for="content">Duyuru Metni *</label>
-                        <textarea id="content" name="content" required style="min-height: 120px;"><%= announcement.content %></textarea>
+                        <label for="content">Content & Notice Details *</label>
+                        <textarea id="content" name="content" required style="min-height: 140px;"><%= announcement.content %></textarea>
                     </div>
 
                     <div class="form-grid grid-3" style="margin-bottom: 24px;">
                         <div class="form-group">
-                            <label for="author">Yayınlayan</label>
+                            <label for="author">Author / Department</label>
                             <input type="text" id="author" name="author" value="<%= announcement.author %>">
                         </div>
                         <div class="form-group">
-                            <label for="date">Tarih</label>
+                            <label for="date">Publish Date</label>
                             <input type="date" id="date" name="date" value="<%= announcement.date %>">
                         </div>
                         <div class="form-group">
-                            <label for="category">Kategori</label>
+                            <label for="category">Category</label>
                             <select id="category" name="category">
-                                <option value="General" <%= announcement.category === 'General' ? 'selected' : '' %>>Genel (General)</option>
-                                <option value="Event" <%= announcement.category === 'Event' ? 'selected' : '' %>>Etkinlik (Event)</option>
-                                <option value="Scholarship" <%= announcement.category === 'Scholarship' ? 'selected' : '' %>>Burs (Scholarship)</option>
-                                <option value="Career" <%= announcement.category === 'Career' ? 'selected' : '' %>>Kariyer (Career)</option>
-                                <option value="Academic" <%= announcement.category === 'Academic' ? 'selected' : '' %>>Akademik (Academic)</option>
+                                <option value="General" <%= announcement.category === 'General' ? 'selected' : '' %>>General</option>
+                                <option value="Event" <%= announcement.category === 'Event' ? 'selected' : '' %>>Event</option>
+                                <option value="Scholarship" <%= announcement.category === 'Scholarship' ? 'selected' : '' %>>Scholarship</option>
+                                <option value="Career" <%= announcement.category === 'Career' ? 'selected' : '' %>>Career</option>
+                                <option value="Academic" <%= announcement.category === 'Academic' ? 'selected' : '' %>>Academic</option>
                             </select>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 12px;">
-                        <button type="submit" class="btn btn-primary" style="background: var(--announcements-accent); flex: 2;">
-                            Değişiklikleri Kaydet
+                    <div style="display: flex; gap: 12px; border-top: 1px solid var(--hairline-soft); padding-top: 20px;">
+                        <button type="submit" class="btn btn-runway" style="flex: 2;">
+                            Save Changes
                         </button>
-                        <a href="/announcements/<%= announcement.id %>" class="btn btn-secondary" style="flex: 1;">İptal</a>
+                        <a href="/announcements/<%= announcement.id %>" class="btn btn-secondary" style="flex: 1;">Cancel</a>
                     </div>
                 </form>
             </div>
