@@ -76,7 +76,7 @@
                     <div style="flex: 1;">
                         <h1 style="font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;"><%= user.name %></h1>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                            <span class="badge <%= user.role === 'Student' ? 'badge-users' : 'badge-jobs' %>">
+                            <span class="badge <%= user.role === 'Student' ? 'badge-role-student' : 'badge-role-alumni' %>">
                                 <%= user.role === 'Student' ? 'Student' : 'Alumni' %>
                             </span>
                             <span style="font-size: 13px; color: var(--ink-muted); font-family: monospace;">ID: #<%= user.id %></span>
