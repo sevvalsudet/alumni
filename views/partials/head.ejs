@@ -528,12 +528,12 @@
         color: #ffffff !important;
         border: 1px solid #1d1d1f !important;
     }
-    .badge-role-student {
+    .badge-role-student, [data-role="Student"] .badge {
         background: rgb(245, 245, 247) !important;
         border: 1px solid #f5f5f7 !important;
         color: rgb(182, 68, 0) !important;
     }
-    .badge-role-alumni {
+    .badge-role-alumni, [data-role="Alumni"] .badge {
         background: rgb(245, 245, 247) !important;
         border: 1px solid #f5f5f7 !important;
         color: #324035 !important;
@@ -556,16 +556,18 @@
         box-sizing: border-box;
     }
 
-    /* View: Matches Homepage 2nd Button (Apple Blue Outline Pill) */
-    .action-view {
-        background: transparent;
-        color: var(--apple-blue);
-        border: 1px solid var(--apple-blue);
+    /* View & Applications: Exact Homepage 2nd Button (Apple Blue Outline Pill) */
+    .action-view,
+    .action-sub {
+        background: transparent !important;
+        color: var(--apple-blue) !important;
+        border: 1px solid var(--apple-blue) !important;
     }
-    .action-view:hover {
-        background: var(--apple-blue);
+    .action-view:hover,
+    .action-sub:hover {
+        background: var(--apple-blue) !important;
         color: #ffffff !important;
-        box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+        box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25) !important;
     }
 
     /* Edit: Matches Homepage 1st Button Language in Elegant Outline Pill */
@@ -578,16 +580,6 @@
         background: #1d1d1f;
         color: #ffffff !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .action-sub {
-        background: transparent;
-        color: var(--apple-blue);
-        border: 1px solid var(--apple-blue);
-    }
-    .action-sub:hover {
-        background: var(--apple-blue);
-        color: #ffffff !important;
     }
 
     /* Delete: Matches Homepage Button Pill Language in Red Outline */

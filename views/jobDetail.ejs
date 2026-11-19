@@ -93,7 +93,7 @@
             <% } %>
 
             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--hairline-soft);">
-                <a href="/jobs/<%= job.id %>/applications" class="btn btn-secondary">
+                <a href="/jobs/<%= job.id %>/applications" class="btn btn-outline">
                     View Applications (<%= applicants ? applicants.length : 0 %>)
                 </a>
                 <% if (job.application_url) { %>
