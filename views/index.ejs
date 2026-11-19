@@ -328,9 +328,9 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(38px);
         }
 
         .tile-card.revealed {
@@ -914,7 +914,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
+
+        <!-- Directory & Core Platform Modules Section Header -->
+        <div class="directory-section-header" style="margin-bottom: 26px;">
+            <span class="hero-eyebrow" style="color: var(--apple-blue); margin-bottom: 6px;">Platform Ecosystem</span>
+            <h2 style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 6px;">Core Directories &amp; Services</h2>
+            <p style="font-size: 15px; color: var(--ink-secondary);">Manage verified members, explore opportunities, review application pipelines, and access developer APIs.</p>
+        </div>
 
         <!-- Product Modules Grid -->
         <div class="tiles-grid">
@@ -1017,6 +1025,7 @@
 
         let currentTranslate = 0;
         let isAutoScrolling = true;
+        let isSectionInView = true;
         let resumeTimeout = null;
         const speed = 0.55;
 
@@ -1025,7 +1034,7 @@
         }
 
         function step() {
-            if (isAutoScrolling) {
+            if (isAutoScrolling && isSectionInView) {
                 currentTranslate -= speed;
                 const halfWidth = getHalfWidth();
                 if (halfWidth > 0 && Math.abs(currentTranslate) >= halfWidth) {
@@ -1038,6 +1047,19 @@
 
         track.style.animation = 'none';
         requestAnimationFrame(step);
+
+        // Pause auto-scroll when spotlight container is scrolled down/up and ~50% becomes hidden
+        if ('IntersectionObserver' in window) {
+            const spotlightObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    // Kutuların yaklaşık yarısı veya fazlası görünmez olunca kayma dursun
+                    isSectionInView = entry.isIntersecting && entry.intersectionRatio >= 0.5;
+                });
+            }, {
+                threshold: [0, 0.25, 0.5, 0.75, 1.0]
+            });
+            spotlightObserver.observe(container);
+        }
 
         // Mousepad / Trackpad horizontal & vertical wheel scrolling
         container.addEventListener('wheel', function(e) {
@@ -1068,7 +1090,7 @@
         });
     })();
 
-    // Apple-style Scroll Reveal for Directory / Career Hub tiles
+    // Apple-style Sequential (1, 2, 3, 4, 5) Slower Scroll Reveal for Directory tiles
     (function() {
         const cards = document.querySelectorAll('.tile-card');
         if (!cards.length) return;
@@ -1079,16 +1101,17 @@
                     if (entry.isIntersecting) {
                         const card = entry.target;
                         const index = Array.from(cards).indexOf(card);
+                        // 1, 2, 3, 4, 5 sırasıyla daha yavaş ve ritmik belirme
                         setTimeout(() => {
                             card.classList.add('revealed');
-                        }, (index % 3) * 120);
+                        }, index * 180);
                         obs.unobserve(card);
                     }
                 });
             }, {
                 root: null,
-                threshold: 0.12,
-                rootMargin: '0px 0px -40px 0px'
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
             });
 
             cards.forEach(card => observer.observe(card));

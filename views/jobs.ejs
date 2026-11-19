@@ -231,7 +231,7 @@
                                     <td><strong style="color: var(--ink);">#<%= job.id %></strong></td>
                                     <td>
                                         <div style="font-weight: 700; color: var(--ink);" class="job-title-cell"><%= job.title %></div>
-                                        <div style="font-size: 13px; color: var(--ink-muted);" class="job-company-cell">🏢 <%= job.company %></div>
+                                        <div style="font-size: 13px; color: var(--ink-muted);" class="job-company-cell"><%= job.company %></div>
                                     </td>
                                     <td class="job-location-cell"><%= job.location || '—' %></td>
                                     <td>
@@ -249,10 +249,10 @@
                                     </td>
                                     <td>
                                         <a href="/users/<%= job.posted_by %>/jobs" class="link-chevron" style="font-size: 13px;">
-                                            👤 <%= job.posted_by_name || 'Member #' + job.posted_by %>
+                                            <%= job.posted_by_name || 'Member #' + job.posted_by %>
                                         </a>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; white-space: nowrap;">
                                         <div class="table-actions" style="justify-content: flex-end;">
                                             <a href="/jobs/<%= job.id %>" class="action-pill action-view">Details</a>
                                             <a href="/jobs/<%= job.id %>/applications" class="action-pill action-sub">Applications</a>

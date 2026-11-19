@@ -330,18 +330,24 @@
     }
 
     .btn-secondary {
-        background: rgba(0, 0, 0, 0.04);
+        background: transparent;
         color: var(--ink);
-        border: 1px solid transparent;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: var(--radius-pill);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .btn-secondary:hover {
-        background: rgba(0, 0, 0, 0.08);
+        background: var(--ink);
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .btn-outline {
         background: transparent;
         color: var(--apple-blue);
         border: 1px solid var(--apple-blue);
+        border-radius: var(--radius-pill);
         transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .btn-outline:hover,
@@ -355,12 +361,17 @@
     }
 
     .btn-danger {
-        background: var(--status-red-bg);
-        color: var(--status-red);
-        border: 1px solid rgba(255, 59, 48, 0.2);
+        background: transparent;
+        color: #ff3b30;
+        border: 1px solid #ff3b30;
+        border-radius: var(--radius-pill);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .btn-danger:hover {
-        background: #fcdede;
+        background: #ff3b30;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(255, 59, 48, 0.25);
+        transform: translateY(-1px);
     }
 
     /* Apple Link with Chevron */
@@ -470,45 +481,111 @@
         background-color: rgba(0, 0, 0, 0.015);
     }
 
-    /* Soft Museum Badges */
+    /* Date & Action Table Alignment - Enforce Single Line */
+    .table-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
+    }
+
+    th:last-child, td:last-child {
+        white-space: nowrap !important;
+        text-align: right;
+    }
+
+    .col-date, td[data-date], td:nth-child(5):not(:last-child) {
+        white-space: nowrap !important;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Apple Canonical Reference: Minimal Monochrome Subtle Pill Badges */
     .badge {
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        padding: 3px 9px;
+        padding: 3.5px 11px;
         border-radius: var(--radius-pill);
-        font-size: 11.5px;
-        font-weight: 600;
-        letter-spacing: 0.02em;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        background: rgba(0, 0, 0, 0.04);
+        color: rgb(29, 29, 31);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        white-space: nowrap;
+        line-height: 1.35;
     }
 
-    .badge-users { background: var(--mod-users-bg); color: var(--mod-users-fg); }
-    .badge-jobs { background: var(--mod-jobs-bg); color: var(--mod-jobs-fg); }
-    .badge-apps { background: var(--mod-apps-bg); color: var(--mod-apps-fg); }
-    .badge-announcements { background: var(--mod-announ-bg); color: var(--mod-announ-fg); }
-    .badge-api { background: var(--mod-api-bg); color: var(--mod-api-fg); }
+    .badge-users { background: rgba(0, 0, 0, 0.04); color: rgb(29, 29, 31); border: 1px solid rgba(0, 0, 0, 0.07); }
+    .badge-jobs { background: rgba(0, 0, 0, 0.04); color: rgb(29, 29, 31); border: 1px solid rgba(0, 0, 0, 0.07); }
+    .badge-apps { background: rgba(0, 0, 0, 0.04); color: rgb(29, 29, 31); border: 1px solid rgba(0, 0, 0, 0.07); }
+    .badge-announcements { background: rgba(0, 0, 0, 0.04); color: rgb(29, 29, 31); border: 1px solid rgba(0, 0, 0, 0.07); }
+    .badge-api { background: rgba(0, 0, 0, 0.04); color: rgb(29, 29, 31); border: 1px solid rgba(0, 0, 0, 0.07); }
+    .badge-danger { background: rgba(255, 59, 48, 0.08); color: #d70015; border: 1px solid rgba(255, 59, 48, 0.2); }
 
+    /* Action Buttons: Matched with Homepage Pill & Outline Button Language */
     .action-pill {
-        padding: 5px 12px;
+        padding: 4px 13px;
         border-radius: var(--radius-pill);
         font-size: 12px;
         font-weight: 500;
         text-decoration: none;
-        border: none;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 3px;
-        transition: all 0.15s ease;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        white-space: nowrap !important;
+        box-sizing: border-box;
     }
-    .action-view { background: #e8f0fe; color: #1967d2; }
-    .action-view:hover { background: #d2e3fc; }
-    .action-edit { background: #fef7e0; color: #b06000; }
-    .action-edit:hover { background: #feefc3; }
-    .action-sub { background: #f3e8fd; color: #7b1fa2; }
-    .action-sub:hover { background: #e8d0fb; }
-    .action-delete { background: var(--status-red-bg); color: var(--status-red); }
-    .action-delete:hover { background: #fcdede; }
+
+    /* View: Matches Homepage 2nd Button (Apple Blue Outline Pill) */
+    .action-view {
+        background: transparent;
+        color: var(--apple-blue);
+        border: 1px solid var(--apple-blue);
+    }
+    .action-view:hover {
+        background: var(--apple-blue);
+        color: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+    }
+
+    /* Edit: Matches Homepage 1st Button Language in Elegant Outline Pill */
+    .action-edit {
+        background: transparent;
+        color: #1d1d1f;
+        border: 1px solid #1d1d1f;
+    }
+    .action-edit:hover {
+        background: #1d1d1f;
+        color: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-sub {
+        background: transparent;
+        color: var(--apple-blue);
+        border: 1px solid var(--apple-blue);
+    }
+    .action-sub:hover {
+        background: var(--apple-blue);
+        color: #ffffff !important;
+    }
+
+    /* Delete: Matches Homepage Button Pill Language in Red Outline */
+    .action-delete {
+        background: transparent;
+        color: #ff3b30;
+        border: 1px solid #ff3b30;
+    }
+    .action-delete:hover {
+        background: #ff3b30;
+        color: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(255, 59, 48, 0.25);
+    }
 
     /* Footer: Apple Parchment Footer */
     footer.apple-footer {

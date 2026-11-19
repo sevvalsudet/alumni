@@ -188,8 +188,8 @@
                                 <th>Target Position & Company</th>
                                 <th>Candidate Information</th>
                                 <th>Recruitment Stage</th>
-                                <th>Applied Date</th>
-                                <th style="text-align: right;">Actions</th>
+                                <th style="white-space: nowrap;">Applied Date</th>
+                                <th style="text-align: right; white-space: nowrap;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -220,8 +220,8 @@
                                             <%= app.status %>
                                         </span>
                                     </td>
-                                    <td><%= String(app.applied_at).split('T')[0] %></td>
-                                    <td style="text-align: right;">
+                                    <td style="white-space: nowrap; font-variant-numeric: tabular-nums;"><%= String(app.applied_at).split('T')[0] %></td>
+                                    <td style="text-align: right; white-space: nowrap;">
                                         <div class="table-actions" style="justify-content: flex-end;">
                                             <a href="/applications/<%= app.id %>" class="action-pill action-view">Review</a>
                                             <form action="/applications/<%= app.id %>/delete" method="POST" style="display:inline"

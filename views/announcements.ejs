@@ -154,9 +154,9 @@
                                 <th>Title</th>
                                 <th>Content Summary</th>
                                 <th>Author</th>
-                                <th>Date</th>
+                                <th style="white-space: nowrap;">Date</th>
                                 <th>Category</th>
-                                <th style="text-align: right;">Actions</th>
+                                <th style="text-align: right; white-space: nowrap;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -167,18 +167,18 @@
                                         <div style="font-weight: 700; color: var(--ink);" class="announ-title-cell"><%= announcement.title %></div>
                                     </td>
                                     <td>
-                                        <div style="max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-secondary); font-size: 13.5px;" class="announ-content-cell">
+                                        <div style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-secondary); font-size: 13.5px;" class="announ-content-cell">
                                             <%= announcement.content %>
                                         </div>
                                     </td>
                                     <td><%= announcement.author %></td>
-                                    <td><%= announcement.date || '—' %></td>
+                                    <td style="white-space: nowrap; font-variant-numeric: tabular-nums;"><%= announcement.date || '—' %></td>
                                     <td>
                                         <span class="badge badge-announcements">
                                             <%= announcement.category %>
                                         </span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; white-space: nowrap;">
                                         <div class="table-actions" style="justify-content: flex-end;">
                                             <a href="/announcements/<%= announcement.id %>" class="action-pill action-view">Details</a>
                                             <a href="/announcements/<%= announcement.id %>/edit" class="action-pill action-edit">Edit</a>
