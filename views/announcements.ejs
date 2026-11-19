@@ -66,10 +66,13 @@
             <p class="subtitle">Stay informed with academic updates, campus events, alumni summits, and scholarship opportunities.</p>
         </div>
 
-        <!-- ➕ CREATE FORM -->
+        <!-- 1. CREATE FORM -->
         <div class="card">
             <h2>
-                <span>➕ Publish New Notice</span>
+                <span style="display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.7;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    Publish New Notice
+                </span>
                 <span class="badge badge-announcements">CREATE</span>
             </h2>
             <form action="/announcements" method="POST">
@@ -110,10 +113,13 @@
             </form>
         </div>
 
-        <!-- 📖 ANNOUNCEMENTS TABLE & FILTERS -->
+        <!-- 2. ANNOUNCEMENTS TABLE & FILTERS -->
         <div class="card">
             <h2>
-                <span>📋 Published Notices</span>
+                <span style="display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.7;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    Published Notices
+                </span>
                 <span class="badge badge-announcements" id="announ-count"><%= announcements.length %> <%= announcements.length === 1 ? 'Notice' : 'Notices' %></span>
             </h2>
 
@@ -128,14 +134,16 @@
                     <button class="tab-btn" onclick="filterAnnounCategory('Academic', this)">Academic</button>
                 </div>
                 <div class="search-box">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
                     <input type="text" id="announSearch" placeholder="Search by title or content..." onkeyup="searchAnnoun()">
                 </div>
             </div>
 
             <% if (announcements.length === 0) { %>
                 <div style="text-align: center; color: var(--ink-muted); padding: 35px 20px;">
-                    📭 No notices published yet. You can publish the first notice using the form above!
+                    No notices published yet. You can publish the first notice using the form above!
                 </div>
             <% } else { %>
                 <div class="table-responsive">

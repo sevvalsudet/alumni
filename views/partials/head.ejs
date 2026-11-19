@@ -13,7 +13,7 @@
         /* RunwayML + Apple Palette */
         --canvas: #ffffff;
         --canvas-parchment: rgb(255, 255, 255); /* Pure white page background */
-        --canvas-card: #ffffff;
+        --canvas-card: rgb(245, 245, 247);      /* Apple light subtle gray */
         --canvas-tile-dark: #161617; /* Apple dark showcase tile */
         
         --ink: #1d1d1f;             /* Apple signature text */
@@ -269,12 +269,15 @@
 
     /* Apple 18px Museum Tile Cards */
     .card {
-        background: var(--canvas-card);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        border-radius: var(--radius-lg);
-        padding: 28px 30px;
-        box-shadow: var(--shadow-apple);
-        margin-bottom: 24px;
+        background: rgb(245, 245, 247);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        border-radius: 24px;
+        padding: 30px 32px;
+        box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+        max-width: 1220px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 28px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -404,8 +407,8 @@
         font-size: 14px;
         color: var(--ink);
         padding: 10px 14px;
-        background: var(--canvas-parchment);
-        border: 1px solid var(--hairline);
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.12);
         border-radius: var(--radius-sm);
         outline: none;
         transition: all 0.2s ease;

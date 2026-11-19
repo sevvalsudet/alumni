@@ -96,10 +96,13 @@
             </div>
         <% } %>
 
-        <!-- ➕ CREATE: POST /applications -->
+        <!-- 1. CREATE: POST /applications -->
         <div class="card">
             <h2>
-                <span>➕ Submit New Application</span>
+                <span style="display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.7;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    Submit New Application
+                </span>
                 <span class="badge badge-apps">CREATE</span>
             </h2>
             <form action="/applications" method="POST">
@@ -144,10 +147,13 @@
             </form>
         </div>
 
-        <!-- 📖 READ: GET /applications -->
+        <!-- 2. READ: GET /applications -->
         <div class="card">
             <h2>
-                <span>📋 All Active Pipeline Submissions</span>
+                <span style="display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.7;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    All Active Pipeline Submissions
+                </span>
                 <span class="badge badge-apps" id="app-count"><%= applications.length %> <%= applications.length === 1 ? 'Application' : 'Applications' %></span>
             </h2>
 
@@ -155,21 +161,23 @@
             <div class="filter-toolbar">
                 <div class="filter-tabs">
                     <button class="tab-btn active" onclick="filterAppStatus('all', this)">All</button>
-                    <button class="tab-btn" onclick="filterAppStatus('Pending', this)">⏳ Pending</button>
-                    <button class="tab-btn" onclick="filterAppStatus('Reviewed', this)">👀 Reviewed</button>
-                    <button class="tab-btn" onclick="filterAppStatus('Interviewing', this)">💬 Interviewing</button>
-                    <button class="tab-btn" onclick="filterAppStatus('Accepted', this)">🎉 Accepted</button>
-                    <button class="tab-btn" onclick="filterAppStatus('Rejected', this)">❌ Rejected</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Pending', this)">Pending</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Reviewed', this)">Reviewed</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Interviewing', this)">Interviewing</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Accepted', this)">Accepted</button>
+                    <button class="tab-btn" onclick="filterAppStatus('Rejected', this)">Rejected</button>
                 </div>
                 <div class="search-box">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
                     <input type="text" id="appSearch" placeholder="Search by candidate or position..." onkeyup="searchApps()">
                 </div>
             </div>
 
             <% if (applications.length === 0) { %>
                 <div style="text-align: center; color: var(--ink-muted); padding: 35px 20px;">
-                    📭 No applications found matching your criteria.
+                    No applications found matching your criteria.
                 </div>
             <% } else { %>
                 <div class="table-responsive">
@@ -190,13 +198,13 @@
                                     <td><strong style="color: var(--ink);">#<%= app.id %></strong></td>
                                     <td>
                                         <a href="/jobs/<%= app.job_id %>" style="color: var(--ink); font-weight: 700; text-decoration: none;" class="app-job-cell">
-                                            💼 <%= app.job_title %>
+                                            <%= app.job_title %>
                                         </a>
-                                        <div style="font-size: 13px; color: var(--ink-muted);">🏢 <%= app.job_company %></div>
+                                        <div style="font-size: 13px; color: var(--ink-muted);"><%= app.job_company %></div>
                                     </td>
                                     <td>
                                         <a href="/users/<%= app.user_id %>" class="link-chevron app-user-cell" style="font-weight: 600;">
-                                            👤 <%= app.applicant_name %>
+                                            <%= app.applicant_name %>
                                         </a>
                                         <div style="font-size: 12px; color: var(--ink-muted);"><%= app.applicant_email %></div>
                                     </td>

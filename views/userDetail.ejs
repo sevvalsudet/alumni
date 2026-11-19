@@ -77,7 +77,7 @@
                         <h1 style="font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;"><%= user.name %></h1>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                             <span class="badge <%= user.role === 'Student' ? 'badge-users' : 'badge-jobs' %>">
-                                <%= user.role === 'Student' ? '🎓 Student' : '💼 Alumni' %>
+                                <%= user.role === 'Student' ? 'Student' : 'Alumni' %>
                             </span>
                             <span style="font-size: 13px; color: var(--ink-muted); font-family: monospace;">ID: #<%= user.id %></span>
                         </div>
@@ -105,10 +105,10 @@
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px;">
                     <a href="/users/<%= user.id %>/jobs" class="btn btn-secondary" style="font-size: 13.5px; padding: 12px 18px;">
-                        💼 Posted Jobs & Opportunities
+                        Posted Jobs & Opportunities
                     </a>
                     <a href="/users/<%= user.id %>/applications" class="btn btn-secondary" style="font-size: 13.5px; padding: 12px 18px;">
-                        📝 Submitted Applications Pipeline
+                        Submitted Applications Pipeline
                     </a>
                 </div>
 

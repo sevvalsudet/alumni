@@ -55,20 +55,20 @@
         .apple-promo-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 16px;
             width: 100%;
-            max-width: 1220px;
+            max-width: 1360px;
             margin: 0 auto 54px;
-            padding: 0 16px;
+            padding: 0 10px;
             box-sizing: border-box;
         }
 
         .apple-promo-tile {
-            background: #1d1d1f;
-            border: none;
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 28px;
-            box-shadow: none;
-            padding: 30px 18px 26px;
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+            padding: 32px 20px 28px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -78,13 +78,20 @@
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+        }
+
+        .apple-promo-tile:hover {
+            transform: scale(1.018);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         .apple-tile-title {
             font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.025em;
-            color: rgb(210,210,210);
+            color: rgb(3, 3, 3);
             margin: 0 0 4px;
             line-height: 1.25;
             text-align: center;
@@ -92,7 +99,7 @@
 
         .apple-tile-sub {
             font-size: 14px;
-            color: #a1a1a6;
+            color: rgb(81, 81, 84);
             line-height: 1.4;
             margin: 0 0 12px;
             max-width: 480px;
@@ -132,10 +139,10 @@
             gap: 9px;
             background: transparent;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px 10px;
             text-decoration: none;
-            color: #ffffff;
+            color: rgb(3, 3, 3);
             font-size: 13.5px;
             font-weight: 500;
             letter-spacing: -0.01em;
@@ -145,8 +152,8 @@
         }
 
         .apple-partner-card:hover {
-            opacity: 0.85;
-            background: rgba(255, 255, 255, 0.08);
+            opacity: 0.8;
+            background: rgba(0, 0, 0, 0.04);
             border-color: transparent;
             box-shadow: none;
             transform: none;
@@ -220,11 +227,11 @@
         .spotlight-card {
             flex: 0 0 320px;
             width: 320px;
-            background: rgb(251,251,251);
-            border: 2px solid rgba(0, 0, 0, 0.04);
-            border-radius: 28px;
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 24px;
             padding: 26px 22px;
-            box-shadow: none;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -233,7 +240,7 @@
 
         .spotlight-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
         }
 
         .spotlight-top {
@@ -311,8 +318,8 @@
         }
 
         .tile-card {
-            background: rgb(251,251,251);
-            border: 2px solid rgba(0, 0, 0, 0.04);
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 28px;
             padding: 34px 30px;
             text-decoration: none;
@@ -320,13 +327,20 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: none;
-            transition: all 0.25s ease;
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .tile-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .tile-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         .tile-eyebrow {
@@ -432,43 +446,43 @@
                     <svg class="apple-ecosystem-svg" viewBox="0 0 380 145" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <marker id="dotArrowDark" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                                <path d="M 1 2 L 7 5 L 1 8 z" fill="#ffffff"/>
+                                <path d="M 1 2 L 7 5 L 1 8 z" fill="rgb(3, 3, 3)"/>
                             </marker>
                         </defs>
                         <!-- Mathematically Symmetrical Oval Dotted Arrows Loop -->
                         <!-- Arc 1: Students up to Alumni -->
-                        <path d="M 78 63 A 112 54 0 0 1 143 19" stroke="#ffffff" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
+                        <path d="M 78 63 A 112 54 0 0 1 143 19" stroke="rgb(3, 3, 3)" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
                         <!-- Arc 2: Alumni down to Companies -->
-                        <path d="M 237 19 A 112 54 0 0 1 302 63" stroke="#ffffff" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
+                        <path d="M 237 19 A 112 54 0 0 1 302 63" stroke="rgb(3, 3, 3)" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
                         <!-- Arc 3: Companies under to Students -->
-                        <path d="M 254 112 A 112 54 0 0 1 126 112" stroke="#ffffff" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
+                        <path d="M 254 112 A 112 54 0 0 1 126 112" stroke="rgb(3, 3, 3)" stroke-width="1.6" stroke-dasharray="3.5,3.5" fill="none" marker-end="url(#dotArrowDark)"/>
                         
                         <!-- Node 1: Alumni (Top Center) with minimal icon -->
                         <g transform="translate(190, 20)">
                             <!-- Mortarboard cap icon -->
-                            <path d="M -34 -4 L -27 -1 L -20 -4 L -27 -7 Z" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linejoin="round"/>
-                            <path d="M -31 0 L -31 3.5 C -31 5, -23 5, -23 3.5 L -23 0" fill="none" stroke="#ffffff" stroke-width="1.2"/>
-                            <path d="M -20 -4 L -20 2" stroke="#ffffff" stroke-width="1"/>
-                            <text x="-14" y="0" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#ffffff" letter-spacing="-0.01em">Alumni</text>
+                            <path d="M -34 -4 L -27 -1 L -20 -4 L -27 -7 Z" fill="none" stroke="rgb(3, 3, 3)" stroke-width="1.3" stroke-linejoin="round"/>
+                            <path d="M -31 0 L -31 3.5 C -31 5, -23 5, -23 3.5 L -23 0" fill="none" stroke="rgb(3, 3, 3)" stroke-width="1.2"/>
+                            <path d="M -20 -4 L -20 2" stroke="rgb(3, 3, 3)" stroke-width="1"/>
+                            <text x="-14" y="0" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="rgb(3, 3, 3)" letter-spacing="-0.01em">Alumni</text>
                         </g>
 
                         <!-- Node 2: Students (Bottom Left) with minimal icon -->
                         <g transform="translate(80, 88)">
                             <!-- Student / user icon -->
-                            <circle cx="-34" cy="-3" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.3"/>
-                            <path d="M -40 5.5 C -40 2.2, -28 2.2, -28 5.5" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round"/>
-                            <text x="-22" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#ffffff" letter-spacing="-0.01em">Students</text>
+                            <circle cx="-34" cy="-3" r="3.2" fill="none" stroke="rgb(3, 3, 3)" stroke-width="1.3"/>
+                            <path d="M -40 5.5 C -40 2.2, -28 2.2, -28 5.5" fill="none" stroke="rgb(3, 3, 3)" stroke-width="1.3" stroke-linecap="round"/>
+                            <text x="-22" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="rgb(3, 3, 3)" letter-spacing="-0.01em">Students</text>
                         </g>
 
                         <!-- Node 3: Companies (Bottom Right) with minimal icon -->
                         <g transform="translate(295, 88)">
                             <!-- Building icon -->
-                            <rect x="-40" y="-6.5" width="10" height="12" rx="1" fill="none" stroke="#ffffff" stroke-width="1.3"/>
-                            <line x1="-37" y1="-3.5" x2="-37" y2="-1.5" stroke="#ffffff" stroke-width="1.1"/>
-                            <line x1="-33" y1="-3.5" x2="-33" y2="-1.5" stroke="#ffffff" stroke-width="1.1"/>
-                            <line x1="-37" y1="0.5" x2="-37" y2="2.5" stroke="#ffffff" stroke-width="1.1"/>
-                            <line x1="-33" y1="0.5" x2="-33" y2="2.5" stroke="#ffffff" stroke-width="1.1"/>
-                            <text x="-24" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="#ffffff" letter-spacing="-0.01em">Companies</text>
+                            <rect x="-40" y="-6.5" width="10" height="12" rx="1" fill="none" stroke="rgb(3, 3, 3)" stroke-width="1.3"/>
+                            <line x1="-37" y1="-3.5" x2="-37" y2="-1.5" stroke="rgb(3, 3, 3)" stroke-width="1.1"/>
+                            <line x1="-33" y1="-3.5" x2="-33" y2="-1.5" stroke="rgb(3, 3, 3)" stroke-width="1.1"/>
+                            <line x1="-37" y1="0.5" x2="-37" y2="2.5" stroke="rgb(3, 3, 3)" stroke-width="1.1"/>
+                            <line x1="-33" y1="0.5" x2="-33" y2="2.5" stroke="rgb(3, 3, 3)" stroke-width="1.1"/>
+                            <text x="-24" y="1" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="600" fill="rgb(3, 3, 3)" letter-spacing="-0.01em">Companies</text>
                         </g>
                     </svg>
                 </div>
@@ -493,7 +507,7 @@
 
                     <!-- 2. Apple -->
                     <a href="https://www.apple.com" target="_blank" class="apple-partner-card" title="Apple">
-                        <svg viewBox="0 0 170 170" width="16" height="16" fill="#ffffff">
+                        <svg viewBox="0 0 170 170" width="16" height="16" fill="rgb(3, 3, 3)">
                             <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.74-8.8-10.37-18.73-13.88-28.79-3.52-10.06-5.28-20.08-5.28-30.07 0-11.07 2.6-20.73 7.8-28.98 5.2-8.25 12.05-14.65 20.55-19.2 8.5-4.55 17.65-6.88 27.46-6.98 5.11 0 10.87 1.34 17.27 4.02 6.4 2.68 10.12 4.02 11.16 4.02 1.05 0 5.12-1.45 12.22-4.35 7.1-2.9 13.43-4.14 18.99-3.72 14.07.64 25.13 5.43 33.18 14.38-12.27 7.42-18.3 17.48-18.1 30.19.2 9.87 3.86 18.17 10.99 24.89 7.13 6.72 15.7 10.66 25.71 11.83-2.67 8.16-5.87 16.54-9.61 25.14zM119.22 31.84c0-7.72 2.76-14.84 8.28-21.36 5.53-6.52 12.44-10.48 20.74-11.88.22 1.74.33 3.37.33 4.89 0 7.61-2.83 14.88-8.5 21.8-5.66 6.92-12.7 10.96-21.12 12.12-.22-1.74-.33-3.37-.33-4.89z"/>
                         </svg>
                         <span>Apple</span>
@@ -514,7 +528,7 @@
                     <a href="https://www.amazon.jobs" target="_blank" class="apple-partner-card" title="Amazon">
                         <svg viewBox="0 0 24 24" width="18" height="18">
                             <path fill="#FF9900" d="M.045 18.258c4.35 3.197 10.375 3.82 15.772 1.137 5.397-2.684 4.872-2.183 4.609-2.006-.263.177-.732.493-1.077.725-4.475 3.013-10.518 2.656-15.11-.645-.443-.317-.923-.466-1.128-.014-.206.452.49.489.934.803zm23.637-2.628c-.287-.374-1.921-.177-2.898-.052-.296.038-.344-.201-.077-.393 1.724-1.246 4.542-.888 4.79-.575.25.313-.418 3.189-2.046 4.526-.25.205-.487.095-.373-.174.375-.886.891-3.044.604-3.332z"/>
-                            <path fill="#ffffff" d="M13.684 4.646c-3.766 0-6.19 2.457-6.19 5.86 0 3.324 2.213 4.974 4.717 4.974 2.112 0 3.635-.98 4.383-2.167v1.834h2.793V9.756c0-3.323-2.222-5.11-5.703-5.11zm-.245 8.358c-1.637 0-2.87-.999-2.87-2.73 0-1.77 1.252-2.71 2.87-2.71 1.628 0 2.842.94 2.842 2.71 0 1.731-1.214 2.73-2.842 2.73z"/>
+                            <path fill="#232F3E" d="M13.684 4.646c-3.766 0-6.19 2.457-6.19 5.86 0 3.324 2.213 4.974 4.717 4.974 2.112 0 3.635-.98 4.383-2.167v1.834h2.793V9.756c0-3.323-2.222-5.11-5.703-5.11zm-.245 8.358c-1.637 0-2.87-.999-2.87-2.73 0-1.77 1.252-2.71 2.87-2.71 1.628 0 2.842.94 2.842 2.71 0 1.731-1.214 2.73-2.842 2.73z"/>
                         </svg>
                         <span>Amazon</span>
                     </a>
@@ -1052,6 +1066,35 @@
         container.addEventListener('mouseleave', function() {
             isAutoScrolling = true;
         });
+    })();
+
+    // Apple-style Scroll Reveal for Directory / Career Hub tiles
+    (function() {
+        const cards = document.querySelectorAll('.tile-card');
+        if (!cards.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const card = entry.target;
+                        const index = Array.from(cards).indexOf(card);
+                        setTimeout(() => {
+                            card.classList.add('revealed');
+                        }, (index % 3) * 120);
+                        obs.unobserve(card);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            cards.forEach(card => observer.observe(card));
+        } else {
+            cards.forEach(card => card.classList.add('revealed'));
+        }
     })();
     </script>
 

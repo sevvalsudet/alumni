@@ -57,10 +57,10 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; padding-bottom: 20px; border-bottom: 1px solid var(--hairline-soft);">
                 <div>
                     <h1 style="font-size: 26px; font-weight: 800; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;">
-                        📝 Application Dossier #<%= application.id %>
+                        Application Dossier #<%= application.id %>
                     </h1>
                     <div style="font-size: 15px; color: var(--ink-secondary);">
-                        Target: <strong style="color: var(--ink);"><%= application.job_title %></strong> &bull; 🏢 <%= application.job_company %>
+                        Target: <strong style="color: var(--ink);"><%= application.job_title %></strong> &bull; <%= application.job_company %>
                     </div>
                 </div>
                 <div>
@@ -79,7 +79,7 @@
 
             <div class="split-grid">
                 <div class="box-panel">
-                    <h3>💼 Opportunity Overview</h3>
+                    <h3>Opportunity Overview</h3>
                     <p><strong>Position:</strong> <%= application.job_title %></p>
                     <p><strong>Company:</strong> <%= application.job_company %></p>
                     <p><strong>Location:</strong> <%= application.job_location || 'Unspecified' %></p>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="box-panel">
-                    <h3>👤 Candidate Dossier</h3>
+                    <h3>Candidate Dossier</h3>
                     <p><strong>Full Name:</strong> <%= application.applicant_name %></p>
                     <p><strong>Email:</strong> <%= application.applicant_email %></p>
                     <p><strong>Department / Major:</strong> <%= application.applicant_department || '—' %></p>
@@ -113,7 +113,7 @@
             <div style="margin-top: 8px;">
                 <% if (application.resume_url) { %>
                     <a href="<%= application.resume_url %>" target="_blank" class="btn btn-apple">
-                        📄 View Resume & Portfolio ↗
+                        View Resume & Portfolio ↗
                     </a>
                     <span style="font-size: 13px; color: var(--ink-muted); margin-left: 10px;">(<%= application.resume_url %>)</span>
                 <% } else { %>
@@ -130,15 +130,15 @@
 
             <div class="status-update-card">
                 <h3 style="font-size: 15px; font-weight: 700; color: #b45309; margin-bottom: 10px;">
-                    ⚙️ Update Recruitment Stage
+                    Update Recruitment Stage
                 </h3>
                 <form action="/applications/<%= application.id %>/status" method="POST" style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <select name="status" style="flex: 1; min-width: 220px;">
-                        <option value="Pending" <%= application.status === 'Pending' ? 'selected' : '' %>>⏳ Pending</option>
-                        <option value="Reviewed" <%= application.status === 'Reviewed' ? 'selected' : '' %>>👀 Reviewed</option>
-                        <option value="Interviewing" <%= application.status === 'Interviewing' ? 'selected' : '' %>>💬 Interviewing</option>
-                        <option value="Accepted" <%= application.status === 'Accepted' ? 'selected' : '' %>>🎉 Accepted</option>
-                        <option value="Rejected" <%= application.status === 'Rejected' ? 'selected' : '' %>>❌ Rejected</option>
+                        <option value="Pending" <%= application.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="Reviewed" <%= application.status === 'Reviewed' ? 'selected' : '' %>>Reviewed</option>
+                        <option value="Interviewing" <%= application.status === 'Interviewing' ? 'selected' : '' %>>Interviewing</option>
+                        <option value="Accepted" <%= application.status === 'Accepted' ? 'selected' : '' %>>Accepted</option>
+                        <option value="Rejected" <%= application.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
                     </select>
                     <button type="submit" class="btn btn-runway">
                         Update Stage

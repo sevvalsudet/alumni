@@ -94,7 +94,7 @@
 
             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--hairline-soft);">
                 <a href="/jobs/<%= job.id %>/applications" class="btn btn-secondary">
-                    📝 View Applications (<%= applicants ? applicants.length : 0 %>)
+                    View Applications (<%= applicants ? applicants.length : 0 %>)
                 </a>
                 <% if (job.application_url) { %>
                     <a href="<%= job.application_url %>" target="_blank" class="btn btn-apple">
@@ -103,7 +103,7 @@
                 <% } %>
                 <% if (job.contact_email) { %>
                     <a href="mailto:<%= job.contact_email %>" class="btn btn-secondary">
-                        📧 Contact Hiring Team
+                        Contact Hiring Team
                     </a>
                 <% } %>
                 <form action="/jobs/<%= job.id %>/delete" method="POST" style="margin-left: auto;"
@@ -113,10 +113,10 @@
             </div>
         </div>
 
-        <!-- 🔗 M:N APPLICANTS THROUGH APPLICATIONS TABLE -->
+        <!-- M:N APPLICANTS THROUGH APPLICATIONS TABLE -->
         <div class="card">
             <h2>
-                <span>👥 Candidates Applied for this Position (<%= applicants ? applicants.length : 0 %>)</span>
+                <span>Candidates Applied for this Position (<%= applicants ? applicants.length : 0 %>)</span>
                 <span class="badge badge-apps">M:N Relation</span>
             </h2>
 
@@ -143,7 +143,7 @@
                                     <td><strong style="color: var(--ink);">#<%= app.application_id %></strong></td>
                                     <td>
                                         <a href="/users/<%= app.id %>" class="link-chevron" style="font-weight: 600;">
-                                            👤 <%= app.name %>
+                                            <%= app.name %>
                                         </a>
                                     </td>
                                     <td><%= app.role %> &bull; <%= app.department || '—' %></td>
@@ -168,7 +168,7 @@
             <!-- QUICK APPLY FORM -->
             <div class="apply-box">
                 <h3 style="font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">
-                    🚀 Submit Quick Application for this Role
+                    Submit Quick Application for this Role
                 </h3>
                 <form action="/applications" method="POST">
                     <input type="hidden" name="job_id" value="<%= job.id %>">
