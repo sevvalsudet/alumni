@@ -25,9 +25,9 @@ router.post('/:id/delete', requireAuth, requireAdmin, userController.delete);
 const jobPostingController = require('../controllers/jobPostingController');
 router.get('/:id/jobs', jobPostingController.getUserJobs);
 
-// 🔗 [NESTED VIEW] GET /users/:id/applications -> Kullanıcının yaptığı iş başvurularını gösteren View
+// 🔗 [NESTED VIEW] GET /users/:id/applications -> Kullanıcının yaptığı iş başvurularını gösteren View (Kendi başvuruları veya Admin)
 const applicationController = require('../controllers/applicationController');
-router.get('/:id/applications', applicationController.getUserApplications);
+router.get('/:id/applications', requireAuth, requireSelfOrAdmin('id'), applicationController.getUserApplications);
 
 // 🔍 6. [READ ONE] GET /users/:id -> Tek bir kullanıcının detay View'ı
 router.get('/:id', userController.getById);

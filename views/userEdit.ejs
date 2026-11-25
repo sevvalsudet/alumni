@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Edit Profile • ' + user.name }) %>
+    <%- include('partials/head', { title: 'Edit Profile • ' + user.name + ' • Alumni.io' }) %>
     <style>
         .edit-container {
-            max-width: 960px;
-            margin: 0 auto;
+            max-width: 840px;
+            margin: 24px auto 80px;
+        }
+
+        .edit-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            padding: 36px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (max-width: 640px) {
+            .edit-card {
+                padding: 24px 20px;
+            }
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .role-notice {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--ink-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -14,47 +53,89 @@
 
     <main class="container">
         <div class="edit-container">
-            <div style="margin: 20px 0 16px;">
+            <div style="margin-bottom: 18px;">
                 <a href="/users/<%= user.id %>" class="link-chevron" style="font-weight: 600;">← Back to Profile</a>
             </div>
 
-            <div class="card">
-                <h2>
-                    <span>Edit Member Profile</span>
-                    <span class="badge badge-users">ID #<%= user.id %></span>
-                </h2>
-                
+            <div class="edit-card">
+                <div style="padding-bottom: 20px; border-bottom: 1px solid rgba(0, 0, 0, 0.06); margin-bottom: 24px;">
+                    <span class="eyebrow" style="color: var(--apple-blue);">Profile Governance</span>
+                    <h1 style="font-size: 26px; font-weight: 700; margin: 4px 0 2px;">Edit Member Profile</h1>
+                    <p style="font-size: 13.5px; color: var(--ink-secondary); margin: 0;">Update your verified member credentials and public details.</p>
+                </div>
+
                 <form action="/users/<%= user.id %>/update" method="POST">
-                    <div class="form-grid" style="margin-bottom: 20px;">
+                    <div class="form-grid-2">
                         <div class="form-group">
-                            <label for="name">Full Name *</label>
+                            <label for="name">Full Legal Name *</label>
                             <input type="text" id="name" name="name" value="<%= user.name %>" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="role">System Role *</label>
-                            <select id="role" name="role" required>
-                                <option value="Alumni" <%= user.role === 'Alumni' ? 'selected' : '' %>>Alumni</option>
-                                <option value="Student" <%= user.role === 'Student' ? 'selected' : '' %>>Student</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="department">Department / Major</label>
-                            <input type="text" id="department" name="department" value="<%= user.department || '' %>" placeholder="e.g. Computer Science">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="company">Company / Organization</label>
-                            <input type="text" id="company" name="company" value="<%= user.company || '' %>" placeholder="e.g. Google / Apple">
+                            <label for="department">Academic Department *</label>
+                            <input type="text" id="department" name="department" value="<%= user.department || '' %>" placeholder="e.g. Computer Engineering" required>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 12px; border-top: 1px solid var(--hairline-soft); padding-top: 20px;">
-                        <button type="submit" class="btn btn-runway" style="flex: 2;">
-                            Save Changes
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="company">Current Company / Organization</label>
+                            <input type="text" id="company" name="company" value="<%= user.company || '' %>" placeholder="e.g. Google / Tech Startup">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="graduation_year">Graduation Year</label>
+                            <input type="number" id="graduation_year" name="graduation_year" value="<%= user.graduation_year || '' %>" placeholder="e.g. 2024" min="1950" max="2035">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="phone">Contact Telephone</label>
+                            <input type="tel" id="phone" name="phone" value="<%= user.phone || '' %>" placeholder="e.g. +90 555 123 4567">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roleField">Access Role (RBAC)</label>
+                            <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+                                <select id="roleField" name="role" class="inline-select" style="width: 100%; height: 42px; padding: 8px 12px; border-radius: 12px;">
+                                    <option value="Student" <%= user.role === 'Student' ? 'selected' : '' %>>Student</option>
+                                    <option value="Alumni" <%= user.role === 'Alumni' ? 'selected' : '' %>>Alumni</option>
+                                    <option value="Admin" <%= user.role === 'Admin' ? 'selected' : '' %>>Admin</option>
+                                </select>
+                            <% } else { %>
+                                <div class="role-notice">
+                                    <span style="font-weight: 600; color: #1d1d1f;"><%= user.role %></span>
+                                    <span>&bull; Role elevation is strictly restricted to institutional administrators.</span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="bio">Biography &amp; Professional Statement</label>
+                        <textarea id="bio" name="bio" rows="3" placeholder="Tell the alumni community about your focus, experience, or career goals..."><%= user.bio || '' %></textarea>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="linkedin_url">LinkedIn Profile URL</label>
+                            <input type="url" id="linkedin_url" name="linkedin_url" value="<%= user.linkedin_url || '' %>" placeholder="https://linkedin.com/in/username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="github_url">GitHub / Portfolio URL</label>
+                            <input type="url" id="github_url" name="github_url" value="<%= user.github_url || '' %>" placeholder="https://github.com/username">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 24px; margin-top: 24px;">
+                        <button type="submit" class="btn btn-runway" style="flex: 2; justify-content: center; padding: 12px 24px;">
+                            Save Changes →
                         </button>
-                        <a href="/users/<%= user.id %>" class="btn btn-outline" style="flex: 1;">Cancel</a>
+                        <a href="/users/<%= user.id %>" class="btn btn-secondary" style="flex: 1; text-align: center; justify-content: center; padding: 12px 20px;">
+                            Cancel
+                        </a>
                     </div>
                 </form>
             </div>

@@ -92,6 +92,10 @@ app.post('/login', requireGuest, authController.processLogin);
 app.get('/logout', authController.logout);
 app.post('/logout', authController.logout);
 
+// 👤 Kişisel Profil Kısayolları (User-Specific Profile Shortcuts)
+app.get('/profile', requireAuth, (req, res) => res.redirect(`/users/${req.user.id}`));
+app.get('/me', requireAuth, (req, res) => res.redirect(`/users/${req.user.id}`));
+
 // ⚡ REST API Auth Endpoints
 app.post('/api/auth/register', authController.apiRegister);
 app.post('/api/auth/login', authController.apiLogin);

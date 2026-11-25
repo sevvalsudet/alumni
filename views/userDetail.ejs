@@ -1,63 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: user.name + ' • Member Profile' }) %>
+    <%- include('partials/head', { title: user.name + ' • ' + user.role + ' Profile • Alumni.io' }) %>
     <style>
         .profile-container {
-            max-width: 1100px;
-            margin: 0 auto;
+            max-width: 1040px;
+            margin: 24px auto 80px;
         }
-        .profile-hero {
+
+        /* Profile Card & Header */
+        .profile-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            padding: 36px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 28px;
+        }
+
+        @media (max-width: 640px) {
+            .profile-card {
+                padding: 24px 20px;
+            }
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            margin-bottom: 28px;
+        }
+
+        .avatar-box {
             display: flex;
             align-items: center;
-            gap: 24px;
-            margin-bottom: 28px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--hairline-soft);
+            gap: 20px;
         }
-        .avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #1d1d1f, #3a3a3c);
-            color: #ffffff;
-            border-radius: var(--radius-lg);
+
+        .avatar-monogram {
+            width: 76px;
+            height: 76px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 32px;
             font-weight: 700;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            color: #ffffff;
             flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
-        .profile-details-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 28px;
+
+        .avatar-admin {
+            background: linear-gradient(135deg, #5856d6, #3634a3);
         }
-        .info-cell {
-            background: var(--canvas-parchment);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
+        .avatar-alumni {
+            background: linear-gradient(135deg, #34c759, #248a3d);
         }
-        .info-cell-label {
+        .avatar-student {
+            background: linear-gradient(135deg, #ff9500, #b64400);
+        }
+
+        /* Role Badges */
+        .role-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 999px;
             font-size: 12px;
             font-weight: 600;
-            color: var(--ink-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 4px;
         }
-        .info-cell-value {
-            font-size: 16px;
+
+        .pill-admin {
+            background: rgba(88, 86, 214, 0.1);
+            color: #5856d6;
+            border: 1px solid rgba(88, 86, 214, 0.25);
+        }
+        .pill-alumni {
+            background: rgba(52, 199, 89, 0.1);
+            color: #248a3d;
+            border: 1px solid rgba(52, 199, 89, 0.25);
+        }
+        .pill-student {
+            background: rgba(255, 149, 0, 0.1);
+            color: #b64400;
+            border: 1px solid rgba(255, 149, 0, 0.25);
+        }
+
+        /* Self badge */
+        .badge-self {
+            background: rgba(0, 113, 227, 0.08);
+            color: #0071e3;
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11.5px;
             font-weight: 600;
-            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
-        @media (max-width: 640px) {
-            .profile-details-grid {
-                grid-template-columns: 1fr;
-            }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .info-cell {
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 16px;
+            padding: 16px 18px;
+        }
+
+        .info-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 15.5px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        /* Role-Specific Sections */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+        .status-accepted {
+            background: rgba(52, 199, 89, 0.12);
+            color: #248a3d;
+            border: 1px solid rgba(52, 199, 89, 0.25);
+        }
+        .status-interviewing {
+            background: rgba(88, 86, 214, 0.12);
+            color: #5856d6;
+            border: 1px solid rgba(88, 86, 214, 0.25);
+        }
+        .status-reviewed {
+            background: rgba(0, 113, 227, 0.1);
+            color: #0071e3;
+            border: 1px solid rgba(0, 113, 227, 0.2);
+        }
+        .status-pending {
+            background: rgba(142, 142, 147, 0.12);
+            color: #636366;
+            border: 1px solid rgba(142, 142, 147, 0.25);
+        }
+        .status-rejected {
+            background: rgba(255, 59, 48, 0.1);
+            color: #d70015;
+            border: 1px solid rgba(255, 59, 48, 0.2);
+        }
+
+        /* Empty State */
+        .empty-box {
+            text-align: center;
+            padding: 36px 20px;
+            background: rgb(250, 250, 252);
+            border: 1px dashed rgba(0, 0, 0, 0.12);
+            border-radius: 18px;
+            margin-top: 10px;
+        }
+
+        /* Alert Banners */
+        .alert-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+        .alert-success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.25);
+            color: #248a3d;
         }
     </style>
 </head>
@@ -66,101 +221,341 @@
 
     <main class="container">
         <div class="profile-container">
+
+            <!-- Flash Banners -->
             <% if (typeof welcome !== 'undefined' && welcome) { %>
-                <div style="background: rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.25); color: #248a3d; padding: 14px 20px; border-radius: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+                <div class="alert-pill alert-success">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <span><strong>Welcome to Alumni Network!</strong> Your verified profile has been successfully created and registered.</span>
+                    <span><strong>Welcome to the Network!</strong> Your verified account has been successfully created.</span>
                 </div>
             <% } %>
 
-            <div style="margin: 20px 0 16px;">
+            <% if (typeof updated !== 'undefined' && updated) { %>
+                <div class="alert-pill alert-success">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span><strong>Profile Updated:</strong> Your member attributes have been updated successfully.</span>
+                </div>
+            <% } %>
+
+            <!-- Breadcrumb Navigation -->
+            <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
                 <a href="/users" class="link-chevron" style="font-weight: 600;">← Back to Members Directory</a>
+                <% if (typeof isSelf !== 'undefined' && isSelf) { %>
+                    <span class="badge-self">
+                        <span>●</span> Active Profile Session
+                    </span>
+                <% } %>
             </div>
 
-            <div class="card">
-                <div class="profile-hero">
-                    <div class="avatar"><%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %></div>
-                    <div style="flex: 1;">
-                        <h1 style="font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em;"><%= user.name %></h1>
-                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                            <span class="badge <%= user.role === 'Student' ? 'badge-role-student' : 'badge-role-alumni' %>">
-                                <%= user.role === 'Student' ? 'Student' : 'Alumni' %>
-                            </span>
-                            <span style="font-size: 13px; color: var(--ink-muted); font-family: monospace;">ID: #<%= user.id %></span>
-                            <% if (user.email) { %>
-                                <span style="font-size: 13px; color: var(--ink-secondary);">&bull; <%= user.email %></span>
-                            <% } %>
+            <!-- Profile Hero Card -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="avatar-box">
+                        <div class="avatar-monogram <%= user.role === 'Admin' ? 'avatar-admin' : user.role === 'Alumni' ? 'avatar-alumni' : 'avatar-student' %>">
+                            <%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+                                <h1 style="font-size: 26px; font-weight: 700; color: #1d1d1f; margin: 0; letter-spacing: -0.02em;">
+                                    <%= user.name %>
+                                </h1>
+                                <% if (user.role === 'Admin') { %>
+                                    <span class="role-pill pill-admin">🛡️ Administrator</span>
+                                <% } else if (user.role === 'Alumni') { %>
+                                    <span class="role-pill pill-alumni">🎓 Verified Alumni</span>
+                                <% } else { %>
+                                    <span class="role-pill pill-student">📚 Enrolled Student</span>
+                                <% } %>
+                            </div>
+
+                            <div style="font-size: 13.5px; color: var(--ink-secondary); display: flex; gap: 12px; flex-wrap: wrap;">
+                                <span><strong>Email:</strong> <%= user.email %></span>
+                                <span>&bull;</span>
+                                <span style="font-family: monospace;">ID #<%= user.id %></span>
+                                <% if (user.company) { %>
+                                    <span>&bull;</span>
+                                    <span>🏢 <%= user.company %></span>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="profile-details-grid">
-                    <div class="info-cell">
-                        <div class="info-cell-label">Member ID</div>
-                        <div class="info-cell-value">#<%= user.id %></div>
-                    </div>
-                    <div class="info-cell">
-                        <div class="info-cell-label">System Role</div>
-                        <div class="info-cell-value"><%= user.role %></div>
-                    </div>
-                    <div class="info-cell">
-                        <div class="info-cell-label">Department / Major</div>
-                        <div class="info-cell-value"><%= user.department || '—' %></div>
-                    </div>
-                    <div class="info-cell">
-                        <div class="info-cell-label">Company / Organization</div>
-                        <div class="info-cell-value"><%= user.company || '—' %></div>
-                    </div>
-                    <div class="info-cell">
-                        <div class="info-cell-label">Graduation Year</div>
-                        <div class="info-cell-value"><%= user.graduation_year || '—' %></div>
-                    </div>
-                    <div class="info-cell">
-                        <div class="info-cell-label">Contact Phone</div>
-                        <div class="info-cell-value"><%= user.phone || '—' %></div>
+                    <!-- Profile Action Buttons -->
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <% if (typeof canEdit !== 'undefined' && canEdit) { %>
+                            <a href="/users/<%= user.id %>/edit" class="btn btn-secondary" style="font-size: 13px; padding: 8px 18px;">
+                                ✏️ Edit Profile
+                            </a>
+                        <% } %>
+
+                        <% if (typeof isAdmin !== 'undefined' && isAdmin && user.role === 'Admin') { %>
+                            <a href="/panel" class="btn btn-runway" style="font-size: 13px; padding: 8px 18px; background: #5856d6;">
+                                🛡️ Open Governance Panel
+                            </a>
+                        <% } %>
+
+                        <% if (typeof isAdmin !== 'undefined' && isAdmin && (!isSelf)) { %>
+                            <form action="/users/<%= user.id %>/delete" method="POST" onsubmit="return confirm('Permanently remove member <%= user.name %>?');" style="display: inline;">
+                                <button type="submit" class="btn-action-sm btn-danger-sm" style="padding: 8px 14px; font-size: 12px;">Delete Member</button>
+                            </form>
+                        <% } %>
                     </div>
                 </div>
 
+                <!-- Attributes Grid -->
+                <div class="info-grid">
+                    <div class="info-cell">
+                        <div class="info-label">Academic Department</div>
+                        <div class="info-value"><%= user.department || 'Not specified' %></div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="info-label">
+                            <%= user.role === 'Student' ? 'Expected Graduation' : 'Graduation Year' %>
+                        </div>
+                        <div class="info-value"><%= user.graduation_year || '—' %></div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="info-label">Current Organization / Employer</div>
+                        <div class="info-value"><%= user.company || 'Campus Scholar' %></div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="info-label">Contact Telephone</div>
+                        <div class="info-value"><%= user.phone || 'Private' %></div>
+                    </div>
+                </div>
+
+                <!-- Biography -->
                 <% if (user.bio) { %>
-                    <div style="margin-bottom: 24px; padding: 18px 20px; background: rgba(0,0,0,0.02); border-radius: 16px; border: 1px solid rgba(0,0,0,0.04);">
-                        <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); margin-bottom: 6px;">Biography &amp; Professional Focus</div>
-                        <div style="font-size: 14.5px; color: var(--ink); line-height: 1.6;"><%= user.bio %></div>
+                    <div style="margin-bottom: 24px; padding: 18px 22px; background: rgb(245, 245, 247); border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.04);">
+                        <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); margin-bottom: 6px;">Biography &amp; Professional Statement</div>
+                        <div style="font-size: 14.5px; color: #1d1d1f; line-height: 1.6;"><%= user.bio %></div>
                     </div>
                 <% } %>
 
+                <!-- External Links -->
                 <% if (user.linkedin_url || user.github_url) { %>
-                    <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
                         <% if (user.linkedin_url) { %>
-                            <a href="<%= user.linkedin_url %>" target="_blank" class="action-pill action-view" style="font-size: 13px; padding: 6px 16px;">
-                                LinkedIn Profile ↗
+                            <a href="<%= user.linkedin_url %>" target="_blank" class="btn btn-secondary" style="font-size: 13px; padding: 7px 16px;">
+                                <span>LinkedIn Profile</span>
+                                <span style="opacity: 0.6;">↗</span>
                             </a>
                         <% } %>
                         <% if (user.github_url) { %>
-                            <a href="<%= user.github_url %>" target="_blank" class="action-pill action-edit" style="font-size: 13px; padding: 6px 16px;">
-                                GitHub / Portfolio ↗
+                            <a href="<%= user.github_url %>" target="_blank" class="btn btn-secondary" style="font-size: 13px; padding: 7px 16px;">
+                                <span>GitHub / Portfolio</span>
+                                <span style="opacity: 0.6;">↗</span>
                             </a>
                         <% } %>
                     </div>
                 <% } %>
-
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px;">
-                    <a href="/users/<%= user.id %>/jobs" class="btn btn-outline" style="font-size: 13.5px; padding: 12px 18px; text-align: center; justify-content: center;">
-                        Posted Jobs & Opportunities
-                    </a>
-                    <a href="/users/<%= user.id %>/applications" class="btn btn-outline" style="font-size: 13.5px; padding: 12px 18px; text-align: center; justify-content: center;">
-                        Submitted Applications Pipeline
-                    </a>
-                </div>
-
-                <div style="display: flex; gap: 12px; border-top: 1px solid var(--hairline-soft); padding-top: 20px;">
-                    <a href="/users/<%= user.id %>/edit" class="btn btn-runway" style="flex: 2;">
-                        Edit Profile
-                    </a>
-                    <form action="/users/<%= user.id %>/delete" method="POST" style="flex: 1;" onsubmit="return confirm('Are you sure you want to delete this member profile?');">
-                        <button type="submit" class="btn btn-danger" style="width: 100%;">Delete Member</button>
-                    </form>
-                </div>
             </div>
+
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <!-- 🎓 ROLE-SPECIFIC SECTION 1: STUDENT VIEW                -->
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <% if (user.role === 'Student') { %>
+                <!-- Only owner of the profile or an Admin can inspect private submitted job applications -->
+                <% if (typeof isSelf !== 'undefined' && (isSelf || isAdmin)) { %>
+                    <div class="profile-card">
+                        <div class="section-header">
+                            <div>
+                                <div class="section-title">
+                                    <span>📝</span>
+                                    <span>My Job Applications Pipeline</span>
+                                </div>
+                                <p style="font-size: 13px; color: var(--ink-secondary); margin: 2px 0 0;">
+                                    Track the recruitment evaluation stages of opportunities you have applied to.
+                                </p>
+                            </div>
+                            <a href="/jobs" class="btn btn-runway" style="font-size: 13px; padding: 7px 16px;">
+                                + Explore Open Jobs
+                            </a>
+                        </div>
+
+                        <% if (typeof userApplications !== 'undefined' && userApplications && userApplications.length > 0) { %>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06); text-align: left;">
+                                            <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Job Position</th>
+                                            <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Company</th>
+                                            <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Applied On</th>
+                                            <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Current Stage</th>
+                                            <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase; text-align: right;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% userApplications.forEach(function(app) { %>
+                                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.04);">
+                                                <td style="padding: 13px 14px;">
+                                                    <a href="/jobs/<%= app.job_id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                        <%= app.job_title %>
+                                                    </a>
+                                                </td>
+                                                <td style="padding: 13px 14px; color: var(--ink-secondary);"><%= app.job_company %></td>
+                                                <td style="padding: 13px 14px; color: var(--ink-muted); font-size: 12.5px;">
+                                                    <%= app.applied_at ? app.applied_at.split('T')[0] : 'Recent' %>
+                                                </td>
+                                                <td style="padding: 13px 14px;">
+                                                    <% if (app.status === 'Accepted') { %>
+                                                        <span class="status-badge status-accepted">✓ Accepted</span>
+                                                    <% } else if (app.status === 'Interviewing' || app.status === 'Interview') { %>
+                                                        <span class="status-badge status-interviewing">🎙️ Interview</span>
+                                                    <% } else if (app.status === 'Reviewed') { %>
+                                                        <span class="status-badge status-reviewed">👀 Reviewed</span>
+                                                    <% } else if (app.status === 'Rejected') { %>
+                                                        <span class="status-badge status-rejected">✕ Closed</span>
+                                                    <% } else { %>
+                                                        <span class="status-badge status-pending">⏳ Submitted</span>
+                                                    <% } %>
+                                                </td>
+                                                <td style="padding: 13px 14px; text-align: right;">
+                                                    <a href="/applications/<%= app.id %>" class="btn-action-sm" style="border: 1px solid rgba(0,0,0,0.15); color: #1d1d1f;">
+                                                        View Dossier
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="empty-box">
+                                <div style="font-size: 28px; margin-bottom: 8px;">💼</div>
+                                <h4 style="font-size: 15.5px; font-weight: 600; margin-bottom: 4px;">No Applications Submitted Yet</h4>
+                                <p style="font-size: 13px; color: var(--ink-secondary); max-width: 420px; margin: 0 auto 16px;">
+                                    You have not submitted an application to any alumni openings yet. Discover active positions and jumpstart your career!
+                                </p>
+                                <a href="/jobs" class="btn btn-runway" style="font-size: 13px; padding: 8px 20px;">
+                                    Browse Job Opportunities →
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            <% } %>
+
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <!-- 💼 ROLE-SPECIFIC SECTION 2: ALUMNI VIEW                 -->
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <% if (user.role === 'Alumni') { %>
+                <div class="profile-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">
+                                <span>💼</span>
+                                <span>Opportunities Published by <%= isSelf ? 'You' : user.name.split(' ')[0] %></span>
+                            </div>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 2px 0 0;">
+                                Verified career openings shared with our student and alumni network.
+                            </p>
+                        </div>
+                        <% if (typeof canEdit !== 'undefined' && canEdit) { %>
+                            <a href="/jobs" class="btn btn-runway" style="font-size: 13px; padding: 7px 16px;">
+                                + Post New Opportunity
+                            </a>
+                        <% } %>
+                    </div>
+
+                    <% if (typeof postedJobs !== 'undefined' && postedJobs && postedJobs.length > 0) { %>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.06); text-align: left;">
+                                        <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Job Title</th>
+                                        <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Company &amp; Location</th>
+                                        <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Type</th>
+                                        <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase;">Applicants</th>
+                                        <th style="padding: 10px 14px; font-size: 12px; color: var(--ink-secondary); text-transform: uppercase; text-align: right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% postedJobs.forEach(function(job) { %>
+                                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.04);">
+                                            <td style="padding: 13px 14px;">
+                                                <a href="/jobs/<%= job.id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                    <%= job.title %>
+                                                </a>
+                                            </td>
+                                            <td style="padding: 13px 14px; color: var(--ink-secondary);">
+                                                <%= job.company %> &bull; <%= job.location %>
+                                            </td>
+                                            <td style="padding: 13px 14px;">
+                                                <span style="font-size: 12.5px; color: var(--ink-secondary);"><%= job.employment_type %></span>
+                                            </td>
+                                            <td style="padding: 13px 14px;">
+                                                <span style="display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12.5px; color: var(--apple-blue); background: rgba(0,113,227,0.08); padding: 3px 9px; border-radius: 999px;">
+                                                    👥 <%= job.applicantCount || 0 %> <%= (job.applicantCount === 1) ? 'Candidate' : 'Candidates' %>
+                                                </span>
+                                            </td>
+                                            <td style="padding: 13px 14px; text-align: right;">
+                                                <a href="/jobs/<%= job.id %>/applications" class="btn-action-sm" style="border: 1px solid var(--apple-blue); color: var(--apple-blue);">
+                                                    Review Candidates
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <div class="empty-box">
+                            <div style="font-size: 28px; margin-bottom: 8px;">🚀</div>
+                            <h4 style="font-size: 15.5px; font-weight: 600; margin-bottom: 4px;">No Opportunities Published Yet</h4>
+                            <p style="font-size: 13px; color: var(--ink-secondary); max-width: 420px; margin: 0 auto 16px;">
+                                <%= isSelf ? 'Empower the alumni network by sharing open roles from your company or venture.' : 'This member has not posted any job listings yet.' %>
+                            </p>
+                            <% if (typeof canEdit !== 'undefined' && canEdit) { %>
+                                <a href="/jobs" class="btn btn-runway" style="font-size: 13px; padding: 8px 20px;">
+                                    Post a Job Opening →
+                                </a>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <!-- 🛡️ ROLE-SPECIFIC SECTION 3: ADMIN VIEW                  -->
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <% if (user.role === 'Admin') { %>
+                <div class="profile-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">
+                                <span>🛡️</span>
+                                <span>Administrative Governance Station</span>
+                            </div>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 2px 0 0;">
+                                Platform maintenance, role delegation, content moderation, and ecosystem metrics.
+                            </p>
+                        </div>
+                        <a href="/panel" class="btn btn-runway" style="font-size: 13px; padding: 8px 18px; background: #5856d6;">
+                            Launch Alumni Control Panel →
+                        </a>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 14px;">
+                        <a href="/panel#users" class="info-cell" style="text-decoration: none; display: block; transition: all 0.2s ease;">
+                            <div class="info-label">Member Registry</div>
+                            <div style="font-size: 15px; font-weight: 600; color: #5856d6;">👥 Elevate &amp; Assign Roles ›</div>
+                            <div style="font-size: 12px; color: var(--ink-muted); margin-top: 4px;">Audit all user profiles &amp; accounts</div>
+                        </a>
+                        <a href="/panel#jobs" class="info-cell" style="text-decoration: none; display: block; transition: all 0.2s ease;">
+                            <div class="info-label">Career Moderation</div>
+                            <div style="font-size: 15px; font-weight: 600; color: #248a3d;">💼 Moderate Listings ›</div>
+                            <div style="font-size: 12px; color: var(--ink-muted); margin-top: 4px;">Toggle active state or remove jobs</div>
+                        </a>
+                        <a href="/panel#announcements" class="info-cell" style="text-decoration: none; display: block; transition: all 0.2s ease;">
+                            <div class="info-label">Campus Newsroom</div>
+                            <div style="font-size: 15px; font-weight: 600; color: #b64400;">📢 Broadcast News ›</div>
+                            <div style="font-size: 12px; color: var(--ink-muted); margin-top: 4px;">Publish official notifications</div>
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+
         </div>
     </main>
 
