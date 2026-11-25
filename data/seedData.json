@@ -9,7 +9,7 @@
       "name": "Şevval Sude",
       "email": "sevvalsude@alumni.edu",
       "password_hash": "$2b$10$hashedPasswordSamplePlaceholder12345",
-      "role": "Student",
+      "role": "Admin",
       "department": "Computer Engineering",
       "company": null,
       "graduation_year": null,

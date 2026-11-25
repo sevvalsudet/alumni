@@ -21,7 +21,7 @@ function loadFallbackUsers() {
     }
     userFactory.resetId(1);
     return [
-        userFactory.create({ id: 1, name: "Şevval Sude", email: "sevvalsude@alumni.edu", role: "Student", department: "Computer Engineering", company: null }),
+        userFactory.create({ id: 1, name: "Şevval Sude", email: "sevvalsude@alumni.edu", role: "Admin", department: "Computer Engineering", company: "Alumni Administration" }),
         userFactory.create({ id: 2, name: "Sude Top", email: "sude@alumni.edu", role: "Alumni", department: "Computer Engineering", company: "Google" }),
         userFactory.create({ id: 3, name: "Şevval Çelik", email: "sevval@alumni.edu", role: "Alumni", department: "Software Engineering", company: "Microsoft" }),
         ...(() => { userFactory.resetId(4); return userFactory.createMany(22); })()

@@ -106,6 +106,19 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// 🛡️ [ALUMNI & ADMIN GOVERNANCE PANEL] Veri ve Rol Yönetim Paneli
+const panelController = require('./controllers/panelController');
+app.get('/panel', requireAuth, requireAdmin, panelController.showPanel);
+app.post('/panel/users/:id/role', requireAuth, requireAdmin, panelController.updateUserRole);
+app.post('/panel/users/:id/delete', requireAuth, requireAdmin, panelController.deleteUser);
+app.post('/panel/jobs/:id/toggle', requireAuth, requireAdmin, panelController.toggleJobStatus);
+app.post('/panel/jobs/:id/delete', requireAuth, requireAdmin, panelController.deleteJob);
+app.post('/panel/applications/:id/status', requireAuth, requireAdmin, panelController.updateApplicationStatus);
+app.post('/panel/applications/:id/delete', requireAuth, requireAdmin, panelController.deleteApplication);
+app.post('/panel/announcements', requireAuth, requireAdmin, panelController.createAnnouncement);
+app.post('/panel/announcements/:id/delete', requireAuth, requireAdmin, panelController.deleteAnnouncement);
+app.get('/api/panel/stats', requireAuth, requireAdmin, panelController.apiStats);
+
 // ==========================================
 // 💡 HOCANIN BAHSETTİĞİ MANTIK: URL/users vs URL/api/...
 // ==========================================

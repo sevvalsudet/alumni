@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head', { title: typeof title !== 'undefined' ? title : 'Alumni Governance & Admin Panel' }) %>
+    <style>
+        .panel-container {
+            margin: 28px auto 80px;
+        }
+
+        /* Hero / Metric Cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .metric-card {
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            padding: 22px 24px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        .metric-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #1d1d1f;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .metric-sub {
+            font-size: 12.5px;
+            color: var(--ink-muted);
+            margin-top: 6px;
+        }
+
+        /* Navigation Pills / Tabs */
+        .panel-tabs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgb(245, 245, 247);
+            padding: 6px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn:hover {
+            color: #1d1d1f;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1d1d1f;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .tab-count {
+            background: rgba(0, 0, 0, 0.06);
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Panel Sections */
+        .tab-section {
+            display: none;
+        }
+        .tab-section.active {
+            display: block;
+        }
+
+        /* Tables & Lists */
+        .data-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 30px;
+        }
+
+        .data-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .panel-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            text-align: left;
+        }
+
+        .panel-table th {
+            background: rgb(250, 250, 252);
+            padding: 13px 20px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .panel-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            color: var(--ink);
+            vertical-align: middle;
+        }
+
+        .panel-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .panel-table tr:hover {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        /* Role Pill Badges */
+        .badge-role {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .role-admin {
+            background: rgba(88, 86, 214, 0.1);
+            color: #5856d6;
+            border: 1px solid rgba(88, 86, 214, 0.25);
+        }
+
+        .role-alumni {
+            background: rgb(245, 245, 247);
+            border: 1px solid #f5f5f7;
+            color: #324035;
+        }
+
+        .role-student {
+            background: rgb(245, 245, 247);
+            border: 1px solid #f5f5f7;
+            color: rgb(182, 68, 0);
+        }
+
+        /* Form inline actions */
+        .inline-select {
+            padding: 5px 10px;
+            font-size: 12.5px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+            color: #1d1d1f;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-action-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 999px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-toggle-active {
+            background: rgba(52, 199, 89, 0.1);
+            color: #248a3d;
+            border: 1px solid rgba(52, 199, 89, 0.3);
+        }
+        .btn-toggle-inactive {
+            background: rgba(142, 142, 147, 0.12);
+            color: #636366;
+            border: 1px solid rgba(142, 142, 147, 0.25);
+        }
+
+        .btn-danger-sm {
+            background: transparent;
+            color: #ff3b30;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+        }
+        .btn-danger-sm:hover {
+            background: #ff3b30;
+            color: #ffffff;
+        }
+
+        /* Flash Banner */
+        .alert-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.25);
+            border-radius: 16px;
+            color: #248a3d;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar', { active: 'panel' }) %>
+
+    <main class="container">
+        <div class="panel-container">
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: rgba(88, 86, 214, 0.1); color: #5856d6; font-size: 12px; font-weight: 600; margin-bottom: 8px;">
+                        <span>🛡️</span>
+                        <span>RBAC Governance Suite</span>
+                    </div>
+                    <h1 style="font-size: 30px; letter-spacing: -0.02em; margin-bottom: 4px;">Alumni Control Panel</h1>
+                    <p style="color: var(--ink-secondary); font-size: 14.5px; margin: 0;">Comprehensive administrator dashboard for role assignments, user management, and ecosystem data governance.</p>
+                </div>
+                <div>
+                    <a href="/api/swagger" target="_blank" class="btn btn-secondary" style="font-size: 13px; padding: 8px 16px;">OpenAPI Documentation ↗</a>
+                </div>
+            </div>
+
+            <!-- Flash Alert -->
+            <% if (typeof alertMessage !== 'undefined' && alertMessage) { %>
+                <div class="alert-banner">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span><strong>Success:</strong> <%= alertMessage %></span>
+                </div>
+            <% } %>
+
+            <!-- Metric Cards -->
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Total Users</div>
+                    <div class="metric-value"><%= metrics.totalUsers %></div>
+                    <div class="metric-sub"><%= metrics.studentsCount %> Students &bull; <%= metrics.alumniCount %> Alumni &bull; <%= metrics.adminsCount %> Admin</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Active Career Listings</div>
+                    <div class="metric-value"><%= metrics.activeJobsCount %> <span style="font-size: 16px; font-weight: 500; color: var(--ink-muted);">/ <%= metrics.totalJobs %></span></div>
+                    <div class="metric-sub">Published by verified alumni & admins</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Applications Pipeline</div>
+                    <div class="metric-value"><%= metrics.totalApplications %></div>
+                    <div class="metric-sub"><%= metrics.submittedApps %> Pending &bull; <%= metrics.interviewApps %> Interviewing &bull; <%= metrics.acceptedApps %> Accepted</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Announcements</div>
+                    <div class="metric-value"><%= metrics.totalAnnouncements %></div>
+                    <div class="metric-sub">Official campus notifications published</div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="panel-tabs">
+                <button class="tab-btn active" data-tab="users">
+                    <span>👥 Users & Roles</span>
+                    <span class="tab-count"><%= users.length %></span>
+                </button>
+                <button class="tab-btn" data-tab="jobs">
+                    <span>💼 Career Openings</span>
+                    <span class="tab-count"><%= jobs.length %></span>
+                </button>
+                <button class="tab-btn" data-tab="applications">
+                    <span>📝 Candidate Pipeline</span>
+                    <span class="tab-count"><%= applications.length %></span>
+                </button>
+                <button class="tab-btn" data-tab="announcements">
+                    <span>📢 Announcements</span>
+                    <span class="tab-count"><%= announcements.length %></span>
+                </button>
+            </div>
+
+            <!-- TAB 1: USERS & ROLES -->
+            <section id="tab-users" class="tab-section active">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3 style="font-size: 17px; margin-bottom: 2px;">User Role Management & Permissions</h3>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 0;">Change membership roles (Student ➔ Alumni ➔ Admin) to manipulate domain access privileges.</p>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="panel-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name & Email</th>
+                                    <th>Current Role</th>
+                                    <th>Department</th>
+                                    <th>Assign / Elevate Role</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(function(u) { %>
+                                    <tr>
+                                        <td style="font-family: monospace; font-weight: 600;">#<%= u.id %></td>
+                                        <td>
+                                            <a href="/users/<%= u.id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                <%= u.name %>
+                                            </a>
+                                            <div style="font-size: 12px; color: var(--ink-secondary);"><%= u.email %></div>
+                                        </td>
+                                        <td>
+                                            <% if (u.role === 'Admin') { %>
+                                                <span class="badge-role role-admin">🛡️ Admin</span>
+                                            <% } else if (u.role === 'Alumni') { %>
+                                                <span class="badge-role role-alumni">🎓 Alumni</span>
+                                            <% } else { %>
+                                                <span class="badge-role role-student">📚 Student</span>
+                                            <% } %>
+                                        </td>
+                                        <td style="color: var(--ink-secondary);">
+                                            <%= u.department || 'N/A' %>
+                                            <% if (u.company) { %>
+                                                <div style="font-size: 11.5px; color: var(--ink-muted);">@ <%= u.company %></div>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <form action="/panel/users/<%= u.id %>/role" method="POST" style="display: inline-flex; align-items: center; gap: 6px;">
+                                                <select name="role" class="inline-select" onchange="this.form.submit()">
+                                                    <option value="Student" <%= u.role === 'Student' ? 'selected' : '' %>>Student</option>
+                                                    <option value="Alumni" <%= u.role === 'Alumni' ? 'selected' : '' %>>Alumni</option>
+                                                    <option value="Admin" <%= u.role === 'Admin' ? 'selected' : '' %>>Admin</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-flex; gap: 8px;">
+                                                <a href="/users/<%= u.id %>/edit" class="btn-action-sm" style="border: 1px solid rgba(0,0,0,0.15); color: #1d1d1f;">Edit</a>
+                                                <% if (!currentUser || currentUser.id !== u.id) { %>
+                                                    <form action="/panel/users/<%= u.id %>/delete" method="POST" onsubmit="return confirm('Remove user <%= u.name %> permanently?');" style="display: inline;">
+                                                        <button type="submit" class="btn-action-sm btn-danger-sm">Delete</button>
+                                                    </form>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: CAREER OPENINGS -->
+            <section id="tab-jobs" class="tab-section">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3 style="font-size: 17px; margin-bottom: 2px;">Job Postings Governance</h3>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 0;">Audit career listings, toggle active status, or moderate content.</p>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="panel-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title & Company</th>
+                                    <th>Posted By</th>
+                                    <th>Type / Level</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% jobs.forEach(function(job) { %>
+                                    <tr>
+                                        <td style="font-family: monospace; font-weight: 600;">#<%= job.id %></td>
+                                        <td>
+                                            <a href="/jobs/<%= job.id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                <%= job.title %>
+                                            </a>
+                                            <div style="font-size: 12px; color: var(--ink-secondary);"><%= job.company %> &bull; <%= job.location %></div>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px; color: #1d1d1f;"><%= job.posted_by_name || 'Member #' + job.posted_by %></span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 12.5px; color: var(--ink-secondary);"><%= job.employment_type %> / <%= job.experience_level %></span>
+                                        </td>
+                                        <td>
+                                            <form action="/panel/jobs/<%= job.id %>/toggle" method="POST" style="display: inline;">
+                                                <button type="submit" class="btn-action-sm <%= job.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive' %>">
+                                                    <%= job.is_active ? '● Active' : '○ Inactive' %>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-flex; gap: 8px;">
+                                                <a href="/jobs/<%= job.id %>/applications" class="btn-action-sm" style="border: 1px solid var(--apple-blue); color: var(--apple-blue);">Applicants</a>
+                                                <form action="/panel/jobs/<%= job.id %>/delete" method="POST" onsubmit="return confirm('Permanently remove listing: <%= job.title %>?');" style="display: inline;">
+                                                    <button type="submit" class="btn-action-sm btn-danger-sm">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: CANDIDATE PIPELINE -->
+            <section id="tab-applications" class="tab-section">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3 style="font-size: 17px; margin-bottom: 2px;">Recruitment Pipeline Operations</h3>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 0;">Supervise and manipulate candidate submission stages across all openings.</p>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="panel-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Applicant</th>
+                                    <th>Target Position</th>
+                                    <th>Recruitment Stage</th>
+                                    <th>Update Stage</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% applications.forEach(function(app) { %>
+                                    <tr>
+                                        <td style="font-family: monospace; font-weight: 600;">#<%= app.id %></td>
+                                        <td>
+                                            <a href="/users/<%= app.user_id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                <%= app.applicant_name %>
+                                            </a>
+                                            <div style="font-size: 12px; color: var(--ink-secondary);"><%= app.applicant_email %></div>
+                                        </td>
+                                        <td>
+                                            <a href="/jobs/<%= app.job_id %>" style="color: #1d1d1f; text-decoration: none; font-weight: 500;">
+                                                <%= app.job_title %>
+                                            </a>
+                                            <div style="font-size: 11.5px; color: var(--ink-muted);"><%= app.job_company %></div>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 12.5px; font-weight: 600; color: #1d1d1f;">
+                                                <%= app.status %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <form action="/panel/applications/<%= app.id %>/status" method="POST" style="display: inline-flex; align-items: center; gap: 6px;">
+                                                <select name="status" class="inline-select" onchange="this.form.submit()">
+                                                    <option value="Pending" <%= app.status === 'Pending' || app.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
+                                                    <option value="Reviewed" <%= app.status === 'Reviewed' ? 'selected' : '' %>>Reviewed</option>
+                                                    <option value="Interviewing" <%= app.status === 'Interviewing' || app.status === 'Interview' ? 'selected' : '' %>>Interview</option>
+                                                    <option value="Accepted" <%= app.status === 'Accepted' ? 'selected' : '' %>>Accepted</option>
+                                                    <option value="Rejected" <%= app.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-flex; gap: 8px;">
+                                                <a href="/applications/<%= app.id %>" class="btn-action-sm" style="border: 1px solid rgba(0,0,0,0.15); color: #1d1d1f;">Review</a>
+                                                <form action="/panel/applications/<%= app.id %>/delete" method="POST" onsubmit="return confirm('Delete this application record?');" style="display: inline;">
+                                                    <button type="submit" class="btn-action-sm btn-danger-sm">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: ANNOUNCEMENTS -->
+            <section id="tab-announcements" class="tab-section">
+                <!-- Quick Publisher -->
+                <div class="data-card" style="margin-bottom: 24px;">
+                    <div class="data-card-header">
+                        <div>
+                            <h3 style="font-size: 17px; margin-bottom: 2px;">Publish Campus Announcement</h3>
+                            <p style="font-size: 13px; color: var(--ink-secondary); margin: 0;">Broadcast official updates to students and alumni community.</p>
+                        </div>
+                    </div>
+                    <form action="/panel/announcements" method="POST" style="padding: 24px;">
+                        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="annTitle">Subject / Title *</label>
+                                <input type="text" id="annTitle" name="title" placeholder="e.g. Annual Alumni Reunion 2026" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="annCategory">Category</label>
+                                <select id="annCategory" name="category">
+                                    <option value="General">General</option>
+                                    <option value="Career">Career</option>
+                                    <option value="Event">Event</option>
+                                    <option value="Academic">Academic</option>
+                                    <option value="Scholarship">Scholarship</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="annPriority">Priority</label>
+                                <select id="annPriority" name="priority">
+                                    <option value="Normal">Normal</option>
+                                    <option value="Low">Low</option>
+                                    <option value="High">High</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="annContent">Announcement Details *</label>
+                            <textarea id="annContent" name="content" rows="3" placeholder="Write the announcement body..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-runway" style="padding: 10px 24px;">
+                            <span>Publish Announcement</span>
+                            <span>→</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Existing Announcements List -->
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h3 style="font-size: 17px; margin-bottom: 0;">Existing Announcements</h3>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="panel-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Headline</th>
+                                    <th>Category</th>
+                                    <th>Priority</th>
+                                    <th>Date</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% announcements.forEach(function(ann) { %>
+                                    <tr>
+                                        <td style="font-family: monospace; font-weight: 600;">#<%= ann.id %></td>
+                                        <td>
+                                            <a href="/announcements/<%= ann.id %>" style="font-weight: 600; color: #1d1d1f; text-decoration: none;">
+                                                <%= ann.title %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 12px; background: rgba(0,0,0,0.05); padding: 3px 8px; border-radius: 6px;"><%= ann.category %></span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 12px; font-weight: 600; color: <%= ann.priority === 'Urgent' ? '#d70015' : ann.priority === 'High' ? '#b64400' : 'var(--ink)' %>;">
+                                                <%= ann.priority %>
+                                            </span>
+                                        </td>
+                                        <td style="color: var(--ink-secondary); font-size: 12.5px;"><%= ann.date %></td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-flex; gap: 8px;">
+                                                <a href="/announcements/<%= ann.id %>/edit" class="btn-action-sm" style="border: 1px solid rgba(0,0,0,0.15); color: #1d1d1f;">Edit</a>
+                                                <form action="/panel/announcements/<%= ann.id %>/delete" method="POST" onsubmit="return confirm('Delete announcement: <%= ann.title %>?');" style="display: inline;">
+                                                    <button type="submit" class="btn-action-sm btn-danger-sm">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Tab switching logic with URL hash support
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabSections = document.querySelectorAll('.tab-section');
+
+            function switchTab(targetTab) {
+                tabButtons.forEach(btn => {
+                    if (btn.dataset.tab === targetTab) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                tabSections.forEach(section => {
+                    if (section.id === 'tab-' + targetTab) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            }
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    switchTab(tabName);
+                    window.location.hash = tabName;
+                });
+            });
+
+            // On load, check URL hash or query param
+            const currentHash = window.location.hash.replace('#', '');
+            if (currentHash && document.getElementById('tab-' + currentHash)) {
+                switchTab(currentHash);
+            }
+        });
+    </script>
+</body>
+</html>

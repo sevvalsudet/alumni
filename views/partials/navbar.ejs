@@ -24,6 +24,9 @@
                 <a href="/about" class="nav-item <%= typeof active !== 'undefined' && active === 'about' ? 'active' : '' %>">About</a>
 
                 <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <% if (currentUser.role === 'Admin') { %>
+                        <a href="/panel" class="nav-item <%= typeof active !== 'undefined' && active === 'panel' ? 'active' : '' %>" style="color: #5856d6; font-weight: 600;">Panel 🛡️</a>
+                    <% } %>
                     <a href="/users/<%= currentUser.id %>" class="nav-item" style="display: inline-flex; align-items: center; gap: 5px; font-weight: 500;">
                         <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #34c759;"></span>
                         <%= currentUser.name.split(' ')[0] %>
