@@ -2,10 +2,24 @@
 <%
     const isSubpage = (typeof active !== 'undefined' && active && active !== 'home');
     const navThemeClass = isSubpage ? 'apple-nav-light' : 'apple-nav-dark';
+
+    // Kullanıcı bilgisi ve rol kontrolü
+    const _user = (typeof currentUser !== 'undefined') ? currentUser : null;
+    const _role = _user ? _user.role : null;         // 'Admin' | 'Alumni' | 'Student' | null
+    const _isAdmin   = _role === 'Admin';
+    const _isAlumni  = _role === 'Alumni';
+    const _isStudent = _role === 'Student';
+    const _isGuest   = !_user;
+
+    // Aktif sayfa kontrolü yardımcısı
+    function navActive(page) {
+        return (typeof active !== 'undefined' && active === page) ? 'active' : '';
+    }
 %>
 <nav class="apple-nav <%= navThemeClass %>">
     <div class="container">
         <div class="apple-nav-inner">
+            <!-- Brand Logo -->
             <a href="/" class="nav-brand">
                 <svg class="nav-brand-icon-svg" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                     <path class="cap-fill" d="M2 10l10-5 10 5-10 5z" fill="#ffffff" stroke="#ffffff"/>
@@ -14,29 +28,77 @@
                 </svg>
                 <span>Alumni</span>
             </a>
-            
-            <div class="nav-items">
-                <a href="/users" class="nav-item <%= typeof active !== 'undefined' && active === 'users' ? 'active' : '' %>">Members</a>
-                <a href="/jobs" class="nav-item <%= typeof active !== 'undefined' && active === 'jobs' ? 'active' : '' %>">Jobs</a>
-                <a href="/applications" class="nav-item <%= typeof active !== 'undefined' && active === 'applications' ? 'active' : '' %>">Applications</a>
-                <a href="/announcements" class="nav-item <%= typeof active !== 'undefined' && active === 'announcements' ? 'active' : '' %>">Announcements</a>
-                <a href="/api/swagger" target="_blank" class="nav-item">API Docs</a>
-                <a href="/about" class="nav-item <%= typeof active !== 'undefined' && active === 'about' ? 'active' : '' %>">About</a>
 
-                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
-                    <% if (currentUser.role === 'Admin') { %>
-                        <a href="/panel" class="nav-item <%= typeof active !== 'undefined' && active === 'panel' ? 'active' : '' %>" style="color: #5856d6; font-weight: 600;">Panel 🛡️</a>
-                    <% } %>
-                    <a href="/users/<%= currentUser.id %>" class="nav-item" style="display: inline-flex; align-items: center; gap: 5px; font-weight: 500;">
-                        <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #34c759;"></span>
-                        <%= currentUser.name.split(' ')[0] %>
-                    </a>
-                    <a href="/logout" class="nav-item" style="font-weight: 500; opacity: 0.85;">Log Out</a>
-                <% } else { %>
-                    <a href="/login" class="nav-item <%= typeof active !== 'undefined' && active === 'login' ? 'active' : '' %>" style="font-weight: 500;">Log In</a>
-                    <a href="/register" class="nav-item <%= typeof active !== 'undefined' && active === 'register' ? 'active' : '' %>" style="font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid currentColor;">Register</a>
+            <div class="nav-items">
+
+                <!-- ════════════════════════════════════════
+                     HERKES İÇİN: Members, Jobs, Announcements, About
+                     ════════════════════════════════════════ -->
+                <a href="/users"         class="nav-item <%= navActive('users') %>">Members</a>
+                <a href="/jobs"          class="nav-item <%= navActive('jobs') %>">Jobs</a>
+                <a href="/announcements" class="nav-item <%= navActive('announcements') %>">Announcements</a>
+                <a href="/about"         class="nav-item <%= navActive('about') %>">About</a>
+
+                <!-- ════════════════════════════════════════
+                     STUDENT & ALUMNI & ADMIN: Applications (kendi başvuruları)
+                     ════════════════════════════════════════ -->
+                <% if (!_isGuest) { %>
+                    <a href="/applications" class="nav-item <%= navActive('applications') %>">Applications</a>
                 <% } %>
-            </div>
-        </div>
+
+                <!-- ════════════════════════════════════════
+                     ALUMNI & ADMIN: My Postings (iş ilanı yönetimi)
+                     ════════════════════════════════════════ -->
+                <% if (_isAlumni || _isAdmin) { %>
+                    <a href="/users/<%= _user.id %>/jobs" class="nav-item <%= navActive('my-jobs') %>"
+                       title="Manage your job listings">My Postings</a>
+                <% } %>
+
+                <!-- ════════════════════════════════════════
+                     ALUMNI & ADMIN: API Docs erişimi
+                     ════════════════════════════════════════ -->
+                <% if (_isAlumni || _isAdmin) { %>
+                    <a href="/api/swagger" target="_blank" class="nav-item" title="OpenAPI Documentation">API Docs</a>
+                <% } %>
+
+                <!-- ════════════════════════════════════════
+                     ADMIN ONLY: Governance Panel
+                     ════════════════════════════════════════ -->
+                <% if (_isAdmin) { %>
+                    <a href="/panel" class="nav-item <%= navActive('panel') %>"
+                       style="color: #5856d6; font-weight: 600;">Panel 🛡️</a>
+                <% } %>
+
+                <!-- ════════════════════════════════════════
+                     AUTH ZONE: Oturum açık / kapalı durumu
+                     ════════════════════════════════════════ -->
+                <% if (_user) { %>
+                    <!-- Oturum açık: kullanıcı ismi + Log Out -->
+                    <a href="/users/<%= _user.id %>"
+                       class="nav-item"
+                       style="display: inline-flex; align-items: center; gap: 5px; font-weight: 500;"
+                       title="<%= _role %> • <%= _user.email %>">
+                        <!-- Rol rengi: Admin mor, Alumni yeşil, Student mavi -->
+                        <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+                            background: <%= _isAdmin ? '#5856d6' : _isAlumni ? '#34c759' : '#0071e3' %>;"></span>
+                        <%= _user.name.split(' ')[0] %>
+                        <!-- Rol etiketi küçük -->
+                        <span style="font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 999px; opacity: 0.75;
+                            background: <%= _isAdmin ? 'rgba(88,86,214,0.15)' : _isAlumni ? 'rgba(52,199,89,0.15)' : 'rgba(0,113,227,0.15)' %>;
+                            color: <%= _isAdmin ? '#5856d6' : _isAlumni ? '#248a3d' : '#0071e3' %>;">
+                            <%= _role %>
+                        </span>
+                    </a>
+                    <a href="/logout" class="nav-item" style="font-weight: 500; opacity: 0.75;">Log Out</a>
+
+                <% } else { %>
+                    <!-- Ziyaretçi: Log In + Register -->
+                    <a href="/login"    class="nav-item <%= navActive('login') %>"    style="font-weight: 500;">Log In</a>
+                    <a href="/register" class="nav-item <%= navActive('register') %>"
+                       style="font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid currentColor;">Register</a>
+                <% } %>
+
+            </div><!-- /nav-items -->
+        </div><!-- /apple-nav-inner -->
     </div>
 </nav>
