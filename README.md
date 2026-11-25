@@ -123,25 +123,136 @@ Whenever a 5xx error occurs, the 5xx Guardian automatically appends the incident
 
 ---
 
+## 🔐 Authentication, Session & Role-Based Access Control (RBAC)
+
+The platform features an enterprise-grade authentication and authorization engine built in strict compliance with the **Domain-Driven Design (DDD)** specification.
+
+### 1. Dual-Mode Authentication Architecture
+The platform accommodates both traditional browser sessions and stateless API clients:
+* **Web UI (Session Cookies):** Upon login (`POST /login`) or registration (`POST /register`), the server issues an encrypted, signed HTTP cookie named `alumni_session` with `HttpOnly: true`, `SameSite: Lax`, and a 7-day expiration.
+* **REST API (Bearer Tokens):** API clients authenticate via the standard `Authorization: Bearer <token>` header (`POST /api/auth/login`).
+* **Cryptographic Signatures & Password Hashing:** 
+  - Sessions and API tokens are signed using **HMAC SHA-256** with base64url encoding, ensuring tamper-proof integrity without external JWT dependencies.
+  - Passwords are encrypted using Node.js native `crypto.scryptSync` with unique cryptographic salts.
+
+---
+
+### 2. User Roles & Capabilities Archetype
+
+| Role Archetype | Primary Domain Objectives | Key Permissions & Capabilities |
+| :--- | :--- | :--- |
+| **`Student`** 📚 | Career discovery & skill advancement | • Browse published jobs and submit applications.<br>• Track personal application stages in real-time.<br>• Restricted from posting jobs or elevating system roles. |
+| **`Alumni`** 🎓 | Hiring talent & mentorship | • Publish and manage job openings (`POST /jobs`).<br>• Review candidate submissions for own published listings.<br>• Track applicant pipelines with live candidate counters. |
+| **`Admin`** 🛡️ | Governance, moderation & compliance | • Full CRUD governance across `users`, `jobs`, `applications`, and `announcements`.<br>• Elevate or demote user roles (`POST /panel/users/:id/role`).<br>• Access the centralized **Alumni Control Panel** (`/panel`). |
+
+---
+
+### 3. Role-Based Access Control (RBAC) Matrix
+
+| Entity Domain | Operation | Student | Alumni | Admin | Guard Middleware |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **`Authentication`** | Register / Login | ✅ (Guest) | ✅ (Guest) | ✅ (Guest) | `requireGuest` |
+| **`Profile`** | Edit Own Profile | ✅ | ✅ | ✅ | `requireAuth`, `requireSelfOrAdmin` |
+| | Elevate User Role | ❌ | ❌ | ✅ | `requireAuth`, `requireAdmin` |
+| | Delete Account | ❌ | ❌ | ✅ | `requireAuth`, `requireAdmin` |
+| **`Jobs`** | Browse Listings | ✅ | ✅ | ✅ | Public |
+| | Publish Opening | ❌ | ✅ | ✅ | `requireAuth`, `requireAlumniOrAdmin` |
+| | Toggle Active / Delete | ❌ | ✅ (Own) | ✅ (Any) | `requireAuth`, `requireAlumniOrAdmin` |
+| **`Applications`** | Submit Application | ✅ | ✅ | ✅ | `requireAuth` |
+| | View Own Submissions | ✅ | ✅ | ✅ | `requireAuth`, `requireSelfOrAdmin` |
+| | Update Stage (Review) | ❌ | ✅ (Own Jobs) | ✅ (Any) | `requireAuth`, `requireAlumniOrAdmin` |
+| **`Announcements`** | Browse Newsroom | ✅ | ✅ | ✅ | Public |
+| | Create / Edit / Delete | ❌ | ❌ | ✅ | `requireAuth`, `requireAdmin` |
+| **`Governance Panel`**| Access `/panel` | ❌ | ❌ | ✅ | `requireAuth`, `requireAdmin` |
+
+---
+
+### 4. Modular Auth Middleware Suite (`middlewares/authMiddleware.js`)
+
+1. **`sessionMiddleware` (Global Context Injector):**
+   Runs on every incoming request. Inspects `req.cookies['alumni_session']` or `Authorization: Bearer <token>`, validates HMAC signature, and populates `req.user` and EJS templates via `res.locals.currentUser`, `res.locals.isAuthenticated`, `res.locals.isAdmin`, `res.locals.isAlumni`, and `res.locals.isStudent`.
+2. **`requireAuth` (Authentication Guard):**
+   Guards protected endpoints. For web requests, remembers the requested destination and redirects to `/login?returnTo=...`. For API requests, returns `401 Unauthorized` JSON.
+3. **`requireGuest` (Guest Guard):**
+   Prevents authenticated users from seeing `/login` and `/register`, redirecting them directly to their personal profile (`/users/:id`).
+4. **`requireRole(...allowedRoles)` (RBAC Authorization Factory):**
+   Validates whether `req.user.role` matches the allowed role set. Rejects unauthorized attempts with `403 Forbidden` JSON (API) or renders the customized Apple-styled [`views/403.ejs`](views/403.ejs) error page (Web).
+   - Semantic aliases: `requireAdmin`, `requireAlumniOrAdmin`, `requireStudentOrAdmin`.
+5. **`requireSelfOrAdmin(idParamKey)` (Ownership & Privacy Guard):**
+   Guarantees that a user can only view or modify their own sensitive resources (such as private job applications or profile attributes), while giving Administrators global oversight.
+
+---
+
+### 5. 🛡️ Alumni Control & Governance Panel (`/panel`)
+A dedicated administrative dashboard accessible strictly by `Admin` users:
+* **Domain Metrics:** Live breakdown of Students, Alumni, Admins, active job listings, candidate pipelines, and newsroom notices.
+* **RBAC Role Registry:** One-click role elevation / demotion (`Student` ➔ `Alumni` ➔ `Admin`) and user pruning.
+* **Job Moderation:** Immediate `Active` / `Inactive` publication status toggling.
+* **Pipeline Oversight:** Fast-track candidate recruitment stages (`Submitted`, `Reviewed`, `Interview`, `Accepted`, `Rejected`).
+* **Instant Announcement Publisher:** Broadcast campus announcements directly from the panel.
+
+---
+
+### 6. 👤 Role-Specific User Profiles & Dynamic Navigation
+
+* **Dynamic Navigation (Navbar):**
+  - **Guests:** See `Members`, `Jobs`, `Announcements`, `About`, `Log In`, and `Register`.
+  - **Students:** See `Members`, `Jobs`, `Announcements`, `Applications`, `About`, plus user name with blue active indicator.
+  - **Alumni:** See `Members`, `Jobs`, `My Postings`, `Applications`, `Announcements`, `API Docs`, plus user name with green active indicator.
+  - **Admins:** See all sections plus a purple **`Panel 🛡️`** navigation badge and elevated management controls.
+* **Role-Specific Profile Pages (`/users/:id` & `/profile` / `/me`):**
+  - **Student View:** Displays live **Application Pipeline Tracker** with real-time stage badges and dossier inspection.
+  - **Alumni View:** Displays **Published Opportunities & Candidate Counts** with direct shortcuts to candidate dossiers.
+  - **Admin View:** Displays **Governance Station** with shortcuts to platform registries.
+
+---
+
+### 7. 🔑 Pre-Configured Test Credentials
+
+For quick evaluation, the following pre-seeded demo accounts are available:
+
+| Role | Email | Password | Access Highlights |
+| :--- | :--- | :--- | :--- |
+| **`Admin`** 🛡️ | `sevvalsude@alumni.edu` | `password123` | Full system governance, `/panel` access, role elevation |
+| **`Alumni`** 🎓 | `sude@alumni.edu` | `password123` | Post jobs, review applicants, manage listings |
+| **`Student`** 📚 | `raphael_ratke39@yahoo.com` | `password123` | Apply to openings, track application stages |
+
+---
+
 ## 📊 Core API & Web Endpoint Mapping
 
-| Method | Endpoint | Description | Status Codes |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/` | Main Unified Dashboard | `200` |
-| `GET` | `/api/health` | Server Health & Diagnostic Check | `200` |
-| `GET` | `/users` / `/api/users` | List all members (HTML / JSON) | `200` |
-| `GET` | `/api/users/:id` | Get user by ID (supports `?include=jobs`) | `200`, `404` |
-| `POST`| `/api/users` | Register a new member | `201`, `400` |
-| `GET` | `/jobs` / `/api/jobs` | Browse career opportunities | `200` |
-| `GET` | `/jobs/:id` / `/api/jobs/:id` | View job details (supports `?include=users`) | `200`, `404` |
-| `POST`| `/jobs` / `/api/jobs` | Publish a new job opportunity | `201`, `400` |
-| `GET` | `/api/users/:id/jobs` | M:N applied jobs of a user | `200`, `404` |
-| `GET` | `/api/jobs/:id/users` | M:N applicants of a job posting | `200`, `404` |
-| `GET` | `/applications` / `/api/applications` | List applications (filterable by job/user) | `200` |
-| `POST`| `/api/jobs/:id/applications` | Apply for a position | `201`, `400`, `404`, `409` |
-| `PATCH`| `/api/applications/:id` | Update candidate review status | `200`, `404` |
-| `GET` | `/404` | Generic 404 Not Found Page | `404` |
-| `GET` | `/api/swagger` | OpenAPI Interactive Documentation | `200` |
+| Method | Endpoint | Description | Guard / Protection | Status Codes |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` | Main Unified Dashboard | Public | `200` |
+| `GET` | `/login` / `POST /login` | User Authentication (Web Session) | `requireGuest` | `200`, `302`, `401` |
+| `GET` | `/register` / `POST /register` | Member Registration (Web UI) | `requireGuest` | `200`, `302`, `400` |
+| `GET` | `/logout` / `POST /logout` | End Active Session (Clear Cookie) | Authenticated | `302` |
+| `GET` | `/profile` / `/me` | Jump to Current User Profile | `requireAuth` | `302` |
+| `GET` | `/panel` | Centralized Alumni Governance Panel | `requireAdmin` | `200`, `403` |
+| `POST`| `/panel/users/:id/role` | Elevate / Demote User Role (RBAC) | `requireAdmin` | `200`, `302`, `403` |
+| `POST`| `/panel/jobs/:id/toggle` | Toggle Job Active / Inactive Status | `requireAdmin` | `200`, `302`, `403` |
+| `POST`| `/panel/applications/:id/status`| Update Candidate Pipeline Stage | `requireAdmin` | `200`, `302`, `403` |
+| `POST`| `/api/auth/register` | REST API User Registration | Public | `201`, `400` |
+| `POST`| `/api/auth/login` | REST API Login (Issues Bearer Token) | Public | `200`, `401` |
+| `POST`| `/api/auth/logout` | REST API Token Revocation | Authenticated | `200` |
+| `GET` | `/api/panel/stats` | JSON Analytics for Governance Suite | `requireAdmin` | `200`, `403` |
+| `GET` | `/api/health` | Server Health & Diagnostic Check | Public | `200` |
+| `GET` | `/users` / `/api/users` | List all members (HTML / JSON) | Public | `200` |
+| `GET` | `/users/:id` / `/api/users/:id`| Role-specific member profile | Public | `200`, `404` |
+| `GET` | `/users/:id/edit` | Edit member profile form | `requireSelfOrAdmin` | `200`, `403` |
+| `POST`| `/users/:id/update` | Update member attributes | `requireSelfOrAdmin` | `302`, `403` |
+| `GET` | `/users/:id/applications` | User's private job submissions | `requireSelfOrAdmin` | `200`, `403` |
+| `GET` | `/users/:id/jobs` | User's published job opportunities | Public | `200`, `404` |
+| `GET` | `/jobs` / `/api/jobs` | Browse career opportunities | Public | `200` |
+| `GET` | `/jobs/:id` / `/api/jobs/:id` | View job details & requirements | Public | `200`, `404` |
+| `POST`| `/jobs` / `/api/jobs` | Publish a new job opportunity | `requireAlumniOrAdmin` | `201`, `403` |
+| `GET` | `/jobs/:id/applications` | Review applicants of a posting | Public / Protected | `200`, `404` |
+| `GET` | `/applications` / `/api/applications` | Applications pipeline view | `requireAuth` | `200`, `401` |
+| `POST`| `/applications` | Apply for an open position | `requireAuth` | `302`, `401`, `409` |
+| `GET` | `/announcements` | Institutional announcements board | Public | `200` |
+| `POST`| `/announcements` | Publish campus announcement | `requireAdmin` | `302`, `403` |
+| `GET` | `/404` | Generic 404 Not Found Page | Public | `404` |
+| `GET` | `/api/swagger` | OpenAPI Interactive Documentation | Public | `200` |
 
 ---
 
@@ -170,6 +281,8 @@ alumni/
 ├── config/                   # Database pool & connection configuration
 │   └── db.js                        # MySQL2 connection pool with offline fallback
 ├── controllers/              # Application logic & HTTP status orchestrators
+│   ├── authController.js            # Authentication, registration & session controller
+│   ├── panelController.js           # Centralized Alumni & Admin Governance Panel
 │   ├── apiUserController.js         # REST API controller for users
 │   ├── userController.js            # Web HTML controller for users
 │   ├── apiJobPostingController.js   # REST API controller for job postings
@@ -185,6 +298,7 @@ alumni/
 ├── logs/                     # Persistent system and error archives
 │   └── error.logs                   # Archived 5xx error logs with stack traces
 ├── middlewares/              # Express custom middleware suite
+│   ├── authMiddleware.js            # Authentication & RBAC role guards (Session, Auth, Admin)
 │   ├── logger.js                    # Terminal request-duration logger middleware
 │   ├── notFoundGuardian.js          # 404 Guardian (JSON 404 & Web redirect)
 │   └── serverErrorGuardian.js       # 5xx Guardian global error handler
@@ -196,7 +310,7 @@ alumni/
 │   ├── 005_create_applications_table.sql
 │   └── 006_seed_job_postings.sql
 ├── models/                   # Data access layer & business rule validation
-│   ├── userModel.js                 # User entity & relationships
+│   ├── userModel.js                 # User entity, password hash & relationships
 │   ├── announcementModel.js         # Announcement entity
 │   ├── jobPostingModel.js           # Job posting entity & relationships
 │   └── applicationModel.js          # Application entity & constraints
@@ -212,15 +326,19 @@ alumni/
 ├── views/                    # EJS dynamic HTML templates
 │   ├── partials/                    # Shared reusable design components
 │   │   ├── head.ejs                 # Shared tokens, typography & responsive styles
-│   │   ├── navbar.ejs               # Apple frosted-glass sticky navigation
+│   │   ├── navbar.ejs               # Dynamic role-based sticky navigation
 │   │   └── footer.ejs               # Apple parchment footer
 │   ├── index.ejs                    # Modern Apple & RunwayML homepage dashboard
+│   ├── login.ejs                    # Apple minimalist sign in portal
+│   ├── register.ejs                 # Segmented role registration portal
+│   ├── panel.ejs                    # Centralized Alumni & Admin Governance Panel
+│   ├── 403.ejs                      # 403 Forbidden RBAC access error view
 │   ├── 404.ejs                      # 404 Guardian error page
 │   ├── 500.ejs                      # 500 Server Error Guardian page
-│   ├── users.ejs & userDetail.ejs   # User list and profile views
-│   ├── userEdit.ejs                 # User profile edit form
+│   ├── users.ejs & userDetail.ejs   # User directory and role-specific profile views
+│   ├── userEdit.ejs                 # User profile edit form with role lock
 │   ├── jobs.ejs & jobDetail.ejs     # Job list and detail with quick-apply
-│   ├── applications.ejs             # Application management view
+│   ├── applications.ejs             # Application pipeline view
 │   ├── applicationDetail.ejs        # Application review & status view
 │   ├── announcements.ejs            # Announcements board view
 │   └── announcementDetail.ejs       # Announcement detail view
