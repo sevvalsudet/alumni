@@ -27,7 +27,8 @@ const userController = {
                     <a href="/users">← Kullanıcı Listesine Dön</a>
                 `);
             }
-            res.render('userDetail', { user });
+            const welcome = req.query.welcome === 'true';
+            res.render('userDetail', { user, welcome });
         } catch (err) {
             console.error('Error fetching user by id:', err);
             res.status(500).send('<h1>500 - Sunucu Hatası</h1>');

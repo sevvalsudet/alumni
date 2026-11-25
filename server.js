@@ -67,6 +67,12 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
+// 📝 Authentication & Registration Rotaları (Web UI & REST API)
+const authController = require('./controllers/authController');
+app.get('/register', authController.showRegister);
+app.post('/register', authController.processRegister);
+app.post('/api/auth/register', authController.apiRegister);
+
 // ⑦ GET /api/health -> JSON formatında sunucu sağlık durumunu döner
 app.get('/api/health', (req, res) => {
     res.json({

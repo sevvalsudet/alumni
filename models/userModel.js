@@ -72,33 +72,60 @@ const UserModel = {
         return await UserModel.findById(id, options);
     },
 
+    // 🔍 [FIND BY EMAIL] E-posta ile kullanıcı arama (Mükerrer kontrolü & Auth)
+    findByEmail: async (email) => {
+        if (!email) return null;
+        try {
+            const [rows] = await pool.query('SELECT * FROM users WHERE LOWER(email) = LOWER(?) LIMIT 1', [email.trim()]);
+            return rows[0] || null;
+        } catch (err) {
+            return fallbackUsers.find(u => u.email && u.email.toLowerCase() === email.trim().toLowerCase()) || null;
+        }
+    },
+
     // ➕ [CREATE] INSERT new user into database
     create: async (userData) => {
         const email = userData.email || `${userData.name.toLowerCase().replace(/[^a-z0-9]/g, '')}${Date.now().toString().slice(-4)}@alumni.edu`;
+        const role = userData.role || 'Alumni';
+        const department = userData.department || 'General';
+        const company = userData.company || null;
+        const graduationYear = userData.graduation_year ? Number(userData.graduation_year) : null;
+        const bio = userData.bio || null;
+        const phone = userData.phone || null;
+        const linkedinUrl = userData.linkedin_url || null;
+        const githubUrl = userData.github_url || null;
+        const passwordHash = userData.password_hash || null;
+
         try {
             const [result] = await pool.execute(
-                `INSERT INTO users (name, email, role, department, company, graduation_year, bio, phone, linkedin_url, github_url)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO users (name, email, password_hash, role, department, company, graduation_year, bio, phone, linkedin_url, github_url)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     userData.name,
                     email,
-                    userData.role || 'Alumni',
-                    userData.department || 'General',
-                    userData.company || null,
-                    userData.graduation_year || null,
-                    userData.bio || null,
-                    userData.phone || null,
-                    userData.linkedin_url || null,
-                    userData.github_url || null
+                    passwordHash,
+                    role,
+                    department,
+                    company,
+                    graduationYear,
+                    bio,
+                    phone,
+                    linkedinUrl,
+                    githubUrl
                 ]
             );
             return {
                 id: result.insertId,
                 name: userData.name,
                 email,
-                role: userData.role || 'Alumni',
-                department: userData.department || 'General',
-                company: userData.company || null
+                role,
+                department,
+                company,
+                graduation_year: graduationYear,
+                bio,
+                phone,
+                linkedin_url: linkedinUrl,
+                github_url: githubUrl
             };
         } catch (err) {
             const nextId = fallbackUsers.length > 0 ? Math.max(...fallbackUsers.map(u => u.id)) + 1 : 1;
@@ -106,9 +133,15 @@ const UserModel = {
                 id: nextId,
                 name: userData.name,
                 email,
-                role: userData.role || 'Alumni',
-                department: userData.department || 'General',
-                company: userData.company || null
+                password_hash: passwordHash,
+                role,
+                department,
+                company,
+                graduation_year: graduationYear,
+                bio,
+                phone,
+                linkedin_url: linkedinUrl,
+                github_url: githubUrl
             };
             fallbackUsers.push(newUser);
             return newUser;

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head', { title: 'Create Verified Account • Alumni.io' }) %>
+    <style>
+        .register-container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+
+        .register-card {
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 28px;
+            padding: 44px 48px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        @media (max-width: 640px) {
+            .register-card {
+                padding: 28px 22px;
+            }
+        }
+
+        /* Role Segmented Selector */
+        .role-selector-wrap {
+            margin-bottom: 28px;
+        }
+
+        .role-selector-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .role-segmented {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px;
+            border-radius: var(--radius-pill);
+            gap: 4px;
+        }
+
+        .role-option {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .role-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .role-option-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+        }
+
+        .role-option input[type="radio"]:checked + .role-option-pill {
+            background: #ffffff;
+            color: var(--ink);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .role-hint {
+            font-size: 12.5px;
+            color: var(--ink-muted);
+            margin-top: 8px;
+            padding-left: 6px;
+        }
+
+        /* Alert Banners */
+        .alert-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .alert-error {
+            background: rgba(255, 59, 48, 0.08);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            color: #d70015;
+        }
+
+        .form-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-muted);
+            margin: 26px 0 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-hint {
+            display: block;
+            font-size: 11.5px;
+            color: var(--ink-muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar', { active: 'register' }) %>
+
+    <main class="container">
+        <div class="register-container">
+            <div class="page-header" style="margin-bottom: 30px;">
+                <span class="eyebrow" style="color: var(--apple-blue);">Institutional Access</span>
+                <h1>Create Verified Account</h1>
+                <p class="subtitle">Join our network of distinguished alumni and active students. Discover career opportunities, connect with peers, and share mentorship.</p>
+            </div>
+
+            <div class="register-card">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert-pill alert-error">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <span><%= error %></span>
+                    </div>
+                <% } %>
+
+                <form action="/register" method="POST" id="registerForm" novalidate>
+                    <!-- 1. System Role Selector -->
+                    <div class="role-selector-wrap">
+                        <label class="role-selector-label">I am registering as *</label>
+                        <div class="role-segmented">
+                            <label class="role-option">
+                                <input type="radio" name="role" value="Student" <%= (typeof formData !== 'undefined' && formData.role === 'Student') ? 'checked' : '' %> onchange="onRoleChange('Student')">
+                                <span class="role-option-pill">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    Active Student
+                                </span>
+                            </label>
+
+                            <label class="role-option">
+                                <input type="radio" name="role" value="Alumni" <%= (typeof formData !== 'undefined' && formData.role === 'Alumni') ? 'checked' : (!formData || !formData.role ? 'checked' : '') %> onchange="onRoleChange('Alumni')">
+                                <span class="role-option-pill">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                    Graduated Alumni
+                                </span>
+                            </label>
+                        </div>
+                        <div class="role-hint" id="roleHintText">
+                            Students can explore opportunities, apply to jobs, and request alumni mentorship.
+                        </div>
+                    </div>
+
+                    <!-- 2. Personal & Account Security Information -->
+                    <div class="form-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Identity &amp; Security Credentials
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label for="name">Full Legal Name *</label>
+                            <input type="text" id="name" name="name" value="<%= (typeof formData !== 'undefined' && formData.name) ? formData.name : '' %>" placeholder="e.g. Jane Doe" required autocomplete="name">
+                            <span class="input-hint">Your name will be visible across verified member profiles.</span>
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="email">Institutional or Personal Email *</label>
+                            <input type="email" id="email" name="email" value="<%= (typeof formData !== 'undefined' && formData.email) ? formData.email : '' %>" placeholder="e.g. jane.doe@university.edu" required autocomplete="email">
+                            <span class="input-hint">Used for authentication and platform communications.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" placeholder="At least 6 characters" required autocomplete="new-password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirm">Confirm Password *</label>
+                            <input type="password" id="password_confirm" name="password_confirm" placeholder="Re-type your password" required autocomplete="new-password">
+                        </div>
+                    </div>
+
+                    <!-- 3. Academic & Professional Background -->
+                    <div class="form-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        Academic &amp; Professional Background
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="department">Department / Faculty *</label>
+                            <input type="text" id="department" name="department" value="<%= (typeof formData !== 'undefined' && formData.department) ? formData.department : '' %>" list="deptSuggestions" placeholder="e.g. Computer Engineering" required>
+                            <datalist id="deptSuggestions">
+                                <option value="Computer Engineering">
+                                <option value="Software Engineering">
+                                <option value="Electrical & Electronics Engineering">
+                                <option value="Industrial Engineering">
+                                <option value="Business Administration">
+                                <option value="Economics">
+                                <option value="Architecture">
+                                <option value="Data Science & AI">
+                            </datalist>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="graduation_year" id="gradYearLabel">Graduation Year</label>
+                            <input type="number" id="graduation_year" name="graduation_year" value="<%= (typeof formData !== 'undefined' && formData.graduation_year) ? formData.graduation_year : '' %>" placeholder="e.g. 2026" min="1950" max="2036">
+                            <span class="input-hint" id="gradYearHint">Expected graduation year for active students.</span>
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="company" id="companyLabel">Company / Organization</label>
+                            <input type="text" id="company" name="company" value="<%= (typeof formData !== 'undefined' && formData.company) ? formData.company : '' %>" placeholder="e.g. Google, Apple, or Current Internship">
+                            <span class="input-hint" id="companyHint">Optional for students. Highly encouraged for alumni in the workforce.</span>
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="bio">Professional Headline / Bio</label>
+                            <textarea id="bio" name="bio" rows="3" placeholder="Brief statement about your research interests, tech stack, or career pursuits..."><%= (typeof formData !== 'undefined' && formData.bio) ? formData.bio : '' %></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 4. Contact & Online Presence -->
+                    <div class="form-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        Contact &amp; Online Portfolios (Optional)
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="linkedin_url">LinkedIn URL</label>
+                            <input type="url" id="linkedin_url" name="linkedin_url" value="<%= (typeof formData !== 'undefined' && formData.linkedin_url) ? formData.linkedin_url : '' %>" placeholder="https://linkedin.com/in/username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="github_url">GitHub / Portfolio URL</label>
+                            <input type="url" id="github_url" name="github_url" value="<%= (typeof formData !== 'undefined' && formData.github_url) ? formData.github_url : '' %>" placeholder="https://github.com/username">
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="phone">Contact Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="<%= (typeof formData !== 'undefined' && formData.phone) ? formData.phone : '' %>" placeholder="+90 555 123 4567">
+                        </div>
+                    </div>
+
+                    <!-- Submit & Actions -->
+                    <div style="margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.06);">
+                        <button type="submit" class="btn btn-runway" style="width: 100%; justify-content: center; padding: 14px 28px; font-size: 15.5px;">
+                            <span>Create Account &amp; Join Platform</span>
+                            <span style="font-size: 16px;">→</span>
+                        </button>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px; font-size: 13.5px; color: var(--ink-secondary);">
+                        Already registered or exploring profiles? 
+                        <a href="/users" class="link-chevron" style="font-weight: 600;">Browse Members Directory ›</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function onRoleChange(role) {
+            const hint = document.getElementById('roleHintText');
+            const gradLabel = document.getElementById('gradYearLabel');
+            const gradHint = document.getElementById('gradYearHint');
+            const compLabel = document.getElementById('companyLabel');
+            const compHint = document.getElementById('companyHint');
+
+            if (role === 'Student') {
+                hint.textContent = 'Students can explore opportunities, apply to jobs, and request alumni mentorship.';
+                gradLabel.textContent = 'Expected Graduation Year';
+                gradHint.textContent = 'Expected completion year (e.g. 2026, 2027).';
+                compLabel.textContent = 'Internship / Project Org (Optional)';
+                compHint.textContent = 'Current internship, research laboratory, or student club affiliation.';
+            } else {
+                hint.textContent = 'Alumni can publish career listings, review applicants, and provide professional mentorship.';
+                gradLabel.textContent = 'Graduation Year';
+                gradHint.textContent = 'The year you completed your degree.';
+                compLabel.textContent = 'Current Employer / Company *';
+                compHint.textContent = 'Your current organization, tech enterprise, or venture.';
+            }
+        }
+
+        // Form submit client-side validation check
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const pwd = document.getElementById('password').value;
+            const pwdConfirm = document.getElementById('password_confirm').value;
+
+            if (pwd && pwd.length < 6) {
+                alert('Password must contain at least 6 characters.');
+                e.preventDefault();
+                return;
+            }
+
+            if (pwd !== pwdConfirm) {
+                alert('Passwords do not match. Please verify your password entry.');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

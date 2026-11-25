@@ -66,6 +66,13 @@
 
     <main class="container">
         <div class="profile-container">
+            <% if (typeof welcome !== 'undefined' && welcome) { %>
+                <div style="background: rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.25); color: #248a3d; padding: 14px 20px; border-radius: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span><strong>Welcome to Alumni Network!</strong> Your verified profile has been successfully created and registered.</span>
+                </div>
+            <% } %>
+
             <div style="margin: 20px 0 16px;">
                 <a href="/users" class="link-chevron" style="font-weight: 600;">← Back to Members Directory</a>
             </div>
@@ -80,6 +87,9 @@
                                 <%= user.role === 'Student' ? 'Student' : 'Alumni' %>
                             </span>
                             <span style="font-size: 13px; color: var(--ink-muted); font-family: monospace;">ID: #<%= user.id %></span>
+                            <% if (user.email) { %>
+                                <span style="font-size: 13px; color: var(--ink-secondary);">&bull; <%= user.email %></span>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -101,7 +111,37 @@
                         <div class="info-cell-label">Company / Organization</div>
                         <div class="info-cell-value"><%= user.company || '—' %></div>
                     </div>
+                    <div class="info-cell">
+                        <div class="info-cell-label">Graduation Year</div>
+                        <div class="info-cell-value"><%= user.graduation_year || '—' %></div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="info-cell-label">Contact Phone</div>
+                        <div class="info-cell-value"><%= user.phone || '—' %></div>
+                    </div>
                 </div>
+
+                <% if (user.bio) { %>
+                    <div style="margin-bottom: 24px; padding: 18px 20px; background: rgba(0,0,0,0.02); border-radius: 16px; border: 1px solid rgba(0,0,0,0.04);">
+                        <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); margin-bottom: 6px;">Biography &amp; Professional Focus</div>
+                        <div style="font-size: 14.5px; color: var(--ink); line-height: 1.6;"><%= user.bio %></div>
+                    </div>
+                <% } %>
+
+                <% if (user.linkedin_url || user.github_url) { %>
+                    <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                        <% if (user.linkedin_url) { %>
+                            <a href="<%= user.linkedin_url %>" target="_blank" class="action-pill action-view" style="font-size: 13px; padding: 6px 16px;">
+                                LinkedIn Profile ↗
+                            </a>
+                        <% } %>
+                        <% if (user.github_url) { %>
+                            <a href="<%= user.github_url %>" target="_blank" class="action-pill action-edit" style="font-size: 13px; padding: 6px 16px;">
+                                GitHub / Portfolio ↗
+                            </a>
+                        <% } %>
+                    </div>
+                <% } %>
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px;">
                     <a href="/users/<%= user.id %>/jobs" class="btn btn-outline" style="font-size: 13.5px; padding: 12px 18px; text-align: center; justify-content: center;">
