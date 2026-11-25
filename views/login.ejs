@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head', { title: 'Sign In • Alumni.io' }) %>
+    <style>
+        .login-container {
+            max-width: 520px;
+            margin: 30px auto 70px;
+        }
+
+        .login-card {
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 28px;
+            padding: 44px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        @media (max-width: 640px) {
+            .login-card {
+                padding: 30px 22px;
+            }
+        }
+
+        /* Alert Banners */
+        .alert-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .alert-error {
+            background: rgba(255, 59, 48, 0.08);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            color: #d70015;
+        }
+
+        .alert-success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.25);
+            color: #248a3d;
+        }
+
+        .demo-helper-box {
+            margin-top: 24px;
+            padding: 16px 18px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            font-size: 12.5px;
+            color: var(--ink-secondary);
+            line-height: 1.55;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar', { active: 'login' }) %>
+
+    <main class="container">
+        <div class="login-container">
+            <div class="page-header" style="margin-bottom: 26px; text-align: center;">
+                <span class="eyebrow" style="color: var(--apple-blue);">Welcome Back</span>
+                <h1 style="font-size: 30px;">Sign In to Alumni</h1>
+                <p class="subtitle" style="font-size: 14.5px;">Enter your credentials to access your verified profile, pipeline submissions, and career listings.</p>
+            </div>
+
+            <div class="login-card">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert-pill alert-error">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <span><%= error %></span>
+                    </div>
+                <% } %>
+
+                <% if (typeof success !== 'undefined' && success) { %>
+                    <div class="alert-pill alert-success">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span><%= success %></span>
+                    </div>
+                <% } %>
+
+                <form action="/login" method="POST" id="loginForm">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="email">Institutional or Personal Email *</label>
+                        <input type="email" id="email" name="email" value="<%= (typeof email !== 'undefined' && email) ? email : '' %>" placeholder="e.g. sevvalsude@alumni.edu" required autocomplete="email" autofocus>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 26px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <label for="password" style="margin-bottom: 0;">Password *</label>
+                        </div>
+                        <input type="password" id="password" name="password" placeholder="Enter your account password" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn btn-runway" style="width: 100%; justify-content: center; padding: 14px 28px; font-size: 15.5px;">
+                        <span>Sign In</span>
+                        <span style="font-size: 16px;">→</span>
+                    </button>
+
+                    <div style="text-align: center; margin-top: 24px; font-size: 13.5px; color: var(--ink-secondary);">
+                        Don't have a verified account yet? 
+                        <a href="/register" class="link-chevron" style="font-weight: 600;">Create Account ›</a>
+                    </div>
+                </form>
+
+                <div class="demo-helper-box">
+                    <strong style="color: var(--ink);">Quick Test Helper:</strong><br>
+                    You can sign in with any registered account or any preloaded seed user (e.g. <code>sevvalsude@alumni.edu</code>, <code>sude@alumni.edu</code>) with password <code>password123</code>.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

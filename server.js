@@ -21,6 +21,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 🍪 [COOKIE PARSER & AUTH SESSION] Çerezleri okur ve oturum bilgilerini EJS görünümlerine aktarır
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+const { sessionMiddleware } = require('./middlewares/authMiddleware');
+app.use(sessionMiddleware);
+
 // 📋 [LOGGER MIDDLEWARE] Terminale her isteğin logunu yazar (time, method, route, res. type, duration)
 const logger = require('./middlewares/logger');
 app.use(logger);
@@ -67,11 +74,19 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-// 📝 Authentication & Registration Rotaları (Web UI & REST API)
+// 📝 Authentication, Registration & Session Rotaları (Web UI & REST API)
 const authController = require('./controllers/authController');
 app.get('/register', authController.showRegister);
 app.post('/register', authController.processRegister);
+app.get('/login', authController.showLogin);
+app.post('/login', authController.processLogin);
+app.get('/logout', authController.logout);
+app.post('/logout', authController.logout);
+
+// ⚡ REST API Auth Endpoints
 app.post('/api/auth/register', authController.apiRegister);
+app.post('/api/auth/login', authController.apiLogin);
+app.post('/api/auth/logout', authController.apiLogout);
 
 // ⑦ GET /api/health -> JSON formatında sunucu sağlık durumunu döner
 app.get('/api/health', (req, res) => {

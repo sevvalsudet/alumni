@@ -22,7 +22,17 @@
                 <a href="/announcements" class="nav-item <%= typeof active !== 'undefined' && active === 'announcements' ? 'active' : '' %>">Announcements</a>
                 <a href="/api/swagger" target="_blank" class="nav-item">API Docs</a>
                 <a href="/about" class="nav-item <%= typeof active !== 'undefined' && active === 'about' ? 'active' : '' %>">About</a>
-                <a href="/register" class="nav-item <%= typeof active !== 'undefined' && active === 'register' ? 'active' : '' %>" style="font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid rgba(255,255,255,0.25);">Register</a>
+
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="/users/<%= currentUser.id %>" class="nav-item" style="display: inline-flex; align-items: center; gap: 5px; font-weight: 500;">
+                        <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #34c759;"></span>
+                        <%= currentUser.name.split(' ')[0] %>
+                    </a>
+                    <a href="/logout" class="nav-item" style="font-weight: 500; opacity: 0.85;">Log Out</a>
+                <% } else { %>
+                    <a href="/login" class="nav-item <%= typeof active !== 'undefined' && active === 'login' ? 'active' : '' %>" style="font-weight: 500;">Log In</a>
+                    <a href="/register" class="nav-item <%= typeof active !== 'undefined' && active === 'register' ? 'active' : '' %>" style="font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid currentColor;">Register</a>
+                <% } %>
             </div>
         </div>
     </div>
