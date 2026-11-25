@@ -16,6 +16,14 @@ The platform centers around verified academic and professional connections betwe
 4. **Community & Events Domain:** Tracks alumni gatherings, reunions, conferences, webinars, and attendance rosters.
 5. **Mentorship & Networking Domain:** Manages peer-to-peer mentorship pairings and direct messaging connections.
 
+### 2.1. User Roles & Actor Profiles
+
+System users are categorized into three distinct, specialized actor archetypes that govern interaction scope and capabilities across all five domains:
+
+* **Student (Active Scholar):** Enrolled university students exploring career trajectories, applying for internships and entry-level positions, participating in institutional events, and requesting guidance from experienced graduates.
+* **Alumni (Graduate / Industry Professional):** Verified degree holders operating in professional sectors. Alumni serve as job creators (publishing opportunities for current students), career mentors, and active participants in campus alumni relations.
+* **Admin (University Staff / Career Center / System Administrator):** Institutional authorities responsible for platform oversight, broadcasting official notices and scholarships, auditing posted opportunities, managing user compliance, and ensuring system integrity.
+
 ---
 
 ## 3. Entity-Relationship Diagram (ERD)
@@ -151,6 +159,77 @@ Stores authentication credentials, core attributes, and academic/professional ba
 | `github_url` | `VARCHAR(255)` | `NULL` | GitHub / portfolio link |
 | `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP` | Record creation timestamp |
 | `updated_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Last modification timestamp |
+
+#### 4.1.1. User Role Definitions & Domain Capabilities
+
+The `role` attribute enforces deterministic behavior and capabilities across all platform modules:
+
+| Role Archetype | Primary Domain Objectives | Key Permissions & Capabilities |
+| :--- | :--- | :--- |
+| **`Student`** | Career discovery, academic networking, skill development | • Browse all published job/internship opportunities.<br>• Submit applications with custom cover letters and resume URLs.<br>• View institutional news and academic announcements.<br>• RSVP to campus career fairs, webinars, and networking workshops.<br>• Request mentorship from verified alumni.<br>• Maintain personal academic profile (name, department, expected graduation). |
+| **`Alumni`** | Professional mentorship, hiring talent, alumni community | • Publish and manage career openings (`job_postings.posted_by = users.id`).<br>• Review candidate submissions for own published listings.<br>• Accept mentorship requests and guide enrolled students.<br>• RSVP to and organize alumni reunion events.<br>• Showcase current employer/organization, LinkedIn, and GitHub links. |
+| **`Admin`** | Institutional governance, content moderation, compliance | • Full CRUD governance across all database entities (`users`, `jobs`, `applications`, `announcements`, `events`, `mentorships`).<br>• Author official university announcements (`announcements.author_id`).<br>• Moderate and audit job listings to prevent unauthorized or fraudulent posts.<br>• Supervise application pipelines and platform health metrics.<br>• Manage user account states, credential resets, and role elevation. |
+
+#### 4.1.2. Role-Based Access Control (RBAC) Permissions Matrix
+
+The following matrix formally specifies data operation entitlements per entity and user role:
+
+| Entity Domain | Operation | Student | Alumni | Admin |
+| :--- | :--- | :---: | :---: | :---: |
+| **`users`** | Create (Registration) | ✅ (Self) | ✅ (Self) | ✅ (Any) |
+| | Read (Directory Search) | ✅ (Public Attributes) | ✅ (Full Profiles) | ✅ (Full Profiles + Private Data) |
+| | Update (Edit Profile) | ✅ (Own Profile) | ✅ (Own Profile) | ✅ (Any Profile) |
+| | Delete (Account Removal) | ❌ | ❌ | ✅ |
+| **`job_postings`** | Create (Publish Job) | ❌ | ✅ (Own Postings) | ✅ (Any Postings) |
+| | Read (Browse Careers) | ✅ (Active Only) | ✅ (Active & Own) | ✅ (All Postings) |
+| | Update (Edit Job) | ❌ | ✅ (Own Postings Only) | ✅ (Any Postings) |
+| | Delete (Remove Job) | ❌ | ✅ (Own Postings Only) | ✅ (Any Postings) |
+| **`applications`** | Create (Submit Application) | ✅ (For Any Active Job) | ✅ (For Any Active Job) | ✅ (Proxy Submission) |
+| | Read (View Application) | ✅ (Own Submissions Only) | ✅ (Submissions for Own Jobs) | ✅ (All Applications) |
+| | Update Status (Review Stage) | ❌ | ✅ (Only for Own Jobs) | ✅ (Any Application) |
+| | Delete (Withdraw Application) | ✅ (Own Pending Submissions) | ❌ | ✅ (Any Application) |
+| **`announcements`** | Create / Update / Delete | ❌ | ❌ | ✅ (Full Control) |
+| | Read (Newsroom) | ✅ (All Published) | ✅ (All Published) | ✅ (All Drafts & Published) |
+| **`events`** | Create / Update / Delete | ❌ | ❌ (Unless Community Host) | ✅ (Full Control) |
+| | Register / RSVP | ✅ | ✅ | ✅ |
+| **`mentorships`** | Participate | ✅ (As Mentee) | ✅ (As Mentor) | ✅ (Oversee / Mediate) |
+
+#### 4.1.3. Role-Specific Data Requirements & Business Validation Rules
+
+1. **`Student` Data Constraints:**
+   - `department`: **Mandatory** (`NOT NULL`). Must belong to a valid accredited academic department.
+   - `company`: **Optional** (`NULL`). May be populated if currently undertaking an internship or cooperative education.
+   - `graduation_year`: **Validated Future/Current Year**. Must satisfy `graduation_year >= YEAR(CURRENT_DATE)`.
+   - `role`: Immutable by the user post-registration (except through graduation status transition).
+
+2. **`Alumni` Data Constraints:**
+   - `department`: **Mandatory** (`NOT NULL`). Reflects degree-granting academic department.
+   - `company`: **Recommended** (`VARCHAR(150)`). Denotes current active industry employer or venture.
+   - `graduation_year`: **Validated Historical Year**. Must satisfy `graduation_year <= YEAR(CURRENT_DATE)` and `graduation_year >= 1950`.
+   - `linkedin_url` / `github_url`: Validated URL format for professional networking verification.
+
+3. **`Admin` Data Constraints:**
+   - `department`: Default assigned to administrative units (e.g., `'Alumni Relations'`, `'Career Guidance Center'`).
+   - `company`: System-level institutional attribution (e.g., `'University Administration'`).
+   - Elevated privileges require multi-factor verification or strict institutional domain validation during provisioning.
+
+#### 4.1.4. Role Lifecycle & State Transitions
+
+```mermaid
+stateDiagram-v2
+    [*] --> Student: Registration (Active Enrollment)
+    Student --> Alumni: Degree Completion (graduation_year reached)
+    Alumni --> Mentor: Mentorship Qualification Activated
+    Alumni --> Student: Re-enrollment in Postgraduate Program (Manual Review)
+    Alumni --> Admin: Institutional Appointment & RBAC Elevation
+    Student --> Admin: Student Leadership / Staff Appointment
+    Admin --> Alumni: Resignation / Demotion to Standard Member
+    Student --> [*]: Account Deletion
+    Alumni --> [*]: Account Deletion
+```
+
+* **Graduation Trigger (Student ➔ Alumni):** When an active student completes graduation requirements, an automated or administrator-verified workflow transitions `users.role` from `'Student'` to `'Alumni'`, unlocking job publication and mentor privileges.
+* **Audit & Integrity Lock:** Users cannot elevate their own role through regular `PUT /users/:id` or `POST /users/:id/update` endpoints; role modification requires administrative verification (`Admin` authorization header/session).
 
 ---
 
