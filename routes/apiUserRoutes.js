@@ -4,6 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const ApiUserController = require('../controllers/apiUserController');
+const { requireAuth, requireAdmin, requireSelfOrAdmin } = require('../middlewares/authMiddleware');
 
 // GET /api/users -> Tüm kullanıcıları JSON olarak listele
 router.get('/', ApiUserController.getAll);
@@ -14,14 +15,14 @@ router.get('/:id', ApiUserController.getById);
 // POST /api/users -> Yeni kullanıcı ekle
 router.post('/', ApiUserController.create);
 
-// PUT /api/users/:id -> Kullanıcıyı tamamen güncelle
-router.put('/:id', ApiUserController.update);
+// PUT /api/users/:id -> Kullanıcıyı tamamen güncelle (Kendi profili veya Admin)
+router.put('/:id', requireAuth, requireSelfOrAdmin('id'), ApiUserController.update);
 
-// PATCH /api/users/:id -> Kullanıcıyı kısmen güncelle
-router.patch('/:id', ApiUserController.patch);
+// PATCH /api/users/:id -> Kullanıcıyı kısmen güncelle (Kendi profili veya Admin)
+router.patch('/:id', requireAuth, requireSelfOrAdmin('id'), ApiUserController.patch);
 
-// DELETE /api/users/:id -> Kullanıcıyı sil
-router.delete('/:id', ApiUserController.delete);
+// DELETE /api/users/:id -> Kullanıcıyı sil (Sadece Admin)
+router.delete('/:id', requireAuth, requireAdmin, ApiUserController.delete);
 
 // ==========================================
 // 🔗 NESTED ROTALAR (İÇ İÇE GEÇMİŞ ROTALAR)

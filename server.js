@@ -25,7 +25,16 @@ app.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const { sessionMiddleware } = require('./middlewares/authMiddleware');
+const {
+    sessionMiddleware,
+    requireAuth,
+    requireGuest,
+    requireRole,
+    requireAdmin,
+    requireAlumniOrAdmin,
+    requireStudentOrAdmin,
+    requireSelfOrAdmin
+} = require('./middlewares/authMiddleware');
 app.use(sessionMiddleware);
 
 // 📋 [LOGGER MIDDLEWARE] Terminale her isteğin logunu yazar (time, method, route, res. type, duration)
@@ -76,10 +85,10 @@ app.get('/about', (req, res) => {
 
 // 📝 Authentication, Registration & Session Rotaları (Web UI & REST API)
 const authController = require('./controllers/authController');
-app.get('/register', authController.showRegister);
-app.post('/register', authController.processRegister);
-app.get('/login', authController.showLogin);
-app.post('/login', authController.processLogin);
+app.get('/register', requireGuest, authController.showRegister);
+app.post('/register', requireGuest, authController.processRegister);
+app.get('/login', requireGuest, authController.showLogin);
+app.post('/login', requireGuest, authController.processLogin);
 app.get('/logout', authController.logout);
 app.post('/logout', authController.logout);
 

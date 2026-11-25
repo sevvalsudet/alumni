@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head', { title: typeof title !== 'undefined' ? title : '403 • Access Forbidden • Alumni.io' }) %>
+    <style>
+        .error-card {
+            max-width: 680px;
+            margin: 48px auto;
+            text-align: center;
+            padding: 48px 32px;
+            background: rgb(245, 245, 247);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .error-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.25);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .route-pill {
+            display: inline-block;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 13px;
+            color: var(--ink);
+            margin: 18px 0 24px;
+        }
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .role-user {
+            background: rgba(0, 113, 227, 0.1);
+            color: #0071e3;
+            border: 1px solid rgba(0, 113, 227, 0.2);
+        }
+        .role-required {
+            background: rgba(255, 59, 48, 0.1);
+            color: #d70015;
+            border: 1px solid rgba(255, 59, 48, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main class="container">
+        <div class="card error-card">
+            <div class="error-icon">🔒</div>
+            <h1 style="font-size: 28px; font-weight: 700; color: #d70015; margin-bottom: 8px; letter-spacing: -0.02em;">
+                403 • Access Forbidden
+            </h1>
+            <p style="color: var(--ink-secondary); font-size: 15px; line-height: 1.6; max-width: 520px; margin: 0 auto;">
+                You do not have the required permissions to access this domain resource.<br>
+                <strong>RBAC Authorization Middleware</strong> prevented this operation safely.
+            </p>
+
+            <div class="route-pill">
+                <% if (typeof method !== 'undefined' && typeof path !== 'undefined') { %>
+                    [<%= method %>] <%= path %>
+                <% } else { %>
+                    403 Forbidden &bull; Insufficient Privileges
+                <% } %>
+            </div>
+
+            <% if (typeof userRole !== 'undefined' || typeof requiredRoles !== 'undefined') { %>
+                <div style="margin-bottom: 24px; font-size: 13.5px; color: var(--ink-secondary);">
+                    <% if (typeof userRole !== 'undefined' && userRole) { %>
+                        Your current role: <span class="role-badge role-user"><%= userRole %></span>
+                    <% } %>
+                    <% if (typeof requiredRoles !== 'undefined' && requiredRoles && requiredRoles.length) { %>
+                        &nbsp;&bull;&nbsp; Required: 
+                        <% requiredRoles.forEach(function(r) { %>
+                            <span class="role-badge role-required"><%= r %></span>
+                        <% }); %>
+                    <% } %>
+                </div>
+            <% } %>
+
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <a href="/" class="btn btn-runway">Back to Homepage</a>
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="/users/<%= currentUser.id %>" class="btn btn-secondary">My Profile</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-secondary">Sign In With Another Account</a>
+                <% } %>
+                <a href="javascript:history.back()" class="btn btn-secondary">← Go Back</a>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -233,19 +233,21 @@ const authController = {
         res.render('login', {
             error: null,
             success: loggedOut ? 'You have successfully signed out of your account.' : null,
-            email: req.query.email || ''
+            email: req.query.email || '',
+            returnTo: req.query.returnTo || ''
         });
     },
 
     // 🚀 [POST /login] Giriş doğrulamasını yapar ve cookie/oturum oluşturur
     processLogin: async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password, returnTo } = req.body;
 
         if (!email || !password) {
             return res.status(400).render('login', {
                 error: 'Please enter both your email address and password.',
                 success: null,
-                email: email || ''
+                email: email || '',
+                returnTo: returnTo || ''
             });
         }
 
@@ -255,7 +257,8 @@ const authController = {
                 return res.status(401).render('login', {
                     error: 'Invalid credentials. No registered member found with this email.',
                     success: null,
-                    email: email || ''
+                    email: email || '',
+                    returnTo: returnTo || ''
                 });
             }
 
@@ -265,7 +268,8 @@ const authController = {
                 return res.status(401).render('login', {
                     error: 'Incorrect password. Please verify and try again.',
                     success: null,
-                    email: email || ''
+                    email: email || '',
+                    returnTo: returnTo || ''
                 });
             }
 
@@ -277,7 +281,12 @@ const authController = {
                 sameSite: 'lax'
             });
 
-            // Kullanıcıyı profiline veya ana sayfaya yönlendir
+            // Güvenli returnTo yönlendirmesi (Open Redirect açığını önlemek için sadece yerel yollara izin verilir)
+            if (returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')) {
+                return res.redirect(returnTo);
+            }
+
+            // Varsayılan: Kullanıcıyı profiline yönlendir
             res.redirect(`/users/${user.id}`);
         } catch (err) {
             console.error('Login process error:', err);

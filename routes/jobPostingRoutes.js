@@ -4,15 +4,16 @@
 const express = require('express');
 const router = express.Router();
 const jobPostingController = require('../controllers/jobPostingController');
+const { requireAuth, requireAlumniOrAdmin } = require('../middlewares/authMiddleware');
 
 // 📖 [DIRECT] GET /jobs -> Tüm iş ilanlarını listeleyen View
 router.get('/', jobPostingController.getAll);
 
-// ➕ [DIRECT] POST /jobs -> Yeni iş ilanı oluşturan rota
-router.post('/', jobPostingController.create);
+// ➕ [DIRECT] POST /jobs -> Yeni iş ilanı oluşturan rota (Sadece Alumni ve Admin)
+router.post('/', requireAuth, requireAlumniOrAdmin, jobPostingController.create);
 
-// 🗑️ [DIRECT] POST /jobs/:id/delete -> İş ilanını silen rota
-router.post('/:id/delete', jobPostingController.delete);
+// 🗑️ [DIRECT] POST /jobs/:id/delete -> İş ilanını silen rota (Sadece Alumni ve Admin)
+router.post('/:id/delete', requireAuth, requireAlumniOrAdmin, jobPostingController.delete);
 
 // 🔍 [DIRECT] GET /jobs/:id -> Tek bir iş ilanının detay View'ı
 router.get('/:id', jobPostingController.getById);
